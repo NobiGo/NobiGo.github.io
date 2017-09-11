@@ -268,6 +268,271 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/11/图解集合：HashMap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NobiGo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/雄.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NobiGo's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/11/图解集合：HashMap/" itemprop="url">图解集合：HashMap</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-11T16:02:51+08:00">
+                2017-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/源码-集合/" itemprop="url" rel="index">
+                    <span itemprop="name">源码, 集合</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="初识HashMap"><a href="#初识HashMap" class="headerlink" title="初识HashMap"></a>初识HashMap</h1><p>之前的List，讲了ArrayList、LinkedList，最后讲到CopyOnWriteArrayList，就前两者而言，反映的是两种思想：</p>
+<ol>
+<li>ArrayList以数组形式实现，顺序插入、查找快，插入、删除较慢</li>
+<li>LinkedList以双向链表形式实现，顺序插入、查找较慢，插入、删除方便</li>
+</ol>
+<p>那么是否有一种数据结构能够结合上面两种的优点呢？有，答案就是HashMap。</p>
+<p>HashMap是一种非常常见、方便和有用的集合，是一种键值对（K-V）形式的存储结构，下面将还是用图示的方式解读HashMap的实现原理。</p>
+<h1 id="四个关注点在HashMap上的答案"><a href="#四个关注点在HashMap上的答案" class="headerlink" title="四个关注点在HashMap上的答案"></a>四个关注点在HashMap上的答案</h1><p><img src="http://img.blog.csdn.net/20170619205256171?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRfZHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h1 id="添加数据"><a href="#添加数据" class="headerlink" title="添加数据"></a>添加数据</h1><p>首先看一下HashMap的一个存储单元Entry：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">static class Entry&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; &#123;</div><div class="line">    final K key;</div><div class="line">    V value;</div><div class="line">    Entry&lt;K,V&gt; next;</div><div class="line">    int hash;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>之前一篇写LinkedList的文章，里面写到LinkedList是一个双向链表，从HashMap的Entry看得出，Entry组成的是一个单向链表，因为里面只有Entry的后继Entry，而没有Entry的前驱Entry。用图表示应该是这么一个数据结构：</p>
+<p><img src="http://img.blog.csdn.net/20170619205358656?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRfZHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>接下来，假设我有这么一段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args)</div><div class="line">&#123;</div><div class="line">     Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();</div><div class="line">     map.put(&quot;111&quot;, &quot;111&quot;);</div><div class="line">     map.put(&quot;222&quot;, &quot;222&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>看一下做了什么。首先从第3行开始，new了一个HashMap出来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public HashMap() &#123;</div><div class="line">     this.loadFactor = DEFAULT_LOAD_FACTOR;</div><div class="line">     threshold = (int)(DEFAULT_INITIAL_CAPACITY * DEFAULT_LOAD_FACTOR);</div><div class="line">     table = new Entry[DEFAULT_INITIAL_CAPACITY];</div><div class="line">     init();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意一下第5行的init()是个空方法，它是HashMap的子类比如LinkedHashMap构造的时候使用的。loadFactor译为装载因子。装载因子用来衡量HashMap满的程度。loadFactor的默认值为0.75f。计算HashMap的实时装载因子的方法为元素的数量去除以capacity。DEFAULT_INITIAL_CAPACITY为16，也就是说，HashMap在new的时候构造出了一个大小为16的Entry数组，Entry内所有数据都取默认值，如图示为：</p>
+<p><img src="http://img.blog.csdn.net/20170619205636003?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRfZHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>看到new出了一个大小为16的Entry数组来。接着第4行，put了一个Key和Value同为111的字符串，看一下put的时候底层做了什么：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">public V put(K key, V value) &#123;</div><div class="line">    if (key == null)</div><div class="line">        return putForNullKey(value);</div><div class="line">    int hash = hash(key.hashCode());</div><div class="line">    int i = indexFor(hash, table.length);</div><div class="line">   //看是否存在相同的数据，当存在时，进行值覆盖</div><div class="line">    for (Entry&lt;K,V&gt; e = table[i]; e != null; e = e.next) &#123;</div><div class="line">       Object k;</div><div class="line">        if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) &#123;</div><div class="line">            V oldValue = e.value;</div><div class="line">            e.value = value;</div><div class="line">            e.recordAccess(this);</div><div class="line">            return oldValue;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">  //为了记录改变数据的操作的次数，在遍历Map时，会使用到modCount记录是否在遍历过程中是否modCount发生了改变。</div><div class="line">    modCount++;</div><div class="line">    addEntry(hash, key, value, i);</div><div class="line">    return null;</div><div class="line">&#125;</div><div class="line"></div><div class="line">static int hash(int h) &#123;</div><div class="line">    // This function ensures that hashCodes that differ only by</div><div class="line">    // constant multiples at each bit position have a bounded</div><div class="line">    // number of collisions (approximately 8 at default load factor).</div><div class="line">    h ^= (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12);</div><div class="line">    return h ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);</div><div class="line">&#125;</div><div class="line"></div><div class="line">static int indexFor(int h, int length) &#123;</div><div class="line">     return h &amp; (length-1);</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>看一下put方法的几个步骤：</p>
+<ol>
+<li>第2行~第3行就是HashMap允许Key值为空的原因，空的Key会默认放在第0位的数组位置上</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">private V putForNullKey(V value) &#123;</div><div class="line">//判断索引为0处的元素是否为空，若为空，则进行添加，若不为空，则对元素进行覆盖</div><div class="line">    for (Entry&lt;K,V&gt; e = table[0]; e != null; e = e.next) &#123;</div><div class="line">        if (e.key == null) &#123;</div><div class="line">            V oldValue = e.value;</div><div class="line">            e.value = value;</div><div class="line">            //为hashMap的子类提供，在hashMap中此方法为空</div><div class="line">            e.recordAccess(this);</div><div class="line">            return oldValue;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    modCount++;</div><div class="line">    addEntry(0, null, value, 0);</div><div class="line">    return null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li><p>第4行拿到Key值的HashCode，由于HashCode是Object的方法，因此每个对象都有一个HashCode，对这个HashCode做一次hash计算。按照JDK源码注释的说法，这次hash的作用是根据给定的HashCode对它做一次打乱的操作，防止一些糟糕的Hash算法产生的糟糕的Hash值，至于为什么要防止糟糕的Hash值，HashMap添加元素的最后会讲到。</p>
+</li>
+<li><p>第5行根据重新计算的HashCode，对Entry数组的大小取模得到一个Entry数组的位置。看到这里使用了&amp;，移位加快一点代码运行效率。另外，这个取模操作的正确性依赖于length必须是2的N次幂，这个熟悉二进制的朋友一定理解，因此注意HashMap构造函数中，如果你指定HashMap初始数组的大小initialCapacity，如果initialCapacity不是2的N次幂，HashMap会算出大于initialCapacity的最小2的N次幂的值，作为Entry数组的初始化大小。这里为了讲解方便，我们假定字符串111和字符串222算出来的i都是1<br>这段代码保证初始化时 HashMap 的容量总是 2 的 n 次方，即底层数组的长度总是为 2 的 n 次方。当 length 总是 2 的 n 次方时，h&amp; (length-1)运算等价于对 length 取模，也就是 h%length，但是 &amp; 比 % 具有更高的效率。这看上去很简单，其实比较有玄机的，我们举个例子来说明：<br>假设数组长度分别为 15 和 16，优化后的 hash 码分别为 8 和 9，那么 &amp; 运算后的结果如下：</p>
+</li>
+</ol>
+<p><img src="http://img.blog.csdn.net/20170619213553681?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRfZHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>从上面的例子中可以看出：当它们和 15-1（1110）“与”的时候，产生了相同的结果，也就是说它们会定位到数组中的同一个位置上去，这就产生了碰撞，8 和 9 会被放到数组中的同一个位置上形成链表，那么查询的时候就需要遍历这个链表，得到8或者9，这样就降低了查询的效率。同时，我们也可以发现，当数组长度为 15 的时候，hash 值会与 15-1（1110）进行“与”，那么最后一位永远是 0，而 0001，0011，0101，1001，1011，0111，1101 这几个位置永远都不能存放元素了，空间浪费相当大，更糟的是这种情况中，数组可以使用的位置比数组长度小了很多，这意味着进一步增加了碰撞的几率，减慢了查询的效率！而当数组长度为16时，即为2的n次方时，2n-1 得到的二进制数的每个位上的值都为 1，这使得在低位上&amp;时，得到的和原 hash 的低位相同，加之 hash(int h)方法对 key 的 hashCode 的进一步优化，加入了高位计算，就使得只有相同的 hash 值的两个值才会被放到数组中的同一个位置上形成链表。</p>
+<p>所以说，当数组长度为 2 的 n 次幂的时候，不同的 key 算得得 index 相同的几率较小，那么数据在数组上分布就比较均匀，也就是说碰撞的几率小，相对的，查询的时候就不用遍历某个位置上的链表，这样查询效率也就较高了。</p>
+<ol>
+<li><p>第6行~第14行会先判断一下原数据结构中是否存在相同的Key值，存在则覆盖并返回，不执行后面的代码。注意一下recordAccess这个方法，它也是HashMap的子类比如LinkedHashMap用的，HashMap中这个方法为空。另外，注意一点，对比Key是否相同，是先比HashCode是否相同，HashCode相同再判断equals是否为true，这样大大增加了HashMap的效率.</p>
+</li>
+<li><p>第16行的modeCount++是用于fail-fast机制的，每次修改HashMap数据结构的时候都会自增一次这个值</p>
+</li>
+</ol>
+<p>然后就到了关键的addEntry方法了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">void addEntry(int hash, K key, V value, int bucketIndex) &#123;</div><div class="line">	Entry&lt;K,V&gt; e = table[bucketIndex];</div><div class="line">       table[bucketIndex] = new Entry&lt;K,V&gt;(hash, key, value, e);</div><div class="line">       //当超过阈值时，就进行扩容操作</div><div class="line">       if (size++ &gt;= threshold)</div><div class="line">           resize(2 * table.length);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>咱们再看一下Entry的构造方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Entry(int h, K k, V v, Entry&lt;K,V&gt; n) &#123;</div><div class="line">    value = v;</div><div class="line">    next = n;</div><div class="line">    key = k;</div><div class="line">    hash = h;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>假设new出来的Entry地址为0×00000001，那么，put(“111″, “111″)用图表示应该是这样的：<br><img src="http://img.blog.csdn.net/20170619214119617?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRfZHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>每一个新增的Entry都位于table[1]上，另外，里面的hash是rehash之后的hash而不是Key最原始的hash。看到table[1]上存放了111—-&gt;111这个键值对，它持有原table[1]的引用地址，因此可以寻址到原table[1]，这就是单向链表。 再看一下put(“222″, “222″)做了什么，一张图就可以理解了：</p>
+<p><img src="http://img.blog.csdn.net/20170619214154516?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRfZHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>新的Entry再次占据table[1]的位置，并且持有原table[1]，也就是111—-&gt;111这个键值对。<br>至此，HashMap进行put数据的过程就呈现清楚了。不过还有一个问题，就是HashMap如何进行扩容，再看一下addEntry方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">void addEntry(int hash, K key, V value, int bucketIndex) &#123;</div><div class="line">      Entry&lt;K,V&gt; e = table[bucketIndex];</div><div class="line">      table[bucketIndex] = new Entry&lt;K,V&gt;(hash, key, value, e);</div><div class="line">      if (size++ &gt;= threshold)</div><div class="line">          resize(2 * table.length);</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>看到第4行~第5行，也就是说在每次放置完Entry之后都会判断是否需要扩容。</p>
+<h1 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h1><p>有一段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args)</div><div class="line">&#123;</div><div class="line">    Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();</div><div class="line">    map.put(&quot;111&quot;, &quot;111&quot;);</div><div class="line">    map.put(&quot;222&quot;, &quot;222&quot;);</div><div class="line">    map.remove(&quot;111&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>第6行删除元素，看一下删除元素的时候做了什么，第4行~第5行添加了两个键值对就沿用上面的图，HashMap删除指定键值对的源代码是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public V remove(Object key) &#123;</div><div class="line">      Entry&lt;K,V&gt; e = removeEntryForKey(key);</div><div class="line">      //判断是否为空，若为空，则返回null，否则返回e.value</div><div class="line">      return (e == null ? null : e.value);</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">final Entry&lt;K,V&gt; removeEntryForKey(Object key) &#123;</div><div class="line">    //判断key值是否为null，若为空，则保存在索引为0的位置上</div><div class="line">    int hash = (key == null) ? 0 : hash(key.hashCode());</div><div class="line">    //求出对应的hash值在表中的索引位置</div><div class="line">    int i = indexFor(hash, table.length);</div><div class="line">    //将table[i]位置的链表取出来，进行修改</div><div class="line">    //prev表示上一个元素</div><div class="line">    Entry&lt;K,V&gt; prev = table[i];</div><div class="line">    //e表示当前值</div><div class="line">    Entry&lt;K,V&gt; e = prev;</div><div class="line">    while (e != null) &#123;</div><div class="line">        Entry&lt;K,V&gt; next = e.next;</div><div class="line">        Object k;</div><div class="line">        if (e.hash == hash &amp;&amp;</div><div class="line">            ((k = e.key) == key || (key != null &amp;&amp; key.equals(k)))) &#123;</div><div class="line">            modCount++;</div><div class="line">            size--;</div><div class="line">            if (prev == e)</div><div class="line">                table[i] = next;</div><div class="line">            else</div><div class="line">                prev.next = next;</div><div class="line">            e.recordRemoval(this);</div><div class="line">            return e;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        prev = e;</div><div class="line">        e = next;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    return e;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>分析一下remove元素的时候做了几步：</p>
+<p>1、根据key的hash找到待删除的键值对位于table的哪个位置上</p>
+<p>2、记录一个prev表示待删除的Entry的前一个位置Entry，e可以认为是当前位置</p>
+<p>3、从table[i]开始遍历链表，假如找到了匹配的Entry，要做一个判断，这个Entry是不是table[i]：</p>
+<p>（1）是的话，也就是第14行~第15行，table[i]就直接是table[i]的下一个节点，后面的都不需要动</p>
+<p>（2）不是的话，也就是第16行~第17行，e的前一个Entry也就是prev，prev的next指向e的后一个节点，也就是next，这样，e所代表的Entry就被踢出了，e的前后Entry就连起来了<br>删除数据</p>
+<p>有一段代码：</p>
+<p>public static void main(String[] args)<br>{<br>    Map<string, string=""> map = new HashMap<string, string="">();<br>    map.put(“111”, “111”);<br>    map.put(“222”, “222”);<br>    map.remove(“111”);<br>}</string,></string,></p>
+<p>第6行删除元素，看一下删除元素的时候做了什么，第4行~第5行添加了两个键值对就沿用上面的图，HashMap删除指定键值对的源代码是：</p>
+<p>public V remove(Object key) {<br>      Entry<k,v> e = removeEntryForKey(key);<br>      return (e == null ? null : e.value);<br> }</k,v></p>
+<p>final Entry<k,v> removeEntryForKey(Object key) {<br>    int hash = (key == null) ? 0 : hash(key.hashCode());<br>    int i = indexFor(hash, table.length);<br>    Entry<k,v> prev = table[i];<br>    Entry<k,v> e = prev;</k,v></k,v></k,v></p>
+<pre><code>while (e != null) {
+    Entry&lt;K,V&gt; next = e.next;
+    Object k;
+    if (e.hash == hash &amp;&amp;
+        ((k = e.key) == key || (key != null &amp;&amp; key.equals(k)))) {
+        modCount++;
+        size--;
+        if (prev == e)
+            table[i] = next;
+        else
+            prev.next = next;
+        e.recordRemoval(this);
+        return e;
+    }
+    prev = e;
+    e = next;
+}
+
+return e;
+</code></pre><p>}</p>
+<p>分析一下remove元素的时候做了几步：</p>
+<p>1、根据key的hash找到待删除的键值对位于table的哪个位置上</p>
+<p>2、记录一个prev表示待删除的Entry的前一个位置Entry，e可以认为是当前位置</p>
+<p>3、从table[i]开始遍历链表，假如找到了匹配的Entry，要做一个判断，这个Entry是不是table[i]：</p>
+<p>（1）是的话，也就是第14行~第15行，table[i]就直接是table[i]的下一个节点，后面的都不需要动</p>
+<p>（2）不是的话，也就是第16行~第17行，e的前一个Entry也就是prev，prev的next指向e的后一个节点，也就是next，这样，e所代表的Entry就被踢出了，e的前后Entry就连起来了</p>
+<p>remove(“111″)用图表示就是：<br><img src="http://img.blog.csdn.net/20170619220555159?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRfZHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>整个过程只需要修改一个节点的next的值即可，非常方便。</p>
+<h1 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h1><p>修改元素也是put，看一下源代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">public V put(K key, V value) &#123;</div><div class="line">//判断key值是否为空</div><div class="line">    if (key == null)</div><div class="line">        return putForNullKey(value);</div><div class="line">    int hash = hash(key.hashCode());</div><div class="line">    //求出元素所对应桶的位置</div><div class="line">    int i = indexFor(hash, table.length);</div><div class="line">    for (Entry&lt;K,V&gt; e = table[i]; e != null; e = e.next) &#123;</div><div class="line">        Object k;</div><div class="line">        if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) &#123;</div><div class="line">            V oldValue = e.value;</div><div class="line">            e.value = value;</div><div class="line">            e.recordAccess(this);</div><div class="line">            return oldValue;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    modCount++;</div><div class="line">    addEntry(hash, key, value, i);</div><div class="line">    return null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个其实前面已经提到过了，第6行~第14行就是修改元素的逻辑，如果某个Key已经在数据结构中存在的话，那么就会覆盖原value，也就是第10行的代码。</p>
+<h1 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h1><p>所谓”插入元素”，在我的理解里，一定是基于数据结构是有序的前提下的。像ArrayList、LinkedList，再远点说就是数据库，一条一条都是有序的。<br>而HashMap，它的顺序是基于HashCode，HashCode是一个随机性很强的数字，所以HashMap中的Entry完全是随机存放的。HashMap又不像LinkedHashMap这样维护了插入元素的顺序，所以对HashMap这个数据结构谈插入元素是没有意义的。<br>所以，HashMap并没有插入的概念。</p>
+<h1 id="再谈HashCode的重要性"><a href="#再谈HashCode的重要性" class="headerlink" title="再谈HashCode的重要性"></a>再谈HashCode的重要性</h1><p>前面讲到了，HashMap中对Key的HashCode要做一次rehash，防止一些糟糕的Hash算法生成的糟糕的HashCode，那么为什么要防止糟糕HashCode？</p>
+<p>糟糕的HashCode意味着的是Hash冲突，即多个不同的Key可能得到的是同一个HashCode，糟糕的Hash算法意味着的就是Hash冲突的概率增大，这意味着HashMap的性能将下降，表现在两方面：</p>
+<p>1、有10个Key，可能6个Key的HashCode都相同，另外四个Key所在的Entry均匀分布在table的位置上，而某一个位置上却连接了6个Entry。这就失去了HashMap的意义，HashMap这种数据结构性高性能的前提是，Entry均匀地分布在table位置上，但现在确是1 1 1 1 6的分布。所以，我们要求HashCode有很强的随机性，这样就尽可能地可以保证了Entry分布的随机性，提升了HashMap的效率。</p>
+<p>2、HashMap在一个某个table位置上遍历链表的时候的代码：</p>
+<p>if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k)))</p>
+<p>看到，由于采用了”&amp;&amp;”运算符，因此先比较HashCode，HashCode都不相同就直接pass了，不会再进行equals比较了。HashCode因为是int值，比较速度非常快，而equals方法往往会对比一系列的内容，速度会慢一些。Hash冲突的概率大，意味着equals比较的次数势必增多，必然降低了HashMap的效率了。 </p>
+<h1 id="HashMap的table为什么是transient的"><a href="#HashMap的table为什么是transient的" class="headerlink" title="HashMap的table为什么是transient的"></a>HashMap的table为什么是transient的</h1><p>一个非常细节的地方：</p>
+<p>transient Entry[] table;</p>
+<p>看到table用了transient修饰，也就是说table里面的内容全都不会被序列化，不知道大家有没有想过这么写的原因？</p>
+<p>在我看来，这么写是非常必要的。因为HashMap是基于HashCode的，HashCode作为Object的方法，是native的：</p>
+<p>public native int hashCode();</p>
+<p>这意味着的是：HashCode和底层实现相关，不同的虚拟机可能有不同的HashCode算法。再进一步说得明白些就是，可能同一个Key在虚拟机A上的HashCode=1，在虚拟机B上的HashCode=2，在虚拟机C上的HashCode=3。</p>
+<p>这就有问题了，Java自诞生以来，就以跨平台性作为最大卖点，好了，如果table不被transient修饰，在虚拟机A上可以用的程序到虚拟机B上可以用的程序就不能用了，失去了跨平台性，因为：</p>
+<p>1、Key在虚拟机A上的HashCode=100，连在table[4]上</p>
+<p>2、Key在虚拟机B上的HashCode=101，这样，就去table[5]上找Key，明显找不到</p>
+<p>整个代码就出问题了。因此，为了避免这一点，Java采取了重写自己序列化table的方法，在writeObject选择将key和value追加到序列化的文件最后面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">private void writeObject(java.io.ObjectOutputStream s)</div><div class="line">        throws IOException</div><div class="line">&#123;</div><div class="line">Iterator&lt;Map.Entry&lt;K,V&gt;&gt; i =</div><div class="line">    (size &gt; 0) ? entrySet0().iterator() : null;</div><div class="line"> </div><div class="line">// Write out the threshold, loadfactor, and any hidden stuff</div><div class="line">s.defaultWriteObject();</div><div class="line"> </div><div class="line">// Write out number of buckets</div><div class="line">s.writeInt(table.length);</div><div class="line"> </div><div class="line">// Write out size (number of Mappings)</div><div class="line">s.writeInt(size);</div><div class="line"> </div><div class="line">    // Write out keys and values (alternating)</div><div class="line">if (i != null) &#123;</div><div class="line"> while (i.hasNext()) &#123;</div><div class="line">    Map.Entry&lt;K,V&gt; e = i.next();</div><div class="line">    s.writeObject(e.getKey());</div><div class="line">    s.writeObject(e.getValue());</div><div class="line">    &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>而在readObject的时候重构HashMap数据结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">private void readObject(java.io.ObjectInputStream s)</div><div class="line">         throws IOException, ClassNotFoundException</div><div class="line">&#123;</div><div class="line">// Read in the threshold, loadfactor, and any hidden stuff</div><div class="line">s.defaultReadObject();</div><div class="line"> </div><div class="line">// Read in number of buckets and allocate the bucket array;</div><div class="line">int numBuckets = s.readInt();</div><div class="line">table = new Entry[numBuckets];</div><div class="line"> </div><div class="line">    init();  // Give subclass a chance to do its thing.</div><div class="line"> </div><div class="line">// Read in size (number of Mappings)</div><div class="line">int size = s.readInt();</div><div class="line"> </div><div class="line">// Read the keys and values, and put the mappings in the HashMap</div><div class="line">for (int i=0; i&lt;size; i++) &#123;</div><div class="line">    K key = (K) s.readObject();</div><div class="line">    V value = (V) s.readObject();</div><div class="line">    putForCreate(key, value);</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一种麻烦的方式，但却保证了跨平台性。</p>
+<p>这个例子也告诉了我们：尽管使用的虚拟机大多数情况下都是HotSpot，但是也不能对其它虚拟机不管不顾，有跨平台的思想是一件好事。</p>
+<h1 id="HashMap和Hashtable的区别"><a href="#HashMap和Hashtable的区别" class="headerlink" title="HashMap和Hashtable的区别"></a>HashMap和Hashtable的区别</h1><p>HashMap和Hashtable是一组相似的键值对集合，它们的区别也是面试常被问的问题之一，我这里简单总结一下HashMap和Hashtable的区别：</p>
+<p>1、Hashtable是线程安全的，Hashtable所有对外提供的方法都使用了synchronized，也就是同步，而HashMap则是线程非安全的</p>
+<p>2、Hashtable不允许空的value，空的value将导致空指针异常，而HashMap则无所谓，没有这方面的限制</p>
+<p>3、上面两个缺点是最主要的区别，另外一个区别无关紧要，我只是提一下，就是两个的rehash算法不同，Hashtable的是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">private int hash(Object k) &#123;</div><div class="line">    // hashSeed will be zero if alternative hashing is disabled.</div><div class="line">    return hashSeed ^ k.hashCode();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个hashSeed是使用sun.misc.Hashing类的randomHashSeed方法产生的。HashMap的rehash算法上面看过了，也就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">static int hash(int h) &#123;</div><div class="line">    // This function ensures that hashCodes that differ only by</div><div class="line">    // constant multiples at each bit position have a bounded</div><div class="line">    // number of collisions (approximately 8 at default load factor).</div><div class="line">    h ^= (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12);</div><div class="line">    return h ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/11/并发情况下HashMap出现死循环情况解析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -361,7 +626,7 @@
       
         
           
-            <h1 id="并发情况下HashMap出现死循环情况解析"><a href="#并发情况下HashMap出现死循环情况解析" class="headerlink" title="并发情况下HashMap出现死循环情况解析"></a>并发情况下HashMap出现死循环情况解析</h1><h1 id="现象发生"><a href="#现象发生" class="headerlink" title="现象发生"></a>现象发生</h1><p>由于偶尔会遇到HashMap死循环造成CPU100%，重启后问题消失，隔一段时间又会反复出现。今天在这里来仔细剖析下多线程情况下HashMap所带来的问题：</p>
+            <h1 id="并发情况下HashMap出现死循环情况解析"><a href="#并发情况下HashMap出现死循环情况解析" class="headerlink" title="并发情况下HashMap出现死循环情况解析"></a>并发情况下HashMap出现死循环情况解析</h1><h2 id="现象发生"><a href="#现象发生" class="headerlink" title="现象发生"></a>现象发生</h2><p>由于偶尔会遇到HashMap死循环造成CPU100%，重启后问题消失，隔一段时间又会反复出现。今天在这里来仔细剖析下多线程情况下HashMap所带来的问题：</p>
 <h2 id="多线程put操作后，get操作导致死循环。"><a href="#多线程put操作后，get操作导致死循环。" class="headerlink" title="多线程put操作后，get操作导致死循环。"></a>多线程put操作后，get操作导致死循环。</h2><h3 id="死循环场景重现"><a href="#死循环场景重现" class="headerlink" title="死循环场景重现"></a>死循环场景重现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public class Test extends Thread</div><div class="line">&#123;</div><div class="line">    static HashMap&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;(2);</div><div class="line">    static AtomicInteger at = new AtomicInteger();</div><div class="line">    </div><div class="line">    public void run()</div><div class="line">    &#123;</div><div class="line">        while(at.get() &lt; 100000)</div><div class="line">        &#123;</div><div class="line">            map.put(at.get(),at.get());</div><div class="line">            at.incrementAndGet();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">package dx.hashmap.com;</div><div class="line"></div><div class="line">public class Main &#123;</div><div class="line">    public static void main(String[] args)</div><div class="line">    &#123;</div><div class="line">        Test t0 = new Test();</div><div class="line">        Test t1 = new Test();</div><div class="line">        Test t2 = new Test();</div><div class="line">        Test t3 = new Test();</div><div class="line">        Test t4 = new Test();</div><div class="line">        t0.start();</div><div class="line">        t1.start();</div><div class="line">        t2.start();</div><div class="line">        t3.start();</div><div class="line">        t4.start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>反复执行几次，出现这种情况则表示死循环了：</p>
@@ -682,7 +947,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -693,7 +958,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -704,7 +969,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
