@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="集合,源码," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="ConcurrentHashMap为什么高效？与Hashtable不同的是,ConcurrentHashMap使用的是分段锁技术,将ConcurrentHashMap容器的数据分段存储,每一段数据分配一个Segment,当线程占用一个Segment时,其他线程可以访问其他段的数据. 概念 Segment : 可重入锁,继承ReentrantLock  HashEntry : 主要存储键值对,可以叫">
+<meta name="keywords" content="集合,源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图解集合：ConcurrentHashMap">
+<meta property="og:url" content="http://yoursite.com/2017/09/11/图解集合：ConcurrentHashMap/index.html">
+<meta property="og:site_name" content="NobiGo&#39;s blog">
+<meta property="og:description" content="ConcurrentHashMap为什么高效？与Hashtable不同的是,ConcurrentHashMap使用的是分段锁技术,将ConcurrentHashMap容器的数据分段存储,每一段数据分配一个Segment,当线程占用一个Segment时,其他线程可以访问其他段的数据. 概念 Segment : 可重入锁,继承ReentrantLock  HashEntry : 主要存储键值对,可以叫">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xjcjk.com1.z0.glb.clouddn.com/FtGrQxW5HJkkNelqtvhXWpV-hrHo">
+<meta property="og:updated_time" content="2017-09-11T14:47:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="图解集合：ConcurrentHashMap">
+<meta name="twitter:description" content="ConcurrentHashMap为什么高效？与Hashtable不同的是,ConcurrentHashMap使用的是分段锁技术,将ConcurrentHashMap容器的数据分段存储,每一段数据分配一个Segment,当线程占用一个Segment时,其他线程可以访问其他段的数据. 概念 Segment : 可重入锁,继承ReentrantLock  HashEntry : 主要存储键值对,可以叫">
+<meta name="twitter:image" content="http://7xjcjk.com1.z0.glb.clouddn.com/FtGrQxW5HJkkNelqtvhXWpV-hrHo">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/11/图解集合：ConcurrentHashMap/"/>
+
+
+
+
+
+  <title>图解集合：ConcurrentHashMap | NobiGo's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">NobiGo's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/11/图解集合：ConcurrentHashMap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NobiGo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/雄.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NobiGo's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">图解集合：ConcurrentHashMap</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-11T22:44:50+08:00">
+                2017-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/源码/" itemprop="url" rel="index">
+                    <span itemprop="name">源码</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="ConcurrentHashMap为什么高效？"><a href="#ConcurrentHashMap为什么高效？" class="headerlink" title="ConcurrentHashMap为什么高效？"></a>ConcurrentHashMap为什么高效？</h2><p>与Hashtable不同的是,ConcurrentHashMap使用的是<strong>分段锁技术</strong>,将ConcurrentHashMap容器的数据分段存储,每一段数据分配一个Segment,当线程占用一个Segment时,其他线程可以访问其他段的数据.</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
+<li><p>Segment : 可重入锁,继承ReentrantLock</p>
+</li>
+<li><p>HashEntry : 主要存储键值对,可以叫节点</p>
+</li>
+</ul>
+<p><img src="http://7xjcjk.com1.z0.glb.clouddn.com/FtGrQxW5HJkkNelqtvhXWpV-hrHo" alt="image"></p>
+<p>HashEntry结构:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">static final class HashEntry&lt;K,V&gt; &#123;</div><div class="line">        final int hash;</div><div class="line">        // key值初始化后不能改变</div><div class="line">        final K key;</div><div class="line">        //volatile保证读到的数据为最新值</div><div class="line">        volatile V value;</div><div class="line">        //volatile保证读到的数据为最新的</div><div class="line">        volatile HashEntry&lt;K,V&gt; next;</div></pre></td></tr></table></figure>
+<p>总结：</p>
+<p>ConcurrentHashMap包含一个Segment数组,每个Segment包含一个HashEntry数组,当修改HashEntry数组采用开链法处理冲突,所以它的每个HashEntry元素又是链表结构的元素。</p>
+<h2 id="基本操作源码分析"><a href="#基本操作源码分析" class="headerlink" title="基本操作源码分析"></a>基本操作源码分析</h2><h3 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h3><h4 id="HashEntry"><a href="#HashEntry" class="headerlink" title="HashEntry"></a>HashEntry</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">//HashEntry类，作为一个Segment中的节点类。HashEntry类基本不可变。</div><div class="line">   static final class HashEntry&lt;K,V&gt; &#123;</div><div class="line">        final int hash;  //hash和key都是final，保证了读操作时不用加锁</div><div class="line">        final K key;</div><div class="line">        volatile V value;//为了确保读操作能够看到最新的值，将value设置成volatile</div><div class="line">        volatile HashEntry&lt;K,V&gt; next;</div><div class="line">        //不再用final关键字，采用unsafe操作保证并发安全</div><div class="line"></div><div class="line">        HashEntry(int hash, K key, V value, HashEntry&lt;K,V&gt; next) &#123;</div><div class="line">            this.hash = hash;</div><div class="line">            this.key = key;</div><div class="line">            this.value = value;</div><div class="line">            this.next = next;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        //setNext方法可以设置该节点的next节点</div><div class="line">        final void setNext(HashEntry&lt;K,V&gt; n) &#123;</div><div class="line">            UNSAFE.putOrderedObject(this, nextOffset, n);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // Unsafe mechanics</div><div class="line">        static final sun.misc.Unsafe UNSAFE;</div><div class="line">        static final long nextOffset;</div><div class="line">        static &#123;</div><div class="line">            try &#123;</div><div class="line">                UNSAFE = sun.misc.Unsafe.getUnsafe();</div><div class="line">                Class k = HashEntry.class;</div><div class="line">                nextOffset = UNSAFE.objectFieldOffset</div><div class="line">                    (k.getDeclaredField(&quot;next&quot;));</div><div class="line">            &#125; catch (Exception e) &#123;</div><div class="line">                throw new Error(e);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h4 id="Setment"><a href="#Setment" class="headerlink" title="Setment"></a>Setment</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div></pre></td><td class="code"><pre><div class="line">//Segment类</div><div class="line">static final class Segment&lt;K,V&gt; extends ReentrantLock implements Serializable </div><div class="line">//继承ReentrantLock，说明每一个Segment都是一个锁</div><div class="line"></div><div class="line">    Segment(float lf, int threshold, HashEntry&lt;K,V&gt;[] tab) &#123;</div><div class="line">        this.loadFactor = lf;</div><div class="line">        this.threshold = threshold;</div><div class="line">        //HashEntry的数组</div><div class="line">        this.table = tab;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">// 1.put方法，将一个HashEntry放入到该Segment中，使用自旋机制，减少了加锁的可能性</div><div class="line"></div><div class="line">   final V put(K key, int hash, V value, boolean onlyIfAbsent) &#123;</div><div class="line">        HashEntry&lt;K,V&gt; node = tryLock() ? null :</div><div class="line">            scanAndLockForPut(key, hash, value); //如果加锁失败，则调用该方法</div><div class="line">        V oldValue;</div><div class="line">        try &#123;</div><div class="line">            HashEntry&lt;K,V&gt;[] tab = table;</div><div class="line">            int index = (tab.length - 1) &amp; hash; //同hashMap相同的哈希定位方式</div><div class="line">            HashEntry&lt;K,V&gt; first = entryAt(tab, index);</div><div class="line">            for (HashEntry&lt;K,V&gt; e = first;;) &#123;</div><div class="line">                if (e != null) &#123; </div><div class="line">            //若不为null，则持续查找，知道找到key和hash值相同的节点，将其value更新</div><div class="line">                    K k;</div><div class="line">                    if ((k = e.key) == key ||</div><div class="line">                        (e.hash == hash &amp;&amp; key.equals(k))) &#123;</div><div class="line">                        oldValue = e.value;</div><div class="line">                        if (!onlyIfAbsent) &#123;</div><div class="line">                            e.value = value;</div><div class="line">                            ++modCount;</div><div class="line">                        &#125;</div><div class="line">                        break;</div><div class="line">                    &#125;</div><div class="line">                    e = e.next;</div><div class="line">                &#125;</div><div class="line">                else &#123; //若头结点为null</div><div class="line">                    if (node != null) //在遍历key对应节点链时没有找到相应的节点</div><div class="line">                        node.setNext(first);</div><div class="line">                        //当前修改并不需要让其他线程知道，在锁退出时修改自然会</div><div class="line">                        //更新到内存中,可提升性能</div><div class="line">                    else</div><div class="line">                        node = new HashEntry&lt;K,V&gt;(hash, key, value, first);</div><div class="line">                    int c = count + 1;</div><div class="line">                    if (c &gt; threshold &amp;&amp; tab.length &lt; MAXIMUM_CAPACITY)</div><div class="line">                        rehash(node); //如果超过阈值，则进行rehash操作</div><div class="line">                    else</div><div class="line">                        setEntryAt(tab, index, node);</div><div class="line">                    ++modCount;</div><div class="line">                    count = c;</div><div class="line">                    //没有值，返回null</div><div class="line">                    oldValue = null;</div><div class="line">                    break;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; finally &#123;</div><div class="line">            unlock();</div><div class="line">        &#125;</div><div class="line">        return oldValue;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">// 2.scanAndLockForPut方法，该操作持续查找key对应的节点链中是否已存在该节点，如果没有找到已存在的节点，则预创建一个新节点，并且尝试n次，直到尝试次数超出限制，才真正进入等待状态，即所谓的自旋等待。</div><div class="line"></div><div class="line">    private HashEntry&lt;K,V&gt; scanAndLockForPut(K key, int hash, V value) &#123;</div><div class="line">        //根据hash值找到segment中的HashEntry节点</div><div class="line">        HashEntry&lt;K,V&gt; first = entryForHash(this, hash); //首先获取头结点</div><div class="line">        HashEntry&lt;K,V&gt; e = first;</div><div class="line">        HashEntry&lt;K,V&gt; node = null;</div><div class="line">        int retries = -1; // negative while locating node</div><div class="line">        while (!tryLock()) &#123;  //持续遍历该哈希链</div><div class="line">            HashEntry&lt;K,V&gt; f; // to recheck first below</div><div class="line">            if (retries &lt; 0) &#123;</div><div class="line">                if (e == null) &#123;</div><div class="line">                    if (node == null) //若不存在要插入的节点，则创建一个新的节点</div><div class="line">                        node = new HashEntry&lt;K,V&gt;(hash, key, value, null);</div><div class="line">                    retries = 0;</div><div class="line">                &#125;</div><div class="line">                else if (key.equals(e.key))</div><div class="line">                    retries = 0;</div><div class="line">                else</div><div class="line">                    e = e.next;</div><div class="line">            &#125;</div><div class="line">            else if (++retries &gt; MAX_SCAN_RETRIES) &#123; </div><div class="line">            //尝试次数超出限制，则进行自旋等待</div><div class="line">                lock();</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">            /*当在自旋过程中发现节点链的链头发生了变化，则更新节点链的链头，</div><div class="line">            并重置retries值为－1，重新为尝试获取锁而自旋遍历*/</div><div class="line">            else if ((retries &amp; 1) == 0 &amp;&amp;</div><div class="line">                     (f = entryForHash(this, hash)) != first) &#123;</div><div class="line">                e = first = f; // re-traverse if entry changed</div><div class="line">                retries = -1;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return node;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">// rehash方法，用于当容量超出阈值后，进行扩容操作，类似于hashMap的扩容操作</div><div class="line">    private void rehash(HashEntry&lt;K,V&gt; node) &#123;</div><div class="line">        HashEntry&lt;K,V&gt;[] oldTable = table;</div><div class="line">        int oldCapacity = oldTable.length;</div><div class="line">        int newCapacity = oldCapacity &lt;&lt; 1;</div><div class="line">        threshold = (int)(newCapacity * loadFactor);</div><div class="line">        HashEntry&lt;K,V&gt;[] newTable =</div><div class="line">            (HashEntry&lt;K,V&gt;[]) new HashEntry[newCapacity];</div><div class="line">        int sizeMask = newCapacity - 1;</div><div class="line">        for (int i = 0; i &lt; oldCapacity ; i++) &#123;</div><div class="line">            HashEntry&lt;K,V&gt; e = oldTable[i];</div><div class="line">            if (e != null) &#123;</div><div class="line">                HashEntry&lt;K,V&gt; next = e.next;</div><div class="line">                int idx = e.hash &amp; sizeMask;</div><div class="line">                if (next == null)   //  Single node on list</div><div class="line">                    newTable[idx] = e;</div><div class="line">                else &#123; // Reuse consecutive sequence at same slot</div><div class="line">                    HashEntry&lt;K,V&gt; lastRun = e;</div><div class="line">                    int lastIdx = idx;</div><div class="line">                    for (HashEntry&lt;K,V&gt; last = next;</div><div class="line">                         last != null;</div><div class="line">                         last = last.next) &#123;</div><div class="line">                        int k = last.hash &amp; sizeMask; //判断添加到哪个链表中去</div><div class="line">                        if (k != lastIdx) &#123;</div><div class="line">                            lastIdx = k;</div><div class="line">                            lastRun = last;</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                    newTable[lastIdx] = lastRun;</div><div class="line">                    // Clone remaining nodes</div><div class="line">                    for (HashEntry&lt;K,V&gt; p = e; p != lastRun; p = p.next) &#123;</div><div class="line">                        V v = p.value;</div><div class="line">                        int h = p.hash;</div><div class="line">                        int k = h &amp; sizeMask;</div><div class="line">                        HashEntry&lt;K,V&gt; n = newTable[k];</div><div class="line">                        newTable[k] = new HashEntry&lt;K,V&gt;(h, p.key, v, n);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        int nodeIndex = node.hash &amp; sizeMask; // add the new node</div><div class="line">        node.setNext(newTable[nodeIndex]);</div><div class="line">        newTable[nodeIndex] = node;</div><div class="line">        table = newTable;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">// remove方法，用于移除某个节点，返回移除的节点值</div><div class="line">    final V remove(Object key, int hash, Object value) &#123;</div><div class="line">        if (!tryLock())</div><div class="line">            scanAndLock(key, hash);</div><div class="line">        V oldValue = null;</div><div class="line">        try &#123;</div><div class="line">            HashEntry&lt;K,V&gt;[] tab = table;</div><div class="line">            int index = (tab.length - 1) &amp; hash; </div><div class="line">            //根据这种哈希定位方式来定位对应的HashEntry</div><div class="line">            HashEntry&lt;K,V&gt; e = entryAt(tab, index); </div><div class="line">            HashEntry&lt;K,V&gt; pred = null;</div><div class="line">            while (e != null) &#123;</div><div class="line">                K k;</div><div class="line">                HashEntry&lt;K,V&gt; next = e.next;</div><div class="line">                if ((k = e.key) == key ||</div><div class="line">                    (e.hash == hash &amp;&amp; key.equals(k))) &#123;</div><div class="line">                    V v = e.value;</div><div class="line">                    if (value == null || value == v || value.equals(v)) &#123;</div><div class="line">                        if (pred == null)</div><div class="line">                            setEntryAt(tab, index, next);</div><div class="line">                        else</div><div class="line">                            pred.setNext(next);</div><div class="line">                        ++modCount;</div><div class="line">                        --count;</div><div class="line">                        oldValue = v;</div><div class="line">                    &#125;</div><div class="line">                    break;</div><div class="line">                &#125;</div><div class="line">                pred = e;</div><div class="line">                e = next;</div><div class="line">            &#125;</div><div class="line">        &#125; finally &#123;</div><div class="line">            unlock();</div><div class="line">        &#125;</div><div class="line">        return oldValue;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">// clear方法，要首先对整个segment加锁，然后将每一个HashEntry都设置为null</div><div class="line">    final void clear() &#123;</div><div class="line">        lock();</div><div class="line">        try &#123;</div><div class="line">            HashEntry&lt;K,V&gt;[] tab = table;</div><div class="line">            for (int i = 0; i &lt; tab.length ; i++)</div><div class="line">                setEntryAt(tab, i, null);</div><div class="line">            ++modCount;</div><div class="line">            count = 0;</div><div class="line">        &#125; finally &#123;</div><div class="line">            unlock();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">public ConcurrentHashMap(int initialCapacity,</div><div class="line">                             float loadFactor, int concurrencyLevel) &#123;</div><div class="line">        //处理异常情况</div><div class="line">        if (!(loadFactor &gt; 0) || initialCapacity &lt; 0 || concurrencyLevel &lt;= 0)</div><div class="line">            throw new IllegalArgumentException();</div><div class="line">        //判断并发级别是否大于最大并发级别（最大的并发等级不能超过MAX_SEGMENTS 1&lt;&lt;16(也就是1的二进制向左移16位,65536)）</div><div class="line">        if (concurrencyLevel &gt; MAX_SEGMENTS)</div><div class="line">            concurrencyLevel = MAX_SEGMENTS;</div><div class="line">        int sshift = 0;</div><div class="line">        int ssize = 1;</div><div class="line">        //取得大于数值最小的2的整数倍值</div><div class="line">        while (ssize &lt; concurrencyLevel) &#123;</div><div class="line">            ++sshift;</div><div class="line">            ssize &lt;&lt;= 1;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        //向左移动的位数</div><div class="line">        this.segmentShift = 32 - sshift;  //3定位segment</div><div class="line">        //达到最后取余的情况下（其余为正好全为11），正好是&amp;的结果</div><div class="line">        this.segmentMask = ssize - 1;   //4定位segment</div><div class="line">        if (initialCapacity &gt; MAXIMUM_CAPACITY)</div><div class="line">            initialCapacity = MAXIMUM_CAPACITY;</div><div class="line">        //c代表平均每个元素的多少（不足时，全+1）</div><div class="line">        int c = initialCapacity / ssize;</div><div class="line">        if (c * ssize &lt; initialCapacity)</div><div class="line">            ++c;</div><div class="line">        //最小HashEntry表的数量</div><div class="line">        int cap = MIN_SEGMENT_TABLE_CAPACITY;</div><div class="line">        while (cap &lt; c)</div><div class="line">            cap &lt;&lt;= 1;</div><div class="line">        </div><div class="line">        //segment初始化</div><div class="line">        Segment&lt;K,V&gt; s0 =</div><div class="line">            new Segment&lt;K,V&gt;(loadFactor, (int)(cap * loadFactor),(HashEntry&lt;K,V&gt;[])new HashEntry[cap]);//初始化每个segment的长度</div><div class="line">        </div><div class="line">        Segment&lt;K,V&gt;[] ss = (Segment&lt;K,V&gt;[])new Segment[ssize]; //初始化segment数组</div><div class="line">        UNSAFE.putOrderedObject(ss, SBASE, s0); </div><div class="line">        this.segments = ss;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="查找数据操作"><a href="#查找数据操作" class="headerlink" title="查找数据操作"></a>查找数据操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">public V get(Object key) &#123;</div><div class="line">        Segment&lt;K,V&gt; s; </div><div class="line">        HashEntry&lt;K,V&gt;[] tab;</div><div class="line">        //根据key的值计算hash值</div><div class="line">        int h = hash(key);</div><div class="line">        //获得segment的index</div><div class="line">        long u = (((h &gt;&gt;&gt; segmentShift) &amp; segmentMask) &lt;&lt; SSHIFT) + SBASE;</div><div class="line">        if ((s = (Segment&lt;K,V&gt;)UNSAFE.getObjectVolatile(segments, u)) != null &amp;&amp;  //通过hash值定位segment中对应的HashEntry 遍历HashEntry,如果key存在,返回key对应的value 如果不存在则返回null</div><div class="line">            (tab = s.table) != null) &#123;</div><div class="line">            for (HashEntry&lt;K,V&gt; e = (HashEntry&lt;K,V&gt;) UNSAFE.getObjectVolatile</div><div class="line">                     (tab, ((long)(((tab.length - 1) &amp; h)) &lt;&lt; TSHIFT) + TBASE);</div><div class="line">                 e != null; e = e.next) &#123;</div><div class="line">                K k;</div><div class="line">                if ((k = e.key) == key || (e.hash == h &amp;&amp; key.equals(k)))</div><div class="line">                    return e.value;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return null;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="插入数据操作"><a href="#插入数据操作" class="headerlink" title="插入数据操作"></a>插入数据操作</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public V put(K key, V value) &#123;</div><div class="line">        Segment&lt;K,V&gt; s;</div><div class="line">        //键和值都不能为空</div><div class="line">        if (value == null)</div><div class="line">            throw new NullPointerException();</div><div class="line">        //计算key的hash值</div><div class="line">        int hash = hash(key);</div><div class="line">        //获得key所属的segemngt</div><div class="line">        int j = (hash &gt;&gt;&gt; segmentShift) &amp; segmentMask;</div><div class="line">        if ((s = (Segment&lt;K,V&gt;)UNSAFE.getObject          </div><div class="line">             (segments, (j &lt;&lt; SSHIFT) + SBASE)) == null)</div><div class="line">            //初试化segment（懒加载模式）</div><div class="line">            s = ensureSegment(j);</div><div class="line">        return s.put(key, hash, value, false);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>segment的put方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">final V put(K key, int hash, V value, boolean onlyIfAbsent) &#123;</div><div class="line">//获取锁，保证线程安全</div><div class="line">            HashEntry&lt;K,V&gt; node = tryLock() ? null :</div><div class="line">                scanAndLockForPut(key, hash, value);</div><div class="line">            V oldValue;</div><div class="line">            try &#123;</div><div class="line">                HashEntry&lt;K,V&gt;[] tab = table;</div><div class="line">                </div><div class="line">                int index = (tab.length - 1) &amp; hash;</div><div class="line">                HashEntry&lt;K,V&gt; first = entryAt(tab, index);  //定位到具体的HashEntry</div><div class="line">                for (HashEntry&lt;K,V&gt; e = first;;) &#123; //3</div><div class="line">                    if (e != null) &#123;</div><div class="line">                        K k;</div><div class="line">                        if ((k = e.key) == key ||</div><div class="line">                            (e.hash == hash &amp;&amp; key.equals(k))) &#123;</div><div class="line">                            oldValue = e.value;</div><div class="line">                            //覆盖旧值</div><div class="line">                            if (!onlyIfAbsent) &#123;</div><div class="line">                                e.value = value;</div><div class="line">                                ++modCount;</div><div class="line">                            &#125;</div><div class="line">                            break;</div><div class="line">                        &#125;</div><div class="line">                        e = e.next;</div><div class="line">                    &#125;</div><div class="line">                    else &#123;</div><div class="line">                        if (node != null)</div><div class="line">                            node.setNext(first);</div><div class="line">                        else</div><div class="line">                            node = new HashEntry&lt;K,V&gt;(hash, key, value, first);</div><div class="line">                        int c = count + 1;</div><div class="line">                        if (c &gt; threshold &amp;&amp; tab.length &lt; MAXIMUM_CAPACITY)</div><div class="line">                            rehash(node);</div><div class="line">                        else</div><div class="line">                            setEntryAt(tab, index, node);</div><div class="line">                        ++modCount;</div><div class="line">                        count = c;</div><div class="line">                        oldValue = null;</div><div class="line">                        break;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125; finally &#123;</div><div class="line">            //释放锁</div><div class="line">                unlock();</div><div class="line">            &#125;</div><div class="line">            //返回旧值</div><div class="line">            return oldValue;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<h2 id="获取大小"><a href="#获取大小" class="headerlink" title="获取大小"></a>获取大小</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">public int size() &#123;</div><div class="line">        final Segment&lt;K,V&gt;[] segments = this.segments;</div><div class="line">        int size;</div><div class="line">        boolean overflow; </div><div class="line">        long sum;         </div><div class="line">        long last = 0L;   </div><div class="line">        int retries = -1; </div><div class="line">        try &#123;</div><div class="line">            for (;;) &#123;</div><div class="line">            //RETRIES_BEFORE_LOCK为不变常量2 尝试两次不锁住Segment的方式来统计每个Segment的大小,如果在统计的过程中Segment的count发生变化,这时候再加锁统计Segment的count</div><div class="line">                if (retries++ == RETRIES_BEFORE_LOCK) &#123;  //加锁</div><div class="line">                    for (int j = 0; j &lt; segments.length; ++j)</div><div class="line">                        ensureSegment(j).lock(); </div><div class="line">                &#125;</div><div class="line">                sum = 0L;</div><div class="line">                size = 0;</div><div class="line">                overflow = false;</div><div class="line">                for (int j = 0; j &lt; segments.length; ++j) &#123;</div><div class="line">                    Segment&lt;K,V&gt; seg = segmentAt(segments, j);</div><div class="line">                    if (seg != null) &#123;</div><div class="line">                        sum += seg.modCount;  //2</div><div class="line">                        int c = seg.count;</div><div class="line">                        if (c &lt; 0 || (size += c) &lt; 0)</div><div class="line">                            overflow = true;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                if (sum == last)</div><div class="line">                    break;</div><div class="line">                last = sum;</div><div class="line">            &#125;</div><div class="line">        &#125; finally &#123;</div><div class="line">            if (retries &gt; RETRIES_BEFORE_LOCK) &#123;</div><div class="line">                for (int j = 0; j &lt; segments.length; ++j)</div><div class="line">                    segmentAt(segments, j).unlock();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return overflow ? Integer.MAX_VALUE : size;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h1 id="弱一致性体现"><a href="#弱一致性体现" class="headerlink" title="弱一致性体现"></a>弱一致性体现</h1><p>get与containsKey两个方法几乎完全一致：他们都没有使用锁，而是通过Unsafe对象的getObjectVolatile()方法提供的原子读语义，来获得Segment以及对应的链表，然后对链表遍历判断是否存在key相同的节点以及获得该节点的value。但由于遍历过程中其他线程可能对链表结构做了调整，因此get和containsKey返回的可能是过时的数据，这一点是ConcurrentHashMap在弱一致性上的体现。如果要求强一致性，那么必须使用Collections.synchronizedMap()方法。</p>
+<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1><ul>
+<li>ConcurrentHashMap中的key和value值都不能为null，HashMap中key可以为null，HashTable中key不能为null。</li>
+<li>ConcurrentHashMap是线程安全的类并不能保证使用了ConcurrentHashMap的操作都是线程安全的！</li>
+<li>ConcurrentHashMap的get操作不需要加锁，put操作需要加锁 - put和get都只关心一个segment里面的hash操作质量也是很高的，如果hash后都存放在同一个segment中，那么使用这个类的意义就不会很大.</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/集合/" rel="tag"># 集合</a>
+          
+            <a href="/tags/源码/" rel="tag"># 源码</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/11/图解集合：HashMap/" rel="next" title="图解集合：HashMap">
+                <i class="fa fa-chevron-left"></i> 图解集合：HashMap
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/雄.png"
+              alt="NobiGo" />
+          
+            <p class="site-author-name" itemprop="name">NobiGo</p>
+            <p class="site-description motion-element" itemprop="description">愿你出走半生，归来依旧少年</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ConcurrentHashMap为什么高效？"><span class="nav-number">1.</span> <span class="nav-text">ConcurrentHashMap为什么高效？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">2.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本操作源码分析"><span class="nav-number">3.</span> <span class="nav-text">基本操作源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内部类"><span class="nav-number">3.1.</span> <span class="nav-text">内部类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HashEntry"><span class="nav-number">3.1.1.</span> <span class="nav-text">HashEntry</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Setment"><span class="nav-number">3.1.2.</span> <span class="nav-text">Setment</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造方法"><span class="nav-number">3.2.</span> <span class="nav-text">构造方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找数据操作"><span class="nav-number">3.3.</span> <span class="nav-text">查找数据操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入数据操作"><span class="nav-number">4.</span> <span class="nav-text">插入数据操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取大小"><span class="nav-number">5.</span> <span class="nav-text">获取大小</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#弱一致性体现"><span class="nav-number"></span> <span class="nav-text">弱一致性体现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对比"><span class="nav-number"></span> <span class="nav-text">对比</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">NobiGo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
