@@ -79,7 +79,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="树,算法," />
 
 
 
@@ -95,16 +95,18 @@
 
 
 
-<meta name="description" content="愿你出走半生，归来依旧少年">
-<meta property="og:type" content="website">
-<meta property="og:title" content="NobiGo&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="1. 平衡二叉树输入一棵二叉树，判断该二叉树是否是平衡二叉树。方法1123456789101112131415161718192021public class Solution &amp;#123;    public boolean IsBalanced_Solution(TreeNode root) &amp;#123;        //判断异常情况        if(root==null)">
+<meta name="keywords" content="树,算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树的相关算法">
+<meta property="og:url" content="http://yoursite.com/2017/09/09/树相关算法/index.html">
 <meta property="og:site_name" content="NobiGo&#39;s blog">
-<meta property="og:description" content="愿你出走半生，归来依旧少年">
+<meta property="og:description" content="1. 平衡二叉树输入一棵二叉树，判断该二叉树是否是平衡二叉树。方法1123456789101112131415161718192021public class Solution &amp;#123;    public boolean IsBalanced_Solution(TreeNode root) &amp;#123;        //判断异常情况        if(root==null)">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-09-10T15:46:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NobiGo&#39;s blog">
-<meta name="twitter:description" content="愿你出走半生，归来依旧少年">
+<meta name="twitter:title" content="树的相关算法">
+<meta name="twitter:description" content="1. 平衡二叉树输入一棵二叉树，判断该二叉树是否是平衡二叉树。方法1123456789101112131415161718192021public class Solution &amp;#123;    public boolean IsBalanced_Solution(TreeNode root) &amp;#123;        //判断异常情况        if(root==null)">
 
 
 
@@ -134,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/09/09/树相关算法/"/>
 
 
 
 
 
-  <title>NobiGo's blog</title>
+  <title>树的相关算法 | NobiGo's blog</title>
   
 
 
@@ -159,8 +161,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -253,223 +254,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/11/并发情况下HashMap出现死循环情况解析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="NobiGo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/雄.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="NobiGo's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/11/并发情况下HashMap出现死循环情况解析/" itemprop="url">并发情况下HashMap出现死循环情况解析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-11T14:58:09+08:00">
-                2017-09-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/源码/" itemprop="url" rel="index">
-                    <span itemprop="name">源码</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="并发情况下HashMap出现死循环情况解析"><a href="#并发情况下HashMap出现死循环情况解析" class="headerlink" title="并发情况下HashMap出现死循环情况解析"></a>并发情况下HashMap出现死循环情况解析</h1><h1 id="现象发生"><a href="#现象发生" class="headerlink" title="现象发生"></a>现象发生</h1><p>由于偶尔会遇到HashMap死循环造成CPU100%，重启后问题消失，隔一段时间又会反复出现。今天在这里来仔细剖析下多线程情况下HashMap所带来的问题：</p>
-<h2 id="多线程put操作后，get操作导致死循环。"><a href="#多线程put操作后，get操作导致死循环。" class="headerlink" title="多线程put操作后，get操作导致死循环。"></a>多线程put操作后，get操作导致死循环。</h2><h3 id="死循环场景重现"><a href="#死循环场景重现" class="headerlink" title="死循环场景重现"></a>死循环场景重现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public class Test extends Thread</div><div class="line">&#123;</div><div class="line">    static HashMap&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;(2);</div><div class="line">    static AtomicInteger at = new AtomicInteger();</div><div class="line">    </div><div class="line">    public void run()</div><div class="line">    &#123;</div><div class="line">        while(at.get() &lt; 100000)</div><div class="line">        &#123;</div><div class="line">            map.put(at.get(),at.get());</div><div class="line">            at.incrementAndGet();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">package dx.hashmap.com;</div><div class="line"></div><div class="line">public class Main &#123;</div><div class="line">    public static void main(String[] args)</div><div class="line">    &#123;</div><div class="line">        Test t0 = new Test();</div><div class="line">        Test t1 = new Test();</div><div class="line">        Test t2 = new Test();</div><div class="line">        Test t3 = new Test();</div><div class="line">        Test t4 = new Test();</div><div class="line">        t0.start();</div><div class="line">        t1.start();</div><div class="line">        t2.start();</div><div class="line">        t3.start();</div><div class="line">        t4.start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>反复执行几次，出现这种情况则表示死循环了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&quot;Thread-0&quot; prio=5 tid=0x00007ffec50f5800 nid=0x4b03 runnable [0x0000700001c8f000]</div><div class="line">   java.lang.Thread.State: RUNNABLE</div><div class="line">        at java.util.HashMap.transfer(HashMap.java:601)</div><div class="line">        at java.util.HashMap.resize(HashMap.java:581)</div><div class="line">        at java.util.HashMap.addEntry(HashMap.java:879)</div><div class="line">        at java.util.HashMap.put(HashMap.java:505)</div><div class="line">        at dx.hashmap.com.Test.run(Test.java:13)</div><div class="line"></div><div class="line">&quot;Service Thread&quot; daemon prio=5 tid=0x00007ffec5022000 nid=0x4703 runnable [0x0000000000000000]</div><div class="line">   java.lang.Thread.State: RUNNABLE</div></pre></td></tr></table></figure>
-<p>通过堆栈可以看到：Thread-0由于HashMap的扩容操作导致了死循环。</p>
-<h3 id="正常的扩容过程"><a href="#正常的扩容过程" class="headerlink" title="正常的扩容过程"></a>正常的扩容过程</h3><p>我们先来看下单线程情况下，正常的rehash过程</p>
-<ul>
-<li><p>1.假设我们的hash算法是简单的key mod一下表的大小（即数组的长度）。</p>
-</li>
-<li><p>2.最上面是old hash表，其中HASH表的size=2，所以key=3,5,7在mod 2 以后都冲突在table[1]这个位置上了。</p>
-</li>
-<li><p>3.接下来HASH表扩容，resize=4，然后所有的<key,value>重新进行散列分布，过程如下：</key,value></p>
-</li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620074305522-158439805.png" alt=""></p>
-<p>在单线程情况下，一切看起来都很美妙，扩容过程也相当顺利。接下来看下并发情况下的扩容。</p>
-<h3 id="并发情况下的扩容"><a href="#并发情况下的扩容" class="headerlink" title="并发情况下的扩容"></a>并发情况下的扩容</h3><ul>
-<li><p>1.首先假设我们有两个线程，分别用红色和蓝色标注了。</p>
-</li>
-<li><p>2.扩容部分的源代码：</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * Transfers all entries from current table to newTable.</div><div class="line">     */</div><div class="line">    void transfer(Entry[] newTable, boolean rehash) &#123;</div><div class="line">        int newCapacity = newTable.length;</div><div class="line">        for (Entry&lt;K,V&gt; e : table) &#123;</div><div class="line">            while(null != e) &#123;</div><div class="line">                Entry&lt;K,V&gt; next = e.next;</div><div class="line">                if (rehash) &#123;</div><div class="line">                    e.hash = null == e.key ? 0 : hash(e.key);</div><div class="line">                &#125;</div><div class="line">                int i = indexFor(e.hash, newCapacity);</div><div class="line">                e.next = newTable[i];</div><div class="line">                newTable[i] = e;</div><div class="line">                e = next;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>3.如果在线程一执行到Entry<k,v> next = e.next<br>代码就被CPU调度挂起，去执行线程2，且线程2把上面代码都执行完毕。我们来看看这个时候的状态：</k,v></li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620074911319-1507561812.png" alt=""></p>
-<ul>
-<li>4.接着CPU切换到线程一上来，继续执行代码，首先安置3这个Entry：</li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620215401225-1774760096.png" alt=""></p>
-<p>这里需要注意的是：线程二已经完成执行完成，现在table里面所有的Entry都是最新的，就是说7的next是3,3的next是null；现在第一次循环已经结束，3已经安置妥当。看看接下来会发生什么事情：</p>
-<ul>
-<li><p>1.e=next=7</p>
-</li>
-<li><p>2.e!=null,循环继续</p>
-</li>
-<li><p>3.next=e.next=3</p>
-</li>
-<li><p>4.e.next 7的next指向3</p>
-</li>
-<li><p>5.放置7这个Entry，现在如图所示：</p>
-</li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620220528615-1921197618.png" alt=""></p>
-<p>放置7之后，接着运行代码：</p>
-<ul>
-<li><ol>
-<li>e=next=3;</li>
-</ol>
-</li>
-<li><ol>
-<li>判断不为空，继续循环</li>
-</ol>
-</li>
-<li><ol>
-<li>next= e.next  这里也就是3的next 为null</li>
-</ol>
-</li>
-<li><ol>
-<li>e.next=7,就3的next指向7.</li>
-</ol>
-</li>
-<li><ol>
-<li>放置3这个Entry，此时的状态如图： </li>
-</ol>
-</li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620220921022-137089907.png" alt=""></p>
-<p>这个时候其实就出现了死循环了，3移动节点头的位置，指向7这个Entry;在这之前7的next同时也指向了3这个Entry。</p>
-<p>代码接着往下执行，e=next=null，此时条件判断会终止循环。这次扩容结束了。但是后续如果有查询（无论是查询的迭代还是扩容），都会hang死在table【3】这个位置上。现在回过来看文章开头的那个Demo，就是挂死在扩容阶段的transfer这个方法上面。</p>
-<p><strong>出现上面这种情况绝不是我要在测试环境弄一批数据专门为了演示这种问题。我们仔细思考一下就会得出这样一个结论：如果扩容前相邻的两个Entry在扩容后还是分配到相同的table位置上，就会出现死循环的BUG。在复杂的生产环境中，这种情况尽管不常见，但是可能会碰到。</strong></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
 
   
 
@@ -499,9 +286,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/09/树相关算法/" itemprop="url">树的相关算法</a></h1>
+          <h1 class="post-title" itemprop="name headline">树的相关算法</h1>
         
 
         <div class="post-meta">
@@ -573,9 +358,7 @@
       
 
       
-        
-          
-            <h1 id="1-平衡二叉树"><a href="#1-平衡二叉树" class="headerlink" title="1. 平衡二叉树"></a>1. 平衡二叉树</h1><h2 id="输入一棵二叉树，判断该二叉树是否是平衡二叉树。"><a href="#输入一棵二叉树，判断该二叉树是否是平衡二叉树。" class="headerlink" title="输入一棵二叉树，判断该二叉树是否是平衡二叉树。"></a>输入一棵二叉树，判断该二叉树是否是平衡二叉树。</h2><h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public class Solution &#123;</div><div class="line">    public boolean IsBalanced_Solution(TreeNode root) &#123;</div><div class="line">        //判断异常情况</div><div class="line">        if(root==null)</div><div class="line">            return true;</div><div class="line">        int left = TreeDepth(root.left);</div><div class="line">        int right = TreeDepth(root.right);</div><div class="line">        if(Math.abs(left-right)&gt;1)</div><div class="line">            return false;</div><div class="line">        return IsBalanced_Solution(root.left)&amp;&amp;IsBalanced_Solution(root.right);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    //获得二叉树的深度</div><div class="line">    public int TreeDepth(TreeNode root)&#123;</div><div class="line">        if(root==null)</div><div class="line">            return 0;</div><div class="line">        int left = TreeDepth(root.left);</div><div class="line">        int right = TreeDepth(root.right);</div><div class="line">        return (left&gt;right?left+1:right+1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <h1 id="1-平衡二叉树"><a href="#1-平衡二叉树" class="headerlink" title="1. 平衡二叉树"></a>1. 平衡二叉树</h1><h2 id="输入一棵二叉树，判断该二叉树是否是平衡二叉树。"><a href="#输入一棵二叉树，判断该二叉树是否是平衡二叉树。" class="headerlink" title="输入一棵二叉树，判断该二叉树是否是平衡二叉树。"></a>输入一棵二叉树，判断该二叉树是否是平衡二叉树。</h2><h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public class Solution &#123;</div><div class="line">    public boolean IsBalanced_Solution(TreeNode root) &#123;</div><div class="line">        //判断异常情况</div><div class="line">        if(root==null)</div><div class="line">            return true;</div><div class="line">        int left = TreeDepth(root.left);</div><div class="line">        int right = TreeDepth(root.right);</div><div class="line">        if(Math.abs(left-right)&gt;1)</div><div class="line">            return false;</div><div class="line">        return IsBalanced_Solution(root.left)&amp;&amp;IsBalanced_Solution(root.right);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    //获得二叉树的深度</div><div class="line">    public int TreeDepth(TreeNode root)&#123;</div><div class="line">        if(root==null)</div><div class="line">            return 0;</div><div class="line">        int left = TreeDepth(root.left);</div><div class="line">        int right = TreeDepth(root.right);</div><div class="line">        return (left&gt;right?left+1:right+1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">public class Solution &#123;</div><div class="line">    boolean flag = true;</div><div class="line">    public boolean IsBalanced_Solution(TreeNode root) &#123;</div><div class="line">        //判断异常情况</div><div class="line">        TreeDepth(root);</div><div class="line">        return flag;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    //获得二叉树的深度</div><div class="line">    public int TreeDepth(TreeNode root)&#123;</div><div class="line">        if(root==null)</div><div class="line">            return 0;</div><div class="line">        </div><div class="line">        int left = TreeDepth(root.left);</div><div class="line">        int right = TreeDepth(root.right);</div><div class="line">        </div><div class="line">        if(Math.abs(left-right)&gt;1)&#123;</div><div class="line">            flag = false;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        return (left&gt;right?left+1:right+1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h1 id="2-重建二叉树"><a href="#2-重建二叉树" class="headerlink" title="2. 重建二叉树"></a>2. 重建二叉树</h1><h2 id="输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列-1-2-4-7-3-5-6-8-和中序遍历序列-4-7-2-1-5-3-8-6-，则重建二叉树并返回。"><a href="#输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列-1-2-4-7-3-5-6-8-和中序遍历序列-4-7-2-1-5-3-8-6-，则重建二叉树并返回。" class="headerlink" title="输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。"></a>输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Definition for binary tree</div><div class="line"> * public class TreeNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     TreeNode left;</div><div class="line"> *     TreeNode right;</div><div class="line"> *     TreeNode(int x) &#123; val = x; &#125;</div><div class="line"> * &#125;</div><div class="line"> */</div><div class="line">public class Solution &#123;</div><div class="line">    public TreeNode reConstructBinaryTree(int [] pre,int [] in) &#123;</div><div class="line">        if(pre.length==0)</div><div class="line">            return null;</div><div class="line">        return reConstructBinaryTree(pre,0,pre.length-1,in,0,in.length-1);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    public TreeNode reConstructBinaryTree(int [] pre,int prestart,int preend,int [] in,int instart,int inend) &#123;</div><div class="line">        if(prestart&gt;preend||instart&gt;inend)</div><div class="line">            return null;</div><div class="line">        int rootData = pre[prestart];</div><div class="line">        TreeNode root = new TreeNode(pre[prestart]);</div><div class="line">        //找到根节点的位置</div><div class="line">        int rootIndex = findIndexInArray(in,rootData,instart,inend);</div><div class="line">        int offSet =  rootIndex - instart - 1;</div><div class="line">        root.left = reConstructBinaryTree(pre,prestart+1,prestart+1+offSet,in,instart,instart+offSet);</div><div class="line">        root.right = reConstructBinaryTree(pre,prestart+2+offSet,preend,in,rootIndex+1,inend);</div><div class="line">        return root;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    public int findIndexInArray(int [] value,int rootData,int begin,int end)&#123;</div><div class="line">        for(int i = begin;i&lt;=end;i++)&#123;</div><div class="line">            if(value[i]==rootData)</div><div class="line">                return i;</div><div class="line">        &#125;</div><div class="line">        return -1;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h1 id="3-二叉树的镜像"><a href="#3-二叉树的镜像" class="headerlink" title="3. 二叉树的镜像"></a>3. 二叉树的镜像</h1><h2 id="操作给定的二叉树，将其变换为源二叉树的镜像。"><a href="#操作给定的二叉树，将其变换为源二叉树的镜像。" class="headerlink" title="操作给定的二叉树，将其变换为源二叉树的镜像。"></a>操作给定的二叉树，将其变换为源二叉树的镜像。</h2><ul>
@@ -599,8 +382,6 @@
 <h1 id="15-序列化二叉树"><a href="#15-序列化二叉树" class="headerlink" title="15. 序列化二叉树"></a>15. 序列化二叉树</h1><h2 id="请实现两个函数，分别用来序列化和反序列化二叉树"><a href="#请实现两个函数，分别用来序列化和反序列化二叉树" class="headerlink" title="请实现两个函数，分别用来序列化和反序列化二叉树"></a>请实现两个函数，分别用来序列化和反序列化二叉树</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">public class TreeNode &#123;</div><div class="line">    int val = 0;</div><div class="line">    TreeNode left = null;</div><div class="line">    TreeNode right = null;</div><div class="line"></div><div class="line">    public TreeNode(int val) &#123;</div><div class="line">        this.val = val;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">*/</div><div class="line">public class Solution &#123;</div><div class="line">    public int index = -1;</div><div class="line">    String Serialize(TreeNode root) &#123;</div><div class="line">        StringBuffer stringBuffer = new StringBuffer();</div><div class="line">        if(root==null)&#123;</div><div class="line">            stringBuffer.append(&quot;#,&quot;);</div><div class="line">            return stringBuffer.toString();</div><div class="line">        &#125;</div><div class="line">        //中序遍历</div><div class="line">        stringBuffer.append(root.val+&quot;,&quot;);</div><div class="line">        //左子树</div><div class="line">        stringBuffer.append(Serialize(root.left));</div><div class="line">        //右子树</div><div class="line">        stringBuffer.append(Serialize(root.right));</div><div class="line">        return stringBuffer.toString();</div><div class="line">  &#125;</div><div class="line">    TreeNode Deserialize(String str) &#123;</div><div class="line">       index++;</div><div class="line">       if(index&gt;=str.length())</div><div class="line">           return null;</div><div class="line">        String [] strr = str.split(&quot;,&quot;);</div><div class="line">        TreeNode node = null;</div><div class="line">        if(!strr[index].equals(&quot;#&quot;))&#123;</div><div class="line">            node = new TreeNode(Integer.valueOf(strr[index]));</div><div class="line">            node.left = Deserialize(str);</div><div class="line">            node.right = Deserialize(str);</div><div class="line">        &#125;</div><div class="line">        return node;</div><div class="line">        </div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h1 id="16-二叉搜索树的第k个结点"><a href="#16-二叉搜索树的第k个结点" class="headerlink" title="16. 二叉搜索树的第k个结点"></a>16. 二叉搜索树的第k个结点</h1><h2 id="给定一颗二叉搜索树，请找出其中的第k大的结点。例如，-5-3-7-2-4-6-8-中，按结点数值大小顺序第三个结点的值为4。"><a href="#给定一颗二叉搜索树，请找出其中的第k大的结点。例如，-5-3-7-2-4-6-8-中，按结点数值大小顺序第三个结点的值为4。" class="headerlink" title="给定一颗二叉搜索树，请找出其中的第k大的结点。例如， 5 / \ 3 7 /\ /\ 2 4 6 8 中，按结点数值大小顺序第三个结点的值为4。"></a>给定一颗二叉搜索树，请找出其中的第k大的结点。例如， 5 / \ 3 7 /\ /\ 2 4 6 8 中，按结点数值大小顺序第三个结点的值为4。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">class TreeNode &#123;</div><div class="line">    int val = 0;</div><div class="line">    TreeNode left = null;</div><div class="line">    TreeNode right = null;</div><div class="line"></div><div class="line">    public TreeNode(int val) &#123;</div><div class="line">        this.val = val;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 中序遍历第k个元素的值</div><div class="line"> **/</div><div class="line">public class Solution &#123;</div><div class="line">    int index = 0;</div><div class="line"></div><div class="line">    TreeNode KthNode(TreeNode pRoot, int k) &#123;</div><div class="line">        if (pRoot == null || k == 0)</div><div class="line">            return null;</div><div class="line">        return middleSort(pRoot, k);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    TreeNode middleSort(TreeNode pRoot, int k) &#123;</div><div class="line">        if (pRoot != null) &#123;</div><div class="line">            TreeNode node = middleSort(pRoot.left, k);</div><div class="line">            if (node != null)</div><div class="line">                return node;</div><div class="line">            index = index + 1;</div><div class="line">            if (index == k)</div><div class="line">                return pRoot;</div><div class="line">            node = middleSort(pRoot.right, k);</div><div class="line">            if (node != null)</div><div class="line">                return node;</div><div class="line">        &#125;</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
-          
-        
       
     </div>
     
@@ -615,14 +396,38 @@
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/树/" rel="tag"># 树</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/11/并发情况下HashMap出现死循环情况解析/" rel="prev" title="并发情况下HashMap出现死循环情况解析">
+                并发情况下HashMap出现死循环情况解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </div>
@@ -632,10 +437,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -643,6 +449,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -663,8 +473,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
             <img class="site-author-image" itemprop="image"
@@ -729,6 +548,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-平衡二叉树"><span class="nav-number">1.</span> <span class="nav-text">1. 平衡二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#输入一棵二叉树，判断该二叉树是否是平衡二叉树。"><span class="nav-number">1.1.</span> <span class="nav-text">输入一棵二叉树，判断该二叉树是否是平衡二叉树。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法1"><span class="nav-number">1.1.1.</span> <span class="nav-text">方法1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法2"><span class="nav-number">1.1.2.</span> <span class="nav-text">方法2</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-重建二叉树"><span class="nav-number">2.</span> <span class="nav-text">2. 重建二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列-1-2-4-7-3-5-6-8-和中序遍历序列-4-7-2-1-5-3-8-6-，则重建二叉树并返回。"><span class="nav-number">2.1.</span> <span class="nav-text">输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-二叉树的镜像"><span class="nav-number">3.</span> <span class="nav-text">3. 二叉树的镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#操作给定的二叉树，将其变换为源二叉树的镜像。"><span class="nav-number">3.1.</span> <span class="nav-text">操作给定的二叉树，将其变换为源二叉树的镜像。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-树的子结构"><span class="nav-number">4.</span> <span class="nav-text">4. 树的子结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）"><span class="nav-number">4.1.</span> <span class="nav-text">输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-从上往下打印二叉树"><span class="nav-number">5.</span> <span class="nav-text">5. 从上往下打印二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#从上往下打印出二叉树的每个节点，同层节点从左至右打印。"><span class="nav-number">5.1.</span> <span class="nav-text">从上往下打印出二叉树的每个节点，同层节点从左至右打印。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-二叉搜索树的后序遍历序列"><span class="nav-number">6.</span> <span class="nav-text">6. 二叉搜索树的后序遍历序列</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes-否则输出No。假设输入的数组的任意两个数字都互不相同。"><span class="nav-number">6.1.</span> <span class="nav-text">输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-二叉树中和为某一值的路径"><span class="nav-number">7.</span> <span class="nav-text">7. 二叉树中和为某一值的路径</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#输入一颗二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。"><span class="nav-number">7.1.</span> <span class="nav-text">输入一颗二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-二插搜索树与双向链表"><span class="nav-number">8.</span> <span class="nav-text">8. 二插搜索树与双向链表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-二叉树的深度"><span class="nav-number">9.</span> <span class="nav-text">9. 二叉树的深度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。"><span class="nav-number">9.1.</span> <span class="nav-text">输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#10-平衡二叉树"><span class="nav-number">10.</span> <span class="nav-text">10. 平衡二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#输入一棵二叉树，判断该二叉树是否是平衡二叉树。-1"><span class="nav-number">10.1.</span> <span class="nav-text">输入一棵二叉树，判断该二叉树是否是平衡二叉树。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法1-1"><span class="nav-number">10.1.1.</span> <span class="nav-text">方法1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法2-1"><span class="nav-number">10.1.2.</span> <span class="nav-text">方法2</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#11-二叉树的下一个节点"><span class="nav-number">11.</span> <span class="nav-text">11. 二叉树的下一个节点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。"><span class="nav-number">11.1.</span> <span class="nav-text">给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#12-对称的二叉树"><span class="nav-number">12.</span> <span class="nav-text">12. 对称的二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#请实现一个函数，用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。"><span class="nav-number">12.1.</span> <span class="nav-text">请实现一个函数，用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#13-按之字形顺序打印二叉树"><span class="nav-number">13.</span> <span class="nav-text">13. 按之字形顺序打印二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。"><span class="nav-number">13.1.</span> <span class="nav-text">请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#14-把二叉树打印成多行"><span class="nav-number">14.</span> <span class="nav-text">14. 把二叉树打印成多行</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。"><span class="nav-number">14.1.</span> <span class="nav-text">从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#15-序列化二叉树"><span class="nav-number">15.</span> <span class="nav-text">15. 序列化二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#请实现两个函数，分别用来序列化和反序列化二叉树"><span class="nav-number">15.1.</span> <span class="nav-text">请实现两个函数，分别用来序列化和反序列化二叉树</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#16-二叉搜索树的第k个结点"><span class="nav-number">16.</span> <span class="nav-text">16. 二叉搜索树的第k个结点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#给定一颗二叉搜索树，请找出其中的第k大的结点。例如，-5-3-7-2-4-6-8-中，按结点数值大小顺序第三个结点的值为4。"><span class="nav-number">16.1.</span> <span class="nav-text">给定一颗二叉搜索树，请找出其中的第k大的结点。例如， 5 / \ 3 7 /\ /\ 2 4 6 8 中，按结点数值大小顺序第三个结点的值为4。</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -856,6 +691,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
 
   
 
