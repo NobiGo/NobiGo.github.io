@@ -268,6 +268,184 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/22/Java高并发：ReentrantLock-重入锁-以及公平性/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NobiGo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/雄.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NobiGo's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/22/Java高并发：ReentrantLock-重入锁-以及公平性/" itemprop="url">Java高并发：ReentrantLock(重入锁)以及公平性</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-22T13:47:47+08:00">
+                2017-09-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/高并发/" itemprop="url" rel="index">
+                    <span itemprop="name">高并发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p><strong>ReentrantLock</strong>的实现不仅可以替代隐式的synchronized关键字，而且能够提供超过关键字本身的多种功能。</p>
+<p>这里提到一个锁获取的公平性问题，如果在绝对时间上，先对锁进行获取的请求一定被先满足，那么这个锁是公平的，反之，是不公平的，也就是说等待时间最长的线程最有机会获取锁，也可以说锁的获取是有序的。ReentrantLock这个锁提供了一个构造函数，能够控制这个锁是否是公平的。</p>
+<p>而锁的名字也是说明了这个锁具备了重复进入的可能，也就是说能够让当前线程多次的进行对锁的获取操作，这样的最大次数限制是Integer.MAX_VALUE，约21亿次左右。</p>
+<p>事实上<strong>公平的锁机制往往没有非公平的效率高</strong>，因为公平的获取锁没有考虑到操作系统对线程的调度因素，这样造成JVM对于等待中的线程调度次序和操作系统对线程的调度之间的不匹配。对于锁的快速且重复的获取过程中，连续获取的概率是非常高的，而公平锁会压制这种情况，虽然公平性得以保障，但是响应比却下降了，但是并不是任何场景都是以TPS作为唯一指标的，因为公平锁能够减少“饥饿”发生的概率，等待越久的请求越是能够得到优先满足。</p>
+<p><strong>可重入锁的最大作用：避免死锁</strong></p>
+<h1 id="Java应用"><a href="#Java应用" class="headerlink" title="Java应用"></a>Java应用</h1><p>可重入锁，也叫做递归锁，指的是同一线程外层函数获得锁之后,内层递归函数仍然有获取该锁的代码，但不受影响。</p>
+<p><strong>在JAVA环境下 ReentrantLock 和synchronized 都是 可重入锁</strong></p>
+<h3 id="synchronized-Demo"><a href="#synchronized-Demo" class="headerlink" title="synchronized Demo"></a>synchronized Demo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">package dx.concurrent.reentrantlock;</div><div class="line"></div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by dx on 2017/9/12.</div><div class="line"> */</div><div class="line">public class Test1 implements Runnable &#123;</div><div class="line"></div><div class="line">    public synchronized void get() &#123;</div><div class="line">        System.out.println(Thread.currentThread().getId());</div><div class="line">        set();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public synchronized void set() &#123;</div><div class="line">        System.out.println(Thread.currentThread().getId());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void run() &#123;</div><div class="line">        get();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        Test1 ss = new Test1();</div><div class="line">        new Thread(ss).start();</div><div class="line">        new Thread(ss).start();</div><div class="line">        new Thread(ss).start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">10</div><div class="line">10</div><div class="line">12</div><div class="line">12</div><div class="line">11</div><div class="line">11</div></pre></td></tr></table></figure>
+<h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">package dx.concurrent.reentrantlock;</div><div class="line"></div><div class="line">import java.util.concurrent.locks.ReentrantLock;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by dx on 2017/9/12.</div><div class="line"> */</div><div class="line">public class Test2 implements Runnable &#123;</div><div class="line">    ReentrantLock lock = new ReentrantLock();</div><div class="line"></div><div class="line">    public void get() &#123;</div><div class="line">        lock.lock();</div><div class="line">        System.out.println(Thread.currentThread().getId());</div><div class="line">        set();</div><div class="line">        lock.unlock();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void set() &#123;</div><div class="line">        lock.lock();</div><div class="line">        System.out.println(Thread.currentThread().getId());</div><div class="line">        lock.unlock();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void run() &#123;</div><div class="line">        get();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        Test2 ss = new Test2();</div><div class="line">        new Thread(ss).start();</div><div class="line">        new Thread(ss).start();</div><div class="line">        new Thread(ss).start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="结果-1"><a href="#结果-1" class="headerlink" title="结果"></a>结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">10</div><div class="line">10</div><div class="line">12</div><div class="line">12</div><div class="line">11</div><div class="line">11</div></pre></td></tr></table></figure>
+<h1 id="实现分析"><a href="#实现分析" class="headerlink" title="实现分析"></a>实现分析</h1><p>在ReentrantLock中，对于公平和非公平的定义是通过对同步器<strong>AbstractQueuedSynchronizer</strong>的扩展加以实现的，也就是在tryAcquire的实现上做了语义的控制。</p>
+<h2 id="非公平实现语义"><a href="#非公平实现语义" class="headerlink" title="非公平实现语义"></a>非公平实现语义</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">final boolean nonfairTryAcquire(int acquires) &#123;</div><div class="line">           final Thread current = Thread.currentThread();</div><div class="line">           int c = getState();</div><div class="line">           //当前状态为初试状态，尝试设置初试状态</div><div class="line">           if (c == 0) &#123;</div><div class="line">               if (compareAndSetState(0, acquires)) &#123;</div><div class="line">                   setExclusiveOwnerThread(current);</div><div class="line">                   //如果状态设置成功后就返回</div><div class="line">                   return true;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           //如果状态被设置，且获取锁的线程又是当前线程的时候，进行状态的自增；</div><div class="line">           else if (current == getExclusiveOwnerThread()) &#123;</div><div class="line">               int nextc = c + acquires;</div><div class="line">               if (nextc &lt; 0) // overflow</div><div class="line">                   throw new Error(&quot;Maximum lock count exceeded&quot;);</div><div class="line">               setState(nextc);</div><div class="line">               return true;</div><div class="line">           &#125;</div><div class="line">           //如果未设置成功状态且当前线程不是获取锁的线程，那么返回失败。</div><div class="line">           return false;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+<h3 id="公平的实现语义"><a href="#公平的实现语义" class="headerlink" title="公平的实现语义"></a>公平的实现语义</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">protected final boolean tryAcquire(int acquires) &#123;</div><div class="line">	final Thread current = Thread.currentThread();</div><div class="line">	int c = getState();</div><div class="line">	if (c == 0) &#123;</div><div class="line">	//判断当前线程是否有前置线程在等待</div><div class="line">		if (!hasQueuedPredecessors() &amp;&amp; compareAndSetState(0, acquires)) &#123;</div><div class="line">			setExclusiveOwnerThread(current);</div><div class="line">			return true;</div><div class="line">		&#125;</div><div class="line">	&#125; else if (current == getExclusiveOwnerThread()) &#123;</div><div class="line">		int nextc = c + acquires;</div><div class="line">		if (nextc &lt; 0)</div><div class="line">			throw new Error(&quot;Maximum lock count exceeded&quot;);</div><div class="line">		setState(nextc);</div><div class="line">		return true;</div><div class="line">	&#125;</div><div class="line">	return false;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="释放语义"><a href="#释放语义" class="headerlink" title="释放语义"></a>释放语义</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">protected final boolean tryRelease(int releases) &#123;</div><div class="line">	int c = getState() - releases;</div><div class="line">	if (Thread.currentThread() != getExclusiveOwnerThread())</div><div class="line">		throw new IllegalMonitorStateException();</div><div class="line">	boolean free = false;</div><div class="line">	if (c == 0) &#123;</div><div class="line">		free = true;</div><div class="line">		setExclusiveOwnerThread(null);</div><div class="line">	&#125;</div><div class="line">	setState(c);</div><div class="line">	return free;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上述逻辑主要主要计算了释放状态后的值，如果为0则完全释放，返回true，反之仅是设置状态，返回false。</p>
+<h2 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line">import java.util.concurrent.locks.Lock;</div><div class="line">import java.util.concurrent.locks.ReentrantLock;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by dx on 2017/9/12.</div><div class="line"> */</div><div class="line">public class ReentrantLockTest &#123;</div><div class="line">    //公平锁</div><div class="line">    private static Lock fairLock = new ReentrantLock(true);</div><div class="line">    //非公平锁</div><div class="line">    private static Lock unfairLock = new ReentrantLock();</div><div class="line"></div><div class="line">    @Test</div><div class="line">    public void fair() &#123;</div><div class="line">        System.out.println(&quot;fair version&quot;);</div><div class="line"></div><div class="line">        for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">            Thread thread = new Thread(new Job(fairLock));</div><div class="line">            //设置线程名字</div><div class="line">            thread.setName(&quot;&quot; + i);</div><div class="line">            thread.start();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        try &#123;</div><div class="line">            Thread.sleep(5000);</div><div class="line">        &#125; catch (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Test</div><div class="line">    public void unfair() &#123;</div><div class="line">        System.out.println(&quot;unfair version&quot;);</div><div class="line">        for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">            Thread thread = new Thread(new Job(unfairLock));</div><div class="line">            thread.setName(&quot;&quot; + i);</div><div class="line">            thread.start();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        try &#123;</div><div class="line">            Thread.sleep(5000);</div><div class="line">        &#125; catch (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private static class Job implements Runnable &#123;</div><div class="line">        private Lock lock;</div><div class="line">        public Job(Lock lock) &#123;</div><div class="line">            this.lock = lock;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void run() &#123;</div><div class="line">            for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">                lock.lock();</div><div class="line">                try &#123;</div><div class="line">                    System.out.println(&quot;Lock by:&quot;</div><div class="line">                            + Thread.currentThread().getName());</div><div class="line">                &#125; finally &#123;</div><div class="line">                    System.out.println(&quot;unLock by:&quot;+Thread.currentThread().getName());</div><div class="line">                    lock.unlock();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="返回结果："><a href="#返回结果：" class="headerlink" title="返回结果："></a>返回结果：</h3><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">fair version</div><div class="line">Lock by:0</div><div class="line">Lock by:1</div><div class="line">Lock by:2</div><div class="line">Lock by:0</div><div class="line">Lock by:3</div><div class="line">Lock by:4</div><div class="line">Lock by:1</div><div class="line">Lock by:2</div><div class="line">Lock by:0</div><div class="line">Lock by:3</div><div class="line">Lock by:4</div><div class="line">Lock by:1</div><div class="line">Lock by:2</div><div class="line">Lock by:0</div><div class="line">Lock by:3</div><div class="line">Lock by:4</div><div class="line">Lock by:1</div><div class="line">Lock by:2</div><div class="line">Lock by:0</div><div class="line">Lock by:3</div><div class="line">Lock by:4</div><div class="line">Lock by:1</div><div class="line">Lock by:2</div><div class="line">Lock by:3</div><div class="line">Lock by:4</div></pre></td></tr></table></figure>
+</li>
+<li></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">unfair version</div><div class="line">Lock by:0</div><div class="line">Lock by:0</div><div class="line">Lock by:0</div><div class="line">Lock by:2</div><div class="line">Lock by:2</div><div class="line">Lock by:2</div><div class="line">Lock by:2</div><div class="line">Lock by:2</div><div class="line">Lock by:0</div><div class="line">Lock by:0</div><div class="line">Lock by:1</div><div class="line">Lock by:1</div><div class="line">Lock by:1</div><div class="line">Lock by:1</div><div class="line">Lock by:1</div><div class="line">Lock by:3</div><div class="line">Lock by:3</div><div class="line">Lock by:3</div><div class="line">Lock by:3</div><div class="line">Lock by:3</div><div class="line">Lock by:4</div><div class="line">Lock by:4</div><div class="line">Lock by:4</div><div class="line">Lock by:4</div><div class="line">Lock by:4</div></pre></td></tr></table></figure>
+<h3 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h3><p>仔细观察返回的结果(其中每个数字代表一个线程)，非公平的结果一个线程连续获取锁的情况非常多，而公平的结果连续获取的情况基本没有。那么在一个线程获取了锁的那一刻，究竟锁的公平性会导致锁有什么样的处理逻辑呢？<br>通过之前的同步器(AbstractQueuedSynchronizer)的介绍，在锁上是存在一个等待队列，sync队列，我们通过复写ReentrantLock的获取当前锁的sync队列，输出在ReentrantLock被获取时刻，当前的sync队列的状态。</p>
+<h2 id="测试用例2"><a href="#测试用例2" class="headerlink" title="测试用例2"></a>测试用例2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div></pre></td><td class="code"><pre><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line">import java.util.Collection;</div><div class="line">import java.util.concurrent.locks.Lock;</div><div class="line">import java.util.concurrent.locks.ReentrantLock;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by dx on 2017/9/12.</div><div class="line"> */</div><div class="line">public class ReentrantLockTest2 &#123;</div><div class="line">    private static Lock fairLock = new ReentrantLock2(true);</div><div class="line">    private static Lock unfairLock = new ReentrantLock2();</div><div class="line"></div><div class="line">    @Test</div><div class="line">    public void fair() &#123;</div><div class="line">        System.out.println(&quot;fair version&quot;);</div><div class="line">        for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">            Thread thread = new Thread(new Job(fairLock)) &#123;</div><div class="line">                public String toString() &#123;</div><div class="line">                    return getName();</div><div class="line">                &#125;</div><div class="line">            &#125;;</div><div class="line">            thread.setName(&quot;&quot; + i);</div><div class="line">            thread.start();</div><div class="line">        &#125;</div><div class="line">        // sleep 5000ms</div><div class="line">        try &#123;</div><div class="line">            Thread.sleep(5000);</div><div class="line">        &#125; catch (InterruptedException ex) &#123;</div><div class="line">            ex.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Test</div><div class="line">    public void unfair() &#123;</div><div class="line">        System.out.println(&quot;unfair version&quot;);</div><div class="line">        for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">            Thread thread = new Thread(new Job(unfairLock)) &#123;</div><div class="line">                public String toString() &#123;</div><div class="line">                    return getName();</div><div class="line">                &#125;</div><div class="line">            &#125;;</div><div class="line">            thread.setName(&quot;&quot; + i);</div><div class="line">            thread.start();</div><div class="line">        &#125;</div><div class="line">        // sleep 5000ms</div><div class="line">        try &#123;</div><div class="line">            Thread.sleep(5000);</div><div class="line">        &#125; catch (InterruptedException ex) &#123;</div><div class="line">            ex.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private static class Job implements Runnable &#123;</div><div class="line">        private Lock lock;</div><div class="line"></div><div class="line">        public Job(Lock lock) &#123;</div><div class="line">            this.lock = lock;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void run() &#123;</div><div class="line">            for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">                lock.lock();</div><div class="line">                try &#123;</div><div class="line">                    System.out.println(&quot;Lock by:&quot;</div><div class="line">                            + Thread.currentThread().getName() + &quot; and &quot;</div><div class="line">                            + ((ReentrantLock2) lock).getQueuedThreads()</div><div class="line">                            + &quot; waits.&quot;);</div><div class="line">                &#125; finally &#123;</div><div class="line">                    lock.unlock();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private static class ReentrantLock2 extends ReentrantLock &#123;</div><div class="line">        // Constructor Override</div><div class="line"></div><div class="line">        public ReentrantLock2(boolean flag) &#123;</div><div class="line">            super(flag);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        public ReentrantLock2() &#123;</div><div class="line">            super();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        private static final long serialVersionUID = 1773716895097002072L;</div><div class="line"></div><div class="line">        public Collection&lt;Thread&gt; getQueuedThreads() &#123;</div><div class="line">            return super.getQueuedThreads();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="返回结果：-1"><a href="#返回结果：-1" class="headerlink" title="返回结果："></a>返回结果：</h3><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">fair version</div><div class="line">fair version</div><div class="line">Lock by:1 and [0] waits.</div><div class="line">Lock by:0 and [1, 4, 3, 2] waits.</div><div class="line">Lock by:2 and [0, 1, 4, 3] waits.</div><div class="line">Lock by:3 and [2, 0, 1, 4] waits.</div><div class="line">Lock by:4 and [3, 2, 0, 1] waits.</div><div class="line">Lock by:1 and [4, 3, 2, 0] waits.</div><div class="line">Lock by:0 and [1, 4, 3, 2] waits.</div><div class="line">Lock by:2 and [0, 1, 4, 3] waits.</div><div class="line">Lock by:3 and [2, 0, 1, 4] waits.</div><div class="line">Lock by:4 and [3, 2, 0, 1] waits.</div><div class="line">Lock by:1 and [4, 3, 2, 0] waits.</div><div class="line">Lock by:0 and [1, 4, 3, 2] waits.</div><div class="line">Lock by:2 and [0, 1, 4, 3] waits.</div><div class="line">Lock by:3 and [2, 0, 1, 4] waits.</div><div class="line">Lock by:4 and [3, 2, 0, 1] waits.</div><div class="line">Lock by:1 and [4, 3, 2, 0] waits.</div><div class="line">Lock by:0 and [1, 4, 3, 2] waits.</div><div class="line">Lock by:2 and [0, 1, 4, 3] waits.</div><div class="line">Lock by:3 and [2, 0, 1, 4] waits.</div><div class="line">Lock by:4 and [3, 2, 0, 1] waits.</div><div class="line">Lock by:1 and [4, 3, 2, 0] waits.</div><div class="line">Lock by:0 and [4, 3, 2] waits.</div><div class="line">Lock by:2 and [4, 3] waits.</div><div class="line">Lock by:3 and [4] waits.</div><div class="line">Lock by:4 and [] waits.</div></pre></td></tr></table></figure>
+</li>
+<li></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">unfair version</div><div class="line">Lock by:0 and [] waits.</div><div class="line">Lock by:0 and [] waits.</div><div class="line">Lock by:0 and [1] waits.</div><div class="line">Lock by:2 and [1] waits.</div><div class="line">Lock by:2 and [3, 1] waits.</div><div class="line">Lock by:2 and [3, 1] waits.</div><div class="line">Lock by:2 and [0, 3, 1] waits.</div><div class="line">Lock by:2 and [0, 3, 1] waits.</div><div class="line">Lock by:1 and [0, 3] waits.</div><div class="line">Lock by:1 and [4, 0, 3] waits.</div><div class="line">Lock by:1 and [4, 0, 3] waits.</div><div class="line">Lock by:1 and [4, 0, 3] waits.</div><div class="line">Lock by:1 and [4, 0, 3] waits.</div><div class="line">Lock by:3 and [4, 0] waits.</div><div class="line">Lock by:3 and [4, 0] waits.</div><div class="line">Lock by:3 and [4, 0] waits.</div><div class="line">Lock by:3 and [4, 0] waits.</div><div class="line">Lock by:3 and [4, 0] waits.</div><div class="line">Lock by:0 and [4] waits.</div><div class="line">Lock by:0 and [4] waits.</div><div class="line">Lock by:4 and [] waits.</div><div class="line">Lock by:4 and [] waits.</div><div class="line">Lock by:4 and [] waits.</div><div class="line">Lock by:4 and [] waits.</div><div class="line">Lock by:4 and [] waits.</div></pre></td></tr></table></figure>
+<h3 id="结果分析-1"><a href="#结果分析-1" class="headerlink" title="结果分析"></a>结果分析</h3><p>可以明显看出，在非公平获取的过程中，“插队”现象非常严重，后续获取锁的线程根本不顾及sync队列中等待的线程，而是能获取就获取。反观公平获取的过程，锁的获取就类似线性化的，每次都由sync队列中等待最长的线程（链表的第一个，sync队列是由尾部结点添加，当前输出的sync队列是逆序输出）获取锁。一个 hasQueuedPredecessors方法能够获得公平性的特性，这点实际上是由AbstractQueuedSynchronizer来完成的，看一下acquire方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public final void acquire(int arg) &#123;</div><div class="line">	if (!tryAcquire(arg) &amp;&amp; acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</div><div class="line">		selfInterrupt();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到，如果获取状态和在sync队列中排队是短路的判断，也就是说如果tryAcquire成功，那么是不会进入sync队列的，可以通过下图来深刻的认识公平性和AbstractQueuedSynchronizer的获取过程。<br>非公平的，或者说默认的获取方式如下图所示：</p>
+<p>对于状态的获取，可以快速的通过tryAcquire的成功，也就是黄色的Fast路线，也可以由于tryAcquire的失败，构造节点，进入sync队列中排序后再次获取。因此可以理解为Fast就是一个快速通道，当例子中的线程释放锁之后，快速的通过Fast通道再次获取锁，就算当前sync队列中有排队等待的线程也会被忽略。这种模式，可以保证进入和退出锁的吞吐量，但是sync队列中过早排队的线程会一直处于阻塞状态，造成“饥饿”场景。</p>
+<p><img src="http://ifeve.com/wp-content/uploads/2013/12/Untitled.png" alt=""></p>
+<p>而公平性锁，就是在tryAcquire的调用中顾及当前sync队列中的等待节点（废弃了Fast通道），也就是任意请求都需要按照sync队列中既有的顺序进行，先到先得。这样很好的确保了公平性，但是可以从结果中看到，吞吐量就没有非公平的锁高了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/11/图解集合：ConcurrentHashMap/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1114,7 +1292,7 @@ return e;
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1125,7 +1303,7 @@ return e;
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1136,7 +1314,7 @@ return e;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
