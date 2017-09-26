@@ -1301,30 +1301,9 @@
 <p>（1）是的话，也就是第14行~第15行，table[i]就直接是table[i]的下一个节点，后面的都不需要动</p>
 <p>（2）不是的话，也就是第16行~第17行，e的前一个Entry也就是prev，prev的next指向e的后一个节点，也就是next，这样，e所代表的Entry就被踢出了，e的前后Entry就连起来了<br>删除数据</p>
 <p>有一段代码：</p>
-<p>public static void main(String[] args)<br>{<br>    Map<string, string=""> map = new HashMap<string, string="">();<br>    map.put(“111”, “111”);<br>    map.put(“222”, “222”);<br>    map.remove(“111”);<br>}</string,></string,></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">public static void main(String[] args)</div><div class="line">&#123;</div><div class="line">    Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();</div><div class="line">    map.put(&quot;111&quot;, &quot;111&quot;);</div><div class="line">    map.put(&quot;222&quot;, &quot;222&quot;);</div><div class="line">    map.remove(&quot;111&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>第6行删除元素，看一下删除元素的时候做了什么，第4行~第5行添加了两个键值对就沿用上面的图，HashMap删除指定键值对的源代码是：</p>
-<p>public V remove(Object key) {<br>      Entry<k,v> e = removeEntryForKey(key);<br>      return (e == null ? null : e.value);<br> }</k,v></p>
-<p>final Entry<k,v> removeEntryForKey(Object key) {<br>    int hash = (key == null) ? 0 : hash(key.hashCode());<br>    int i = indexFor(hash, table.length);<br>    Entry<k,v> prev = table[i];<br>    Entry<k,v> e = prev;</k,v></k,v></k,v></p>
-<pre><code>while (e != null) {
-    Entry&lt;K,V&gt; next = e.next;
-    Object k;
-    if (e.hash == hash &amp;&amp;
-        ((k = e.key) == key || (key != null &amp;&amp; key.equals(k)))) {
-        modCount++;
-        size--;
-        if (prev == e)
-            table[i] = next;
-        else
-            prev.next = next;
-        e.recordRemoval(this);
-        return e;
-    }
-    prev = e;
-    e = next;
-}
-
-return e;
-</code></pre><p>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">public V remove(Object key) &#123;</div><div class="line">      Entry&lt;K,V&gt; e = removeEntryForKey(key);</div><div class="line">      return (e == null ? null : e.value);</div><div class="line"> &#125;</div><div class="line"></div><div class="line">final Entry&lt;K,V&gt; removeEntryForKey(Object key) &#123;</div><div class="line">    int hash = (key == null) ? 0 : hash(key.hashCode());</div><div class="line">    int i = indexFor(hash, table.length);</div><div class="line">    Entry&lt;K,V&gt; prev = table[i];</div><div class="line">    Entry&lt;K,V&gt; e = prev;</div><div class="line"> </div><div class="line">    while (e != null) &#123;</div><div class="line">        Entry&lt;K,V&gt; next = e.next;</div><div class="line">        Object k;</div><div class="line">        if (e.hash == hash &amp;&amp;</div><div class="line">            ((k = e.key) == key || (key != null &amp;&amp; key.equals(k)))) &#123;</div><div class="line">            modCount++;</div><div class="line">            size--;</div><div class="line">            if (prev == e)</div><div class="line">                table[i] = next;</div><div class="line">            else</div><div class="line">                prev.next = next;</div><div class="line">            e.recordRemoval(this);</div><div class="line">            return e;</div><div class="line">        &#125;</div><div class="line">        prev = e;</div><div class="line">        e = next;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    return e;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>分析一下remove元素的时候做了几步：</p>
 <p>1、根据key的hash找到待删除的键值对位于table的哪个位置上</p>
 <p>2、记录一个prev表示待删除的Entry的前一个位置Entry，e可以认为是当前位置</p>
