@@ -79,7 +79,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="java基础," />
 
 
 
@@ -95,16 +95,18 @@
 
 
 
-<meta name="description" content="愿你出走半生，归来依旧少年">
-<meta property="og:type" content="website">
-<meta property="og:title" content="NobiGo&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta name="description" content="JAVA属于值传递还是引用传递？ 不管你传的是什么,传过去的都只是一个副本而已,这个副本作为方法的局部变量保存在栈中。 如果传的是基本数据类型,修改这个值并不会影响作为参数传进来的那个变量,因为你修改的是方法的局部变量,是一个副本。 如果传的是一个对象的引用,也是一样的,也是一个副本,但是这个副本和作为参数传进来的那个引用指向的是内存中的同一个对象,所以你通过这个副本也可以操作那个对象。但是如果你">
+<meta name="keywords" content="java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java参数传递">
+<meta property="og:url" content="http://yoursite.com/2017/09/26/Java参数传递/index.html">
 <meta property="og:site_name" content="NobiGo&#39;s blog">
-<meta property="og:description" content="愿你出走半生，归来依旧少年">
+<meta property="og:description" content="JAVA属于值传递还是引用传递？ 不管你传的是什么,传过去的都只是一个副本而已,这个副本作为方法的局部变量保存在栈中。 如果传的是基本数据类型,修改这个值并不会影响作为参数传进来的那个变量,因为你修改的是方法的局部变量,是一个副本。 如果传的是一个对象的引用,也是一样的,也是一个副本,但是这个副本和作为参数传进来的那个引用指向的是内存中的同一个对象,所以你通过这个副本也可以操作那个对象。但是如果你">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-09-26T06:45:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NobiGo&#39;s blog">
-<meta name="twitter:description" content="愿你出走半生，归来依旧少年">
+<meta name="twitter:title" content="Java参数传递">
+<meta name="twitter:description" content="JAVA属于值传递还是引用传递？ 不管你传的是什么,传过去的都只是一个副本而已,这个副本作为方法的局部变量保存在栈中。 如果传的是基本数据类型,修改这个值并不会影响作为参数传进来的那个变量,因为你修改的是方法的局部变量,是一个副本。 如果传的是一个对象的引用,也是一样的,也是一个副本,但是这个副本和作为参数传进来的那个引用指向的是内存中的同一个对象,所以你通过这个副本也可以操作那个对象。但是如果你">
 
 
 
@@ -134,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/09/26/Java参数传递/"/>
 
 
 
 
 
-  <title>归档 | NobiGo's blog</title>
+  <title>Java参数传递 | NobiGo's blog</title>
   
 
 
@@ -159,7 +161,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -253,333 +255,173 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/26/Java参数传递/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NobiGo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/雄.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NobiGo's blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">Java参数传递</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-26T14:41:53+08:00">
+                2017-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 8 篇日志。 继续努力。
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SpecialNote/" itemprop="url" rel="index">
+                    <span itemprop="name">SpecialNote</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2017">2017</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/09/26/Java参数传递/" itemprop="url">
-              
-                <span itemprop="name">Java参数传递</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-26T14:41:53+08:00"
-              content="2017-09-26" >
-          09-26
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/09/22/正确实现Java中的HashCode-一致性/" itemprop="url">
-              
-                <span itemprop="name">正确实现Java中的HashCode-一致性</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-22T14:19:13+08:00"
-              content="2017-09-22" >
-          09-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/09/22/Java高并发：锁概览/" itemprop="url">
-              
-                <span itemprop="name">Java高并发：锁概览</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-22T13:52:48+08:00"
-              content="2017-09-22" >
-          09-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>JAVA属于值传递还是引用传递？</p>
+<p>不管你传的是什么,传过去的都只是一个副本而已,这个副本作为方法的局部变量保存在栈中。</p>
+<p>如果传的是基本数据类型,修改这个值并不会影响作为参数传进来的那个变量,因为你修改的是方法的局部变量,是一个副本。</p>
+<p>如果传的是一个对象的引用,也是一样的,也是一个副本,但是这个副本和作为参数传进来的那个引用指向的是内存中的同一个对象,所以你通过这个副本也可以操作那个对象。但是如果你修改这个引用本身,比如让他指向内存中的另外一个对象,原来作为参数传进来的那个引用不会受到影响。</p>
+<p>我觉得弄明白这些就行了,说值传递或引用传递都无所谓,但是说值传递更适合一些,这个值可以是引用也可以是基本数据类型。</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/09/22/Java高并发：ReentrantLock-重入锁-以及公平性/" itemprop="url">
-              
-                <span itemprop="name">Java高并发：ReentrantLock(重入锁)以及公平性</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-22T13:47:47+08:00"
-              content="2017-09-22" >
-          09-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/09/11/图解集合：ConcurrentHashMap/" itemprop="url">
-              
-                <span itemprop="name">图解集合：ConcurrentHashMap</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-11T22:44:50+08:00"
-              content="2017-09-11" >
-          09-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/09/11/图解集合：HashMap/" itemprop="url">
-              
-                <span itemprop="name">图解集合：HashMap</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-11T16:02:51+08:00"
-              content="2017-09-11" >
-          09-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/09/11/并发情况下HashMap出现死循环情况解析/" itemprop="url">
-              
-                <span itemprop="name">并发情况下HashMap出现死循环情况解析</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-11T14:58:09+08:00"
-              content="2017-09-11" >
-          09-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/09/09/树相关算法/" itemprop="url">
-              
-                <span itemprop="name">树的相关算法</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-09T00:00:00+08:00"
-              content="2017-09-09" >
-          09-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java基础/" rel="tag"># java基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/22/正确实现Java中的HashCode-一致性/" rel="next" title="正确实现Java中的HashCode-一致性">
+                <i class="fa fa-chevron-left"></i> 正确实现Java中的HashCode-一致性
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -587,6 +429,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -800,6 +646,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
 
   
 
