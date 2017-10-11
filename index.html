@@ -268,6 +268,170 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/11/逆序字符串的最长公共子序列长度/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NobiGo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/雄.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NobiGo's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/11/逆序字符串的最长公共子序列长度/" itemprop="url">逆序字符串的最长公共子序列长度</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-11T14:28:57+08:00">
+                2017-10-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="题目：给出一个以空格作为分隔符的字符串，求其与其空格分割的逆序字符串的最长公共子序列长度。"><a href="#题目：给出一个以空格作为分隔符的字符串，求其与其空格分割的逆序字符串的最长公共子序列长度。" class="headerlink" title="题目：给出一个以空格作为分隔符的字符串，求其与其空格分割的逆序字符串的最长公共子序列长度。"></a>题目：给出一个以空格作为分隔符的字符串，求其与其空格分割的逆序字符串的最长公共子序列长度。</h1><h2 id="输入案例"><a href="#输入案例" class="headerlink" title="输入案例"></a>输入案例</h2><p>例如：</p>
+<p>输入 2017 11 02</p>
+<p>其逆序字符串为 02 11 2017</p>
+<p>输出 6（2 11 2）</p>
+<h2 id="动态规划法"><a href="#动态规划法" class="headerlink" title="动态规划法"></a>动态规划法</h2><p>经常会遇到复杂问题不能简单地分解成几个子问题，而会分解出一系列的子问题。简单地采用把大问题分解成子问题，并综合子问题的解导出大问题的解的方法，问题求解耗时会按问题规模呈幂级数增加。</p>
+<p>为了节约重复求相同子问题的时间，引入一个数组，不管它们是否对最终解有用，把所有子问题的解存于该数组中，这就是动态规划法所采用的基本方法。</p>
+<h3 id="最长公共子子序列问题（LCS-subSequence）"><a href="#最长公共子子序列问题（LCS-subSequence）" class="headerlink" title="最长公共子子序列问题（LCS_subSequence）"></a>最长公共子子序列问题（LCS_subSequence）</h3><p><strong>问题：</strong> 求两字符序列的最长公共字符子序列</p>
+<p><strong>问题描述：</strong>字符序列的子序列是指从给定字符序列中随意地（不一定连续）去掉若干个字符（可能一个也不去掉）后所形成的字符序列。令给定的字符序列X=“x0，x1，…，xm-1”，序列Y=“y0，y1，…，yk-1”是X的子序列，存在X的一个严格递增下标序列[i0，i1，…，ik-1]，使得对所有的j=0，1，…，k-1，有xij=yj。例如，X=“ABCBDAB”，Y=“BCDB”是X的一个子序列。</p>
+<p>考虑最长公共子序列问题如何分解成子问题，设A=“a0，a1，…，am-1”，B=“b0，b1，…，bm-1”，并Z=“z0，z1，…，zk-1”为它们的最长公共子序列。不难证明有以下性质：</p>
+<ol>
+<li><p>如果am-1=bn-1，则zk-1=am-1=bn-1，且“z0，z1，…，zk-2”是“a0，a1，…，am-2”和“b0，b1，…，bn-2”的一个最长公共子序列；</p>
+</li>
+<li><p>如果am-1!=bn-1，则若zk-1!=am-1，蕴涵“z0，z1，…，zk-1”是“a0，a1，…，am-2”和“b0，b1，…，bn-1”的一个最长公共子序列；</p>
+</li>
+<li><p>如果am-1!=bn-1，则若zk-1!=bn-1，蕴涵“z0，z1，…，zk-1”是“a0，a1，…，am-1”和“b0，b1，…，bn-2”的一个最长公共子序列。</p>
+</li>
+</ol>
+<p>这样，在找A和B的公共子序列时，如有am-1=bn-1，则进一步解决一个子问题，找“a0，a1，…，am-2”和“b0，b1，…，bm-2”的一个最长公共子序列；如果am-1!=bn-1，则要解决两个子问题，找出“a0，a1，…，am-2”和“b0，b1，…，bn-1”的一个最长公共子序列和找出“a0，a1，…，am-1”和“b0，b1，…，bn-2”的一个最长公共子序列，再取两者中较长者作为A和B的最长公共子序列。</p>
+<p><strong>求解</strong></p>
+<p>引进一个二维数组c[][]，用c[i][j]记录X[i]与Y[j]的LCS的长度，b[i][j]记录c[i][j]是通过哪一个子问题的值求得的，以决定搜索的方向。<br>我们是自底向上进行递推计算，那么在计算c[i,j]之前，c[i-1][j-1]，c[i-1][j]与c[i][j-1]均已计算出来。此时我们根据X[i] = Y[j]还是X[i] != Y[j]，就可以计算出c[i][j]。 </p>
+<p>问题的递归式写成： </p>
+<p><img src="C:/Users/dx/Pictures/博客/算法/逆序字符串的最长公共子序列长度.png" alt="image"></p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">package dx;</div><div class="line"></div><div class="line">import java.util.Scanner;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by dx on 2017/10/11.</div><div class="line"> */</div><div class="line">public class Qunaer &#123;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        //用来记录长度</div><div class="line">        int count = 0;</div><div class="line">        Scanner scanner = new Scanner(System.in);</div><div class="line">        String string = scanner.nextLine();</div><div class="line"></div><div class="line">        String[] value = string.split(&quot; &quot;);</div><div class="line">        String[] reverseValue = new String[value.length];</div><div class="line"></div><div class="line">        for (int i = 0; i &lt; value.length; i++) &#123;</div><div class="line">            reverseValue[i] = new StringBuilder(value[i]).reverse().toString();</div><div class="line">        &#125;</div><div class="line">        StringBuilder stringBuilder = new StringBuilder();</div><div class="line">        for (int i = 0; i &lt; value.length; i++) &#123;</div><div class="line">            stringBuilder.append(reverseValue[i]);</div><div class="line">            if (i != value.length - 1)</div><div class="line">                stringBuilder.append(&quot; &quot;);</div><div class="line">        &#125;</div><div class="line">        String reverseString = stringBuilder.reverse().toString();</div><div class="line"></div><div class="line">        int[][] re = longestCommonSubsequence(string, reverseString);</div><div class="line">        System.out.println(re[string.length()][string.length()]);</div><div class="line">        print(re,string,reverseString,string.length(),reverseString.length());</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    // 假如返回两个字符串的最长公共子序列的长度</div><div class="line">    public static int[][] longestCommonSubsequence(String str1, String str2) &#123;</div><div class="line">        int[][] matrix = new int[str1.length() + 1][str2.length() + 1];//建立二维矩阵</div><div class="line">        // 初始化边界条件</div><div class="line">        for (int i = 0; i &lt;= str1.length(); i++) &#123;</div><div class="line">            matrix[i][0] = 0;//每行第一列置零</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        for (int j = 0; j &lt;= str2.length(); j++) &#123;</div><div class="line">            matrix[0][j] = 0;//每列第一行置零</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // 填充矩阵</div><div class="line">        for (int i = 1; i &lt;= str1.length(); i++) &#123;</div><div class="line">            for (int j = 1; j &lt;= str2.length(); j++) &#123;</div><div class="line">                if (str1.charAt(i - 1) == str2.charAt(j - 1)) &#123;</div><div class="line">                    matrix[i][j] = matrix[i - 1][j - 1] + 1;</div><div class="line">                &#125; else &#123;</div><div class="line">                    matrix[i][j] = (matrix[i - 1][j] &gt;= matrix[i][j - 1] ? matrix[i - 1][j]</div><div class="line">                            : matrix[i][j - 1]);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return matrix;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //根据矩阵输出LCS</div><div class="line">    public static void print(int[][] opt, String X, String Y, int i, int j) &#123;</div><div class="line">        if (i == 0 || j == 0) &#123;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">        if (X.charAt(i - 1) == Y.charAt(j - 1)) &#123;</div><div class="line">            print(opt, X, Y, i - 1, j - 1);</div><div class="line">            System.out.print(X.charAt(i - 1));</div><div class="line">        &#125; else if (opt[i - 1][j] &gt;= opt[i][j]) &#123;</div><div class="line">            print(opt, X, Y, i - 1, j);</div><div class="line">        &#125; else &#123;</div><div class="line">            print(opt, X, Y, i, j - 1);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/26/Java参数传递/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1796,7 +1960,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1818,7 +1982,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
