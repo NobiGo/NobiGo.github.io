@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="读书笔记,云计算," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="目的 云计算  将各种IT资源（计算资源、存储资源、软件开发、系统测试等）以服务的形式通过互联网交付给用户。  虚拟化  实现了IT资源的逻辑抽象和统一表示，在大规模数据中心管理和解决方案交付方面发挥着巨大的作用，是支撑云计算的技术基石。 1. 数据中心实例 当你在银行办理业务时，整个交易的流程都在银行的数据中心完成。 当你在互联网上冲浪搜索信息时，请求都悲哀搜索引擎的数据中心接收、处理和返回。">
+<meta name="keywords" content="读书笔记,云计算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《虚拟化与云计算》读书笔记">
+<meta property="og:url" content="http://yoursite.com/2017/10/13/《虚拟化与云计算》读书笔记/index.html">
+<meta property="og:site_name" content="NobiGo&#39;s blog">
+<meta property="og:description" content="目的 云计算  将各种IT资源（计算资源、存储资源、软件开发、系统测试等）以服务的形式通过互联网交付给用户。  虚拟化  实现了IT资源的逻辑抽象和统一表示，在大规模数据中心管理和解决方案交付方面发挥着巨大的作用，是支撑云计算的技术基石。 1. 数据中心实例 当你在银行办理业务时，整个交易的流程都在银行的数据中心完成。 当你在互联网上冲浪搜索信息时，请求都悲哀搜索引擎的数据中心接收、处理和返回。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/数据中心逻辑示意图.PNG">
+<meta property="og:image" content="http://yoursite.com/images/数据中心基础设施的设计和构建.PNG">
+<meta property="og:image" content="http://yoursite.com/images/数据中心风冷示意图.PNG">
+<meta property="og:image" content="http://yoursite.com/images/塔式服务器.PNG">
+<meta property="og:image" content="http://yoursite.com/images/机架式服务器.PNG">
+<meta property="og:image" content="http://yoursite.com/images/刀片服务器.PNG">
+<meta property="og:image" content="http://yoursite.com/images/包罗万象的虚拟化.PNG">
+<meta property="og:image" content="http://yoursite.com/images/系统虚拟化.PNG">
+<meta property="og:image" content="http://yoursite.com/images/服务器虚拟化.PNG">
+<meta property="og:image" content="http://yoursite.com/images/服务器虚拟化的实现方式.PNG">
+<meta property="og:image" content="http://yoursite.com/images/x86体系结构下的软件CPU虚拟化.PNG">
+<meta property="og:image" content="http://yoursite.com/images/内存虚拟化.PNG">
+<meta property="og:image" content="http://yoursite.com/images/内存虚拟化的两种方法.PNG">
+<meta property="og:image" content="http://yoursite.com/images/设备与IO虚拟化.PNG">
+<meta property="og:image" content="http://yoursite.com/images/网络接口虚拟化.PNG">
+<meta property="og:image" content="http://yoursite.com/images/实时迁移技术.PNG">
+<meta property="og:image" content="http://yoursite.com/images/虚拟化解决方案生命周期示意图.PNG">
+<meta property="og:image" content="http://yoursite.com/images/创建虚拟镜像示意图.PNG">
+<meta property="og:image" content="http://yoursite.com/images/虚拟器件结构图.PNG">
+<meta property="og:image" content="http://yoursite.com/images/虚拟器件创建流程图.PNG">
+<meta property="og:image" content="http://yoursite.com/images/OVF结构示意图.PNG">
+<meta property="og:image" content="http://yoursite.com/images/在镜像管理系统上获取虚拟器件镜像的流程.PNG">
+<meta property="og:image" content="http://yoursite.com/images/P2V示意图.PNG">
+<meta property="og:image" content="http://yoursite.com/images/部署虚拟器件流程图.PNG">
+<meta property="og:image" content="http://yoursite.com/images/自动化激活单个虚拟器件.PNG">
+<meta property="og:image" content="http://yoursite.com/images/云计算案例一.PNG">
+<meta property="og:image" content="http://yoursite.com/images/云计算案例二.PNG">
+<meta property="og:image" content="http://yoursite.com/images/云计算中的云.PNG">
+<meta property="og:image" content="http://yoursite.com/images/云计算的特征.PNG">
+<meta property="og:image" content="http://yoursite.com/images/按服务类型划分云计算.PNG">
+<meta property="og:image" content="http://yoursite.com/images/云计算的服务方式.PNG">
+<meta property="og:image" content="http://yoursite.com/images/并行计算.PNG">
+<meta property="og:image" content="http://yoursite.com/images/网格计算.PNG">
+<meta property="og:image" content="http://yoursite.com/images/效用计算.PNG">
+<meta property="og:image" content="http://yoursite.com/images/云计算产业结构中的角色.PNG">
+<meta property="og:image" content="http://yoursite.com/images/云计算产生的原动力.PNG">
+<meta property="og:image" content="http://yoursite.com/images/云架构层次示意图.PNG">
+<meta property="og:image" content="http://yoursite.com/images/负载均衡效果.PNG">
+<meta property="og:image" content="http://yoursite.com/images/传统平台和云平台解决方案.PNG">
+<meta property="og:image" content="http://yoursite.com/images/并行部署系统架构.PNG">
+<meta property="og:image" content="http://yoursite.com/images/资源调度.PNG">
+<meta property="og:image" content="http://yoursite.com/images/多租户技术.PNG">
+<meta property="og:image" content="http://yoursite.com/images/mapreduce框架的基本处理流程.PNG">
+<meta property="og:updated_time" content="2017-10-13T08:55:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《虚拟化与云计算》读书笔记">
+<meta name="twitter:description" content="目的 云计算  将各种IT资源（计算资源、存储资源、软件开发、系统测试等）以服务的形式通过互联网交付给用户。  虚拟化  实现了IT资源的逻辑抽象和统一表示，在大规模数据中心管理和解决方案交付方面发挥着巨大的作用，是支撑云计算的技术基石。 1. 数据中心实例 当你在银行办理业务时，整个交易的流程都在银行的数据中心完成。 当你在互联网上冲浪搜索信息时，请求都悲哀搜索引擎的数据中心接收、处理和返回。">
+<meta name="twitter:image" content="http://yoursite.com/images/数据中心逻辑示意图.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/13/《虚拟化与云计算》读书笔记/"/>
+
+
+
+
+
+  <title>《虚拟化与云计算》读书笔记 | NobiGo's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">NobiGo's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/13/《虚拟化与云计算》读书笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NobiGo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/雄.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NobiGo's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《虚拟化与云计算》读书笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-13T16:44:28+08:00">
+                2017-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><ul>
+<li>云计算</li>
+</ul>
+<p>将各种IT资源（计算资源、存储资源、软件开发、系统测试等）以服务的形式通过互联网交付给用户。</p>
+<ul>
+<li>虚拟化</li>
+</ul>
+<p>实现了IT资源的逻辑抽象和统一表示，在大规模数据中心管理和解决方案交付方面发挥着巨大的作用，是支撑云计算的技术基石。</p>
+<h1 id="1-数据中心"><a href="#1-数据中心" class="headerlink" title="1. 数据中心"></a>1. 数据中心</h1><h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><ol>
+<li>当你在银行办理业务时，整个交易的流程都在银行的数据中心完成。</li>
+<li>当你在互联网上冲浪搜索信息时，请求都悲哀搜索引擎的数据中心接收、处理和返回。</li>
+</ol>
+<h2 id="类比"><a href="#类比" class="headerlink" title="类比"></a>类比</h2><p>信息是血液，网络是血管，那么数据中心就是最关键的心脏，是信息世界的核心所在。</p>
+<h2 id="1-1-数据中心概述"><a href="#1-1-数据中心概述" class="headerlink" title="1.1 数据中心概述"></a>1.1 数据中心概述</h2><h3 id="总的概述"><a href="#总的概述" class="headerlink" title="总的概述"></a>总的概述</h3><p>数据中心是信息系统的中心，通过网络向企业或公众提供信息服务。</p>
+<h3 id="逻辑定义"><a href="#逻辑定义" class="headerlink" title="逻辑定义"></a>逻辑定义</h3><ul>
+<li>硬件：数据中心的基础设施</li>
+<li>软件：数据中心所安装的程序和提供的服务。</li>
+</ul>
+<p><img src="/images/数据中心逻辑示意图.PNG" alt="image"></p>
+<h2 id="1-2-数据中心的设计和构建"><a href="#1-2-数据中心的设计和构建" class="headerlink" title="1.2 数据中心的设计和构建"></a>1.2 数据中心的设计和构建</h2><h3 id="总体设计"><a href="#总体设计" class="headerlink" title="总体设计"></a>总体设计</h3><ul>
+<li>核心理念：简单、灵活、可扩展、模块化</li>
+</ul>
+<h3 id="建筑的设计和构建"><a href="#建筑的设计和构建" class="headerlink" title="建筑的设计和构建"></a>建筑的设计和构建</h3><ul>
+<li>方式：租用机房、构建新的建筑作为数据中心</li>
+</ul>
+<ol>
+<li>选址（通信、电力、地理位置）</li>
+<li>建筑要求（规模、布局、高度、室内布局）</li>
+</ol>
+<h3 id="基础设施的设计和构建"><a href="#基础设施的设计和构建" class="headerlink" title="基础设施的设计和构建"></a>基础设施的设计和构建</h3><ul>
+<li>网络（保证了服务器以及存储的互连和访问）</li>
+<li>电力（数据中心运行的动力）</li>
+<li>环境控制（合适的温度、湿度等环境）</li>
+</ul>
+<p><img src="/images/数据中心基础设施的设计和构建.PNG" alt="image"></p>
+<p><img src="/images/数据中心风冷示意图.PNG" alt="image"></p>
+<h3 id="数据中心上线"><a href="#数据中心上线" class="headerlink" title="数据中心上线"></a>数据中心上线</h3><ol>
+<li>选择服务器（塔式服务器、机架式服务器、刀片服务器）</li>
+</ol>
+<ul>
+<li><strong>塔式服务器</strong>：（和个人计算机的主机差不多）</li>
+<li>优：接口和插槽比个人计算机多，成本低</li>
+<li>缺：扩展性有限、占用空间较大</li>
+</ul>
+<p><img src="/images/塔式服务器.PNG" alt="image"></p>
+<ul>
+<li><strong>机架式服务器</strong>：（配合机柜使用的服务器）</li>
+<li>优：占用空间较小、管理方便</li>
+<li>缺：制冷要求高</li>
+</ul>
+<p><img src="/images/机架式服务器.PNG" alt="image"></p>
+<ul>
+<li><strong>刀片服务器</strong>：（在机箱上插装多个卡式的服务器单元）</li>
+<li>优：支持热插拔、减少成本、节省空间</li>
+</ul>
+<p><img src="/images/刀片服务器.PNG" alt="image"></p>
+<ol>
+<li>选择软件</li>
+</ol>
+<ul>
+<li>操作系统</li>
+<li>数据中心管理监控软件</li>
+<li>业务相关软件</li>
+</ul>
+<ol>
+<li><p>机器上架</p>
+</li>
+<li><p>软件部署</p>
+</li>
+<li><p>测试</p>
+</li>
+</ol>
+<h2 id="1-3-数据中心的管理和维护"><a href="#1-3-数据中心的管理和维护" class="headerlink" title="1.3 数据中心的管理和维护"></a>1.3 数据中心的管理和维护</h2><h3 id="硬件的管理和维护"><a href="#硬件的管理和维护" class="headerlink" title="硬件的管理和维护"></a>硬件的管理和维护</h3><h3 id="软件的管理和维护"><a href="#软件的管理和维护" class="headerlink" title="软件的管理和维护"></a>软件的管理和维护</h3><h3 id="数据的管理和维护（数据备份和恢复、数据整合、数据存档和数据挖掘等）"><a href="#数据的管理和维护（数据备份和恢复、数据整合、数据存档和数据挖掘等）" class="headerlink" title="数据的管理和维护（数据备份和恢复、数据整合、数据存档和数据挖掘等）"></a>数据的管理和维护（数据备份和恢复、数据整合、数据存档和数据挖掘等）</h3><h3 id="资源管理（负载均衡）"><a href="#资源管理（负载均衡）" class="headerlink" title="资源管理（负载均衡）"></a>资源管理（负载均衡）</h3><h3 id="安全管理"><a href="#安全管理" class="headerlink" title="安全管理"></a>安全管理</h3><h2 id="1-4-新一代的数据中心需求"><a href="#1-4-新一代的数据中心需求" class="headerlink" title="1.4 新一代的数据中心需求"></a>1.4 新一代的数据中心需求</h2><h3 id="合理规划（业务的动态性和不确定性会给数据中心的准确规划带来挑战）"><a href="#合理规划（业务的动态性和不确定性会给数据中心的准确规划带来挑战）" class="headerlink" title="合理规划（业务的动态性和不确定性会给数据中心的准确规划带来挑战）"></a>合理规划（业务的动态性和不确定性会给数据中心的准确规划带来挑战）</h3><h3 id="流程化"><a href="#流程化" class="headerlink" title="流程化"></a>流程化</h3><h3 id="可管理性（一个系统能够满足管理需求的能力以及管理该体统的便利程度）"><a href="#可管理性（一个系统能够满足管理需求的能力以及管理该体统的便利程度）" class="headerlink" title="可管理性（一个系统能够满足管理需求的能力以及管理该体统的便利程度）"></a>可管理性（一个系统能够满足管理需求的能力以及管理该体统的便利程度）</h3><ul>
+<li>完备性</li>
+<li>远程管理</li>
+<li>集成控制台</li>
+<li>快速响应</li>
+<li>可追踪性</li>
+<li>方便性</li>
+<li>自动化</li>
+</ul>
+<h3 id="可伸缩性（适应负载变化的能力）"><a href="#可伸缩性（适应负载变化的能力）" class="headerlink" title="可伸缩性（适应负载变化的能力）"></a>可伸缩性（适应负载变化的能力）</h3><h3 id="可靠性（系统执行器功能的能力）"><a href="#可靠性（系统执行器功能的能力）" class="headerlink" title="可靠性（系统执行器功能的能力）"></a>可靠性（系统执行器功能的能力）</h3><h3 id="降低成本"><a href="#降低成本" class="headerlink" title="降低成本"></a>降低成本</h3><h3 id="节能环保"><a href="#节能环保" class="headerlink" title="节能环保"></a>节能环保</h3><h1 id="2-虚拟化技术概述"><a href="#2-虚拟化技术概述" class="headerlink" title="2. 虚拟化技术概述"></a>2. 虚拟化技术概述</h1><h2 id="2-1-虚拟化定义"><a href="#2-1-虚拟化定义" class="headerlink" title="2.1 虚拟化定义"></a>2.1 虚拟化定义</h2><p>虚拟内存技术：在磁盘存储空间划分一部分作为内存的中转空间，负责存储内存中存放不下且暂时不用的数据，当程序用到这些数据时，再将他们从磁盘换入内存。</p>
+<p><strong>三层含义：</strong></p>
+<ul>
+<li>虚拟化的对象是各种各样的资源</li>
+<li>经过虚拟化后的罗技资源对用户隐藏了不必要的细节</li>
+<li>用户可以在虚拟环境中实现其在真实环境中的部分或者全部功能</li>
+</ul>
+<p>IBM定义：</p>
+<p>1） 虚拟化是资源的逻辑表示，它不受物理限制的约束</p>
+<p><img src="/images/包罗万象的虚拟化.PNG" alt="image"></p>
+<h3 id="虚拟化的常见类型："><a href="#虚拟化的常见类型：" class="headerlink" title="虚拟化的常见类型："></a>虚拟化的常见类型：</h3><ul>
+<li>基础设施虚拟化（网络虚拟化、存储虚拟化）</li>
+<li>系统虚拟化（一台物理机运行多个独立的操作系统）</li>
+</ul>
+<p><img src="/images/系统虚拟化.PNG" alt="image"></p>
+<ul>
+<li>软件虚拟化（应用虚拟化、高级语言虚拟化）</li>
+</ul>
+<h2 id="2-2-服务器虚拟化"><a href="#2-2-服务器虚拟化" class="headerlink" title="2.2 服务器虚拟化"></a>2.2 服务器虚拟化</h2><p><img src="/images/服务器虚拟化.PNG" alt="image"></p>
+<h3 id="虚拟化的典型实现"><a href="#虚拟化的典型实现" class="headerlink" title="虚拟化的典型实现"></a>虚拟化的典型实现</h3><p><img src="/images/服务器虚拟化的实现方式.PNG" alt="image"></p>
+<h3 id="虚拟化的关键特性"><a href="#虚拟化的关键特性" class="headerlink" title="虚拟化的关键特性"></a>虚拟化的关键特性</h3><ul>
+<li>多实例</li>
+<li>隔离性</li>
+<li>封装性</li>
+<li>高性能</li>
+</ul>
+<h3 id="核心技术"><a href="#核心技术" class="headerlink" title="核心技术"></a>核心技术</h3><ul>
+<li>CPU虚拟化</li>
+</ul>
+<p><img src="/images/x86体系结构下的软件CPU虚拟化.PNG" alt="image"></p>
+<ul>
+<li>内存虚拟化</li>
+</ul>
+<p><img src="/images/内存虚拟化.PNG" alt="image"></p>
+<p><img src="/images/内存虚拟化的两种方法.PNG" alt="image"></p>
+<ul>
+<li>设备与I/O虚拟化</li>
+</ul>
+<p><img src="/images/设备与IO虚拟化.PNG" alt="image"></p>
+<p><img src="/images/网络接口虚拟化.PNG" alt="image"></p>
+<ul>
+<li>虚拟机实时迁移</li>
+</ul>
+<p><img src="/images/实时迁移技术.PNG" alt="image"></p>
+<h3 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h3><ul>
+<li>把应用分为三种类型：</li>
+</ul>
+<ol>
+<li>处理器密集型</li>
+<li>内存密集型</li>
+<li>输入/输出密集型</li>
+</ol>
+<h3 id="技术优势"><a href="#技术优势" class="headerlink" title="技术优势"></a>技术优势</h3><ol>
+<li>降低运营成本</li>
+<li>提高应用兼容性</li>
+<li>加速应用部署</li>
+<li>提高服务可用性</li>
+<li>提升资源利用率</li>
+<li>动态调度资源（实时迁移）</li>
+<li>降低能源消耗（关闭利用率不高的服务器）</li>
+</ol>
+<h1 id="3-虚拟化的关键技术"><a href="#3-虚拟化的关键技术" class="headerlink" title="3. 虚拟化的关键技术"></a>3. 虚拟化的关键技术</h1><p><img src="/images/虚拟化解决方案生命周期示意图.PNG" alt="image"></p>
+<h2 id="3-1-创建虚拟化解决方案"><a href="#3-1-创建虚拟化解决方案" class="headerlink" title="3.1 创建虚拟化解决方案"></a>3.1 创建虚拟化解决方案</h2><h3 id="创建基本虚拟镜像"><a href="#创建基本虚拟镜像" class="headerlink" title="创建基本虚拟镜像"></a>创建基本虚拟镜像</h3><ul>
+<li><p>虚拟机是指通过虚拟化软件套件模拟的、具有完整硬件功能的、运行在一个隔离环境中的逻辑计算机系统。</p>
+</li>
+<li><p>虚拟镜像主要使用场景：开发和测试环境（方便使用虚拟镜像恢复到需要的状态）</p>
+</li>
+<li><p>虚拟镜像种类：停机状态下创建的镜像（磁盘数据）、运行过程中创建的镜像（磁盘数据+内存数据）</p>
+</li>
+<li><p>创建一个最基本的虚拟镜像的流程：</p>
+</li>
+</ul>
+<ol>
+<li>创建虚拟机</li>
+<li>安装操作系统</li>
+<li>关停虚拟机</li>
+</ol>
+<p><img src="/images/创建虚拟镜像示意图.PNG" alt="image"></p>
+<h4 id="创建虚拟器件镜像（主要应用：软件发布）"><a href="#创建虚拟器件镜像（主要应用：软件发布）" class="headerlink" title="创建虚拟器件镜像（主要应用：软件发布）"></a>创建虚拟器件镜像（主要应用：软件发布）</h4><p>虚拟器件包括了预安装、预配置的操作系统、中间件和应用的最小化的虚拟机。</p>
+<p><img src="/images/虚拟器件结构图.PNG" alt="image"></p>
+<p><img src="/images/虚拟器件创建流程图.PNG" alt="image"></p>
+<h4 id="发布虚拟器件镜像（统一标准：OVF）"><a href="#发布虚拟器件镜像（统一标准：OVF）" class="headerlink" title="发布虚拟器件镜像（统一标准：OVF）"></a>发布虚拟器件镜像（统一标准：OVF）</h4><p><img src="/images/OVF结构示意图.PNG" alt="image"></p>
+<h4 id="管理虚拟器件镜像"><a href="#管理虚拟器件镜像" class="headerlink" title="管理虚拟器件镜像"></a>管理虚拟器件镜像</h4><p>镜像文件管理的目标：</p>
+<ol>
+<li>快速被检索到</li>
+<li>减小公共仓库的磁盘使用量</li>
+<li>对镜像进行版本控制</li>
+</ol>
+<p>在镜像管理系统上获取虚拟器件镜像的流程：</p>
+<p><img src="/images/在镜像管理系统上获取虚拟器件镜像的流程.PNG" alt="image"></p>
+<h4 id="迁移到虚拟化环境"><a href="#迁移到虚拟化环境" class="headerlink" title="迁移到虚拟化环境"></a>迁移到虚拟化环境</h4><ul>
+<li>迁移服务存在的风险</li>
+</ul>
+<ol>
+<li>开发人员的流动性，可能已经找不到以前开发团队的相关人员</li>
+<li>服务队系统的兼容性问题</li>
+</ol>
+<p>P2V就是指物理到虚拟，它是指操作系统、应用程序和数据从物理计算机的运行环境迁移到虚拟环境中（整体性的解决方案避险了上述风险）。</p>
+<p><img src="/images/P2V示意图.PNG" alt="image"></p>
+<h2 id="3-2-部署虚拟化解决方案"><a href="#3-2-部署虚拟化解决方案" class="headerlink" title="3.2 部署虚拟化解决方案"></a>3.2 部署虚拟化解决方案</h2><h3 id="规划部署环境"><a href="#规划部署环境" class="headerlink" title="规划部署环境"></a>规划部署环境</h3><p>构建虚拟化环境的三个步骤：</p>
+<ol>
+<li>投资回报分析</li>
+<li>资源规划（计算资源、存储资源和网络资源）</li>
+<li>虚拟化平台厂商以及产品的选择</li>
+</ol>
+<h3 id="部署虚拟器件"><a href="#部署虚拟器件" class="headerlink" title="部署虚拟器件"></a>部署虚拟器件</h3><p><img src="/images/部署虚拟器件流程图.PNG" alt="image"></p>
+<h3 id="激活虚拟器件"><a href="#激活虚拟器件" class="headerlink" title="激活虚拟器件"></a>激活虚拟器件</h3><p><img src="/images/自动化激活单个虚拟器件.PNG" alt="image"></p>
+<h2 id="3-3-管理虚拟化解决方案"><a href="#3-3-管理虚拟化解决方案" class="headerlink" title="3.3 管理虚拟化解决方案"></a>3.3 管理虚拟化解决方案</h2><h3 id="集中监控"><a href="#集中监控" class="headerlink" title="集中监控"></a>集中监控</h3><ul>
+<li>功能</li>
+</ul>
+<ol>
+<li>能够集中监控数据中心的所有资源</li>
+<li>能够集中监控所有的虚拟器件上运行的解决方案和流程</li>
+</ol>
+<h3 id="快捷管理"><a href="#快捷管理" class="headerlink" title="快捷管理"></a>快捷管理</h3><ul>
+<li>管理员下达的管理指令主要针对三种类型的实体：</li>
+</ul>
+<ol>
+<li>基础设施（开关物理机、配置网络）</li>
+<li>虚拟机（开关虚拟机、调整虚拟机资源、迁移虚拟机、快照）</li>
+<li>虚拟器件内的应用、软件、解决方案</li>
+</ol>
+<h3 id="动态优化"><a href="#动态优化" class="headerlink" title="动态优化"></a>动态优化</h3><ul>
+<li>针对的问题：在虚拟化环境中，如何根据应用、服务负载的变化为其所在的虚拟机及时、有效地分配虚拟化环境中的资源，保证既不会因为资源缺乏而影响业务系统运行，也不会造成严重的资源浪费。</li>
+</ul>
+<h3 id="高效备份"><a href="#高效备份" class="headerlink" title="高效备份"></a>高效备份</h3><ul>
+<li>主流的备份机制：</li>
+</ul>
+<ol>
+<li>虚拟机上备份</li>
+<li>虚拟机外备份</li>
+</ol>
+<h1 id="5-云计算技术概述"><a href="#5-云计算技术概述" class="headerlink" title="5. 云计算技术概述"></a>5. 云计算技术概述</h1><h2 id="5-1-元计算的概念"><a href="#5-1-元计算的概念" class="headerlink" title="5.1 元计算的概念"></a>5.1 元计算的概念</h2><h3 id="走近云计算"><a href="#走近云计算" class="headerlink" title="走近云计算"></a>走近云计算</h3><ul>
+<li>相关案例</li>
+</ul>
+<p><img src="/images/云计算案例一.PNG" alt="image"></p>
+<p><img src="/images/云计算案例二.PNG" alt="image"></p>
+<h3 id="云计算的定义"><a href="#云计算的定义" class="headerlink" title="云计算的定义"></a>云计算的定义</h3><h4 id="云计算的来源"><a href="#云计算的来源" class="headerlink" title="云计算的来源"></a>云计算的来源</h4><ul>
+<li>云计算名字来源：在互联网初期，用一朵云来表示互联网，选择一个名词来表示基于互联网的新一代计算方式就选择了“云计算”</li>
+</ul>
+<p><img src="/images/云计算中的云.PNG" alt="image"></p>
+<h4 id="什么是云计算"><a href="#什么是云计算" class="headerlink" title="什么是云计算"></a>什么是云计算</h4><p>云计算是一种能够将动态伸缩的虚拟化资源通过互联网以服务的方式提供给用户的计算模式，用户不需要知道如何管理那些支持云计算的基础设施。</p>
+<h4 id="云计算的特征"><a href="#云计算的特征" class="headerlink" title="云计算的特征"></a>云计算的特征</h4><p>在云计算的定义中，有四个关键要素：</p>
+<ul>
+<li>硬件和软件都是资源</li>
+</ul>
+<p><img src="/images/云计算的特征.PNG" alt="image"></p>
+<ul>
+<li>这些资源都可以根据需要进行动态扩展和配置</li>
+<li>这些资源在物理上以分布式的共享方式存在，在最终在逻辑上以单一整体的形式呈现。</li>
+</ul>
+<h3 id="云计算的分类"><a href="#云计算的分类" class="headerlink" title="云计算的分类"></a>云计算的分类</h3><ul>
+<li>按服务类型分类</li>
+</ul>
+<ol>
+<li>基础设施云</li>
+<li>平台云</li>
+<li>应用云（为用户提供可以直接为其所用的应用）</li>
+</ol>
+<p><img src="/images/按服务类型划分云计算.PNG" alt="image"></p>
+<ul>
+<li>按服务方式分类（按照云计算提供者和使用者的所属关系为划分标准）</li>
+</ul>
+<ul>
+<li>共有云（用户共享云提供商所拥有的资源）</li>
+<li>私有云（为企业或组织锁专有的云计算换将）</li>
+<li>混合云（公有云和私有云的混合）</li>
+</ul>
+<p><img src="/images/云计算的服务方式.PNG" alt="image"></p>
+<h3 id="相关概念解析"><a href="#相关概念解析" class="headerlink" title="相关概念解析"></a>相关概念解析</h3><ul>
+<li>并行计算</li>
+</ul>
+<p><img src="/images/并行计算.PNG" alt="image"></p>
+<ul>
+<li>网格计算 </li>
+</ul>
+<p><img src="/images/网格计算.PNG" alt="image"></p>
+<ul>
+<li>效用计算</li>
+</ul>
+<p><img src="/images/效用计算.PNG" alt="image"></p>
+<h2 id="5-2-云计算的优势与带来的变革"><a href="#5-2-云计算的优势与带来的变革" class="headerlink" title="5.2 云计算的优势与带来的变革"></a>5.2 云计算的优势与带来的变革</h2><h4 id="云计算的优势"><a href="#云计算的优势" class="headerlink" title="云计算的优势"></a>云计算的优势</h4><ol>
+<li>优化产业布局（将企业原先自给自足的IT运用模式改变为由云计算提供商按需供给的模式）</li>
+<li>推进专业分工</li>
+<li>提升资源利用率（与其他应用共享这个平台提供的服务和资源）</li>
+<li>减少初期投资（云计算将代替传统的企业专有数据中心）</li>
+<li>降低管理开销（一切工作交由云平台自动完成）</li>
+</ol>
+<h4 id="云计算带来的变革"><a href="#云计算带来的变革" class="headerlink" title="云计算带来的变革"></a>云计算带来的变革</h4><p><img src="/images/云计算产业结构中的角色.PNG" alt="image"></p>
+<ol>
+<li>硬件提供商</li>
+<li>基础软件提供商（操作系统和中间件）</li>
+<li>云提供商（向下采购（或者通过咨询服务的方式建议云服务提供商和企业机构用户采购））硬件提供商以及基础软件提供商的硬件和软件产品，向上为云服务提供商构建公有云的解决方案，为企业机构用户提供构建私有云的解决方案。）</li>
+</ol>
+<ul>
+<li><ol>
+<li>具有丰富的硬件系统集成经验</li>
+</ol>
+</li>
+<li><ol>
+<li>具有丰富的软件系统集成经验（硬件是云计算的躯体，软件是云计算的灵魂）</li>
+</ol>
+</li>
+<li><ol>
+<li>具有丰富的行业背景</li>
+</ol>
+</li>
+</ul>
+<ol>
+<li>云服务提供商（提供适合市场需求的云计算环境）</li>
+<li>应用提供商（所提供的服务运行在云中，并且是以服务的方式通过互联网提供的）</li>
+<li>个人用户（从主要使用软件变为主要使用服务）</li>
+<li>企业机构用户（不必在拥有自己的数据中心，降低成本）</li>
+</ol>
+<h2 id="5-3-云计算产生的原动力"><a href="#5-3-云计算产生的原动力" class="headerlink" title="5.3 云计算产生的原动力"></a>5.3 云计算产生的原动力</h2><p><img src="/images/云计算产生的原动力.PNG" alt="image"></p>
+<h1 id="6-云架构"><a href="#6-云架构" class="headerlink" title="6. 云架构"></a>6. 云架构</h1><p>要保证所提供服务的可伸缩性、可用性和安全性</p>
+<h2 id="6-1-概述"><a href="#6-1-概述" class="headerlink" title="6.1 概述"></a>6.1 概述</h2><h3 id="云架构的基本层次"><a href="#云架构的基本层次" class="headerlink" title="云架构的基本层次"></a>云架构的基本层次</h3><p>云计算中的云分为：基础设施云、云平台和应用云</p>
+<p><img src="/images/云架构层次示意图.PNG" alt="image"></p>
+<ul>
+<li>基础设施层：经过虚拟化后的硬件资源和相关管理功能的集合。</li>
+<li>平台层：基于基础设施层和应用层之间，它是具有通用型和可复用性软件资源的集合，为云应用提供了开发、运行、管理和监控的环境。</li>
+<li>应用层：通过网络交付给用户 </li>
+</ul>
+<h3 id="云架构的服务层次"><a href="#云架构的服务层次" class="headerlink" title="云架构的服务层次"></a>云架构的服务层次</h3><ol>
+<li>基础设施即服务</li>
+</ol>
+<ul>
+<li>交付给用户的是基本的基础设施资源（存储、计算、网络）</li>
+</ul>
+<ol>
+<li>平台即服务</li>
+</ol>
+<ul>
+<li>交付给用户的是丰富的“云中间件”资源（应用容器、数据库和消息处理）</li>
+<li>面向的用户不是普通的终端用户，而是软件开发人员，他们可以充分利用这些开放的资源来开发定制化的应用。</li>
+</ul>
+<ol>
+<li>软件即服务</li>
+</ol>
+<ul>
+<li><p>交付给用户的是定制化的软件</p>
+</li>
+<li><p>特征</p>
+</li>
+<li><ol>
+<li>用户不需要在本地安装该软件的副本</li>
+</ol>
+</li>
+<li><ol>
+<li>软件通过服务的方式通过网络交付给用户</li>
+</ol>
+</li>
+<li><ol>
+<li>虽然是面向多个用户，但是每个用户都感觉是独自占有该服务</li>
+</ol>
+</li>
+</ul>
+<h2 id="6-2-基础设施层"><a href="#6-2-基础设施层" class="headerlink" title="6.2 基础设施层"></a>6.2 基础设施层</h2><h3 id="基础设施层的基本功能"><a href="#基础设施层的基本功能" class="headerlink" title="基础设施层的基本功能"></a>基础设施层的基本功能</h3><ul>
+<li>功能（总）：能够使经过虚拟化后的计算济源、存储资源和网络资源能够以基础设施即服务的方式通过网络被用户使用和管理</li>
+<li>功能（分）：</li>
+</ul>
+<ol>
+<li>资源抽象</li>
+<li>资源监控（负载管理的前提）</li>
+<li>负载管理</li>
+</ol>
+<p><img src="/images/负载均衡效果.PNG" alt="image"></p>
+<ol>
+<li>数据管理（完整性、可靠性、可管理性）</li>
+<li>资源部署（通过自动化部署流程将资源交付给上层应用的过程）</li>
+</ol>
+<ul>
+<li>动态部署应用场景：</li>
+<li><ol>
+<li>动态可伸缩性</li>
+</ol>
+</li>
+<li><ol>
+<li>故障恢复和硬件维护</li>
+</ol>
+</li>
+</ul>
+<ol>
+<li>安全管理（保证基础设施资源被合法的访问和使用）</li>
+<li>计费管理（按量计费）</li>
+</ol>
+<h3 id="平台层"><a href="#平台层" class="headerlink" title="平台层"></a>平台层</h3><h4 id="平台层的基本功能"><a href="#平台层的基本功能" class="headerlink" title="平台层的基本功能"></a>平台层的基本功能</h4><ol>
+<li>开发测试环境</li>
+</ol>
+<p><img src="/images/传统平台和云平台解决方案.PNG" alt="image"></p>
+<ol>
+<li>运行时环境（隔离性、可伸缩性和用户间隔离）</li>
+<li>运营环境</li>
+</ol>
+<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>种类：</p>
+<ol>
+<li>面向大众的标准应用</li>
+<li>为了某个领域的客户而专门开发的客户应用</li>
+<li>由第三方的独立软件开发商在云计算平台层上开发的满足用户多元化需求的应用</li>
+</ol>
+<p>特征：</p>
+<ul>
+<li>可以通过浏览器访问，或者具有开放的API，允许用户或者瘦客户端的调用</li>
+<li>用户在使用云服务时，不需要进行一次性投入，只需要在使用的过程中按照其实际的使用情况付费</li>
+<li>云应用要求高度整合</li>
+</ul>
+<h1 id="7-云计算的关键技术和挑战"><a href="#7-云计算的关键技术和挑战" class="headerlink" title="7. 云计算的关键技术和挑战"></a>7. 云计算的关键技术和挑战</h1><h2 id="7-1-云计算的关键技术"><a href="#7-1-云计算的关键技术" class="headerlink" title="7.1 云计算的关键技术"></a>7.1 云计算的关键技术</h2><h3 id="快速部署"><a href="#快速部署" class="headerlink" title="快速部署"></a>快速部署</h3><p><img src="/images/并行部署系统架构.PNG" alt="image"></p>
+<h3 id="资源调度"><a href="#资源调度" class="headerlink" title="资源调度"></a>资源调度</h3><p><img src="/images/资源调度.PNG" alt="image"></p>
+<h3 id="多租户技术"><a href="#多租户技术" class="headerlink" title="多租户技术"></a>多租户技术</h3><p><img src="/images/多租户技术.PNG" alt="image"></p>
+<h3 id="海量数据处理"><a href="#海量数据处理" class="headerlink" title="海量数据处理"></a>海量数据处理</h3><p><img src="/images/mapreduce框架的基本处理流程.PNG" alt="image"></p>
+<h3 id="大规模消息通信"><a href="#大规模消息通信" class="headerlink" title="大规模消息通信"></a>大规模消息通信</h3><h3 id="大规模分布式存储"><a href="#大规模分布式存储" class="headerlink" title="大规模分布式存储"></a>大规模分布式存储</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+          
+            <a href="/tags/云计算/" rel="tag"># 云计算</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/11/逆序字符串的最长公共子序列长度/" rel="next" title="逆序字符串的最长公共子序列长度">
+                <i class="fa fa-chevron-left"></i> 逆序字符串的最长公共子序列长度
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/雄.png"
+              alt="NobiGo" />
+          
+            <p class="site-author-name" itemprop="name">NobiGo</p>
+            <p class="site-description motion-element" itemprop="description">愿你出走半生，归来依旧少年</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目的"><span class="nav-number">1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-数据中心"><span class="nav-number">2.</span> <span class="nav-text">1. 数据中心</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">2.1.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类比"><span class="nav-number">2.2.</span> <span class="nav-text">类比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-数据中心概述"><span class="nav-number">2.3.</span> <span class="nav-text">1.1 数据中心概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总的概述"><span class="nav-number">2.3.1.</span> <span class="nav-text">总的概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑定义"><span class="nav-number">2.3.2.</span> <span class="nav-text">逻辑定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-数据中心的设计和构建"><span class="nav-number">2.4.</span> <span class="nav-text">1.2 数据中心的设计和构建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总体设计"><span class="nav-number">2.4.1.</span> <span class="nav-text">总体设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建筑的设计和构建"><span class="nav-number">2.4.2.</span> <span class="nav-text">建筑的设计和构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础设施的设计和构建"><span class="nav-number">2.4.3.</span> <span class="nav-text">基础设施的设计和构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据中心上线"><span class="nav-number">2.4.4.</span> <span class="nav-text">数据中心上线</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-数据中心的管理和维护"><span class="nav-number">2.5.</span> <span class="nav-text">1.3 数据中心的管理和维护</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件的管理和维护"><span class="nav-number">2.5.1.</span> <span class="nav-text">硬件的管理和维护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件的管理和维护"><span class="nav-number">2.5.2.</span> <span class="nav-text">软件的管理和维护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据的管理和维护（数据备份和恢复、数据整合、数据存档和数据挖掘等）"><span class="nav-number">2.5.3.</span> <span class="nav-text">数据的管理和维护（数据备份和恢复、数据整合、数据存档和数据挖掘等）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源管理（负载均衡）"><span class="nav-number">2.5.4.</span> <span class="nav-text">资源管理（负载均衡）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全管理"><span class="nav-number">2.5.5.</span> <span class="nav-text">安全管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-新一代的数据中心需求"><span class="nav-number">2.6.</span> <span class="nav-text">1.4 新一代的数据中心需求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#合理规划（业务的动态性和不确定性会给数据中心的准确规划带来挑战）"><span class="nav-number">2.6.1.</span> <span class="nav-text">合理规划（业务的动态性和不确定性会给数据中心的准确规划带来挑战）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流程化"><span class="nav-number">2.6.2.</span> <span class="nav-text">流程化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可管理性（一个系统能够满足管理需求的能力以及管理该体统的便利程度）"><span class="nav-number">2.6.3.</span> <span class="nav-text">可管理性（一个系统能够满足管理需求的能力以及管理该体统的便利程度）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可伸缩性（适应负载变化的能力）"><span class="nav-number">2.6.4.</span> <span class="nav-text">可伸缩性（适应负载变化的能力）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可靠性（系统执行器功能的能力）"><span class="nav-number">2.6.5.</span> <span class="nav-text">可靠性（系统执行器功能的能力）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#降低成本"><span class="nav-number">2.6.6.</span> <span class="nav-text">降低成本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#节能环保"><span class="nav-number">2.6.7.</span> <span class="nav-text">节能环保</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-虚拟化技术概述"><span class="nav-number">3.</span> <span class="nav-text">2. 虚拟化技术概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-虚拟化定义"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 虚拟化定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟化的常见类型："><span class="nav-number">3.1.1.</span> <span class="nav-text">虚拟化的常见类型：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-服务器虚拟化"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 服务器虚拟化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟化的典型实现"><span class="nav-number">3.2.1.</span> <span class="nav-text">虚拟化的典型实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟化的关键特性"><span class="nav-number">3.2.2.</span> <span class="nav-text">虚拟化的关键特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#核心技术"><span class="nav-number">3.2.3.</span> <span class="nav-text">核心技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能分析"><span class="nav-number">3.2.4.</span> <span class="nav-text">性能分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技术优势"><span class="nav-number">3.2.5.</span> <span class="nav-text">技术优势</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-虚拟化的关键技术"><span class="nav-number">4.</span> <span class="nav-text">3. 虚拟化的关键技术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-创建虚拟化解决方案"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 创建虚拟化解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建基本虚拟镜像"><span class="nav-number">4.1.1.</span> <span class="nav-text">创建基本虚拟镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建虚拟器件镜像（主要应用：软件发布）"><span class="nav-number">4.1.1.1.</span> <span class="nav-text">创建虚拟器件镜像（主要应用：软件发布）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#发布虚拟器件镜像（统一标准：OVF）"><span class="nav-number">4.1.1.2.</span> <span class="nav-text">发布虚拟器件镜像（统一标准：OVF）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#管理虚拟器件镜像"><span class="nav-number">4.1.1.3.</span> <span class="nav-text">管理虚拟器件镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#迁移到虚拟化环境"><span class="nav-number">4.1.1.4.</span> <span class="nav-text">迁移到虚拟化环境</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-部署虚拟化解决方案"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 部署虚拟化解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#规划部署环境"><span class="nav-number">4.2.1.</span> <span class="nav-text">规划部署环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署虚拟器件"><span class="nav-number">4.2.2.</span> <span class="nav-text">部署虚拟器件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#激活虚拟器件"><span class="nav-number">4.2.3.</span> <span class="nav-text">激活虚拟器件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-管理虚拟化解决方案"><span class="nav-number">4.3.</span> <span class="nav-text">3.3 管理虚拟化解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集中监控"><span class="nav-number">4.3.1.</span> <span class="nav-text">集中监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快捷管理"><span class="nav-number">4.3.2.</span> <span class="nav-text">快捷管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态优化"><span class="nav-number">4.3.3.</span> <span class="nav-text">动态优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高效备份"><span class="nav-number">4.3.4.</span> <span class="nav-text">高效备份</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-云计算技术概述"><span class="nav-number">5.</span> <span class="nav-text">5. 云计算技术概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-元计算的概念"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 元计算的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#走近云计算"><span class="nav-number">5.1.1.</span> <span class="nav-text">走近云计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#云计算的定义"><span class="nav-number">5.1.2.</span> <span class="nav-text">云计算的定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#云计算的来源"><span class="nav-number">5.1.2.1.</span> <span class="nav-text">云计算的来源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是云计算"><span class="nav-number">5.1.2.2.</span> <span class="nav-text">什么是云计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#云计算的特征"><span class="nav-number">5.1.2.3.</span> <span class="nav-text">云计算的特征</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#云计算的分类"><span class="nav-number">5.1.3.</span> <span class="nav-text">云计算的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关概念解析"><span class="nav-number">5.1.4.</span> <span class="nav-text">相关概念解析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-云计算的优势与带来的变革"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 云计算的优势与带来的变革</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#云计算的优势"><span class="nav-number">5.2.0.1.</span> <span class="nav-text">云计算的优势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#云计算带来的变革"><span class="nav-number">5.2.0.2.</span> <span class="nav-text">云计算带来的变革</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-云计算产生的原动力"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 云计算产生的原动力</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-云架构"><span class="nav-number">6.</span> <span class="nav-text">6. 云架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-概述"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#云架构的基本层次"><span class="nav-number">6.1.1.</span> <span class="nav-text">云架构的基本层次</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#云架构的服务层次"><span class="nav-number">6.1.2.</span> <span class="nav-text">云架构的服务层次</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-基础设施层"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 基础设施层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础设施层的基本功能"><span class="nav-number">6.2.1.</span> <span class="nav-text">基础设施层的基本功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#平台层"><span class="nav-number">6.2.2.</span> <span class="nav-text">平台层</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#平台层的基本功能"><span class="nav-number">6.2.2.1.</span> <span class="nav-text">平台层的基本功能</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用层"><span class="nav-number">6.2.3.</span> <span class="nav-text">应用层</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-云计算的关键技术和挑战"><span class="nav-number">7.</span> <span class="nav-text">7. 云计算的关键技术和挑战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-云计算的关键技术"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 云计算的关键技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#快速部署"><span class="nav-number">7.1.1.</span> <span class="nav-text">快速部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源调度"><span class="nav-number">7.1.2.</span> <span class="nav-text">资源调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多租户技术"><span class="nav-number">7.1.3.</span> <span class="nav-text">多租户技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#海量数据处理"><span class="nav-number">7.1.4.</span> <span class="nav-text">海量数据处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大规模消息通信"><span class="nav-number">7.1.5.</span> <span class="nav-text">大规模消息通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大规模分布式存储"><span class="nav-number">7.1.6.</span> <span class="nav-text">大规模分布式存储</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">NobiGo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
