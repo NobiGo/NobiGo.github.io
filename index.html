@@ -268,6 +268,207 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/05/POJO模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NobiGo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/雄.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NobiGo's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/05/POJO模式/" itemprop="url">POJO模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-05T10:49:37+08:00">
+                2017-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>什么是POJO</li>
+</ol>
+<ul>
+<li><p>POJO的名称有多种，pure old java object 、plain ordinary java object 等。</p>
+</li>
+<li><p>按照Martin Fowler的解释是“Plain Old Java Object”，从字面上翻译为“纯洁老式的java对象”，但大家都使用“简单java对象”来称呼它。</p>
+</li>
+</ul>
+<ul>
+<li>POJO的内在含义是指那些没有从任何类继承、也没有实现任何接口，更没有被其它框架侵入的java对象。</li>
+</ul>
+<ul>
+<li>POCO的概念是从java的POJO借用而来，而两者的含义是一致的，不同的仅仅是使用的语言不一样。所以POCO的解释就是“Plain Old C# Object”。</li>
+</ul>
+<ol>
+<li>为什么会有POJO？</li>
+</ol>
+<ul>
+<li>主要是Java的开发者被EJB的繁杂搞怕了，大家经过反思，又回归“纯洁老式”的JavaBean，即有无参构造函数，每个字段都有getter和setter的java类。</li>
+</ul>
+<ol>
+<li>POJO的意义</li>
+</ol>
+<ul>
+<li>POJO让开发者可专注于业务逻辑和脱离框架的单元测试。除此之外， 由于POJO并不须要继承框架的类或实现其接口，开发者能够极其灵活地搭建继承结构和建造应用。</li>
+</ul>
+<ul>
+<li><p>POJO的意义就在于它的简单而灵活性，因为它的简单和灵活，使得POJO能够任意扩展，从而胜任多个场合，也就让一个模型贯穿多个层成为现实。</p>
+</li>
+<li><p>先写一个核心POJO，然后实现业务逻辑接口和持久化接口，就成了Domain Model； UI需要使用时，就实现数据绑定接口，变成VO（View Object）。</p>
+</li>
+</ul>
+<ol>
+<li>POJO与POVO的区别</li>
+</ol>
+<ul>
+<li><p>POJO是指简单java对象（Plain Old Java Objects、pure old java object 或者 plain ordinary java object）。</p>
+</li>
+<li><p>PO是指持久对象（persistant object持久对象）。</p>
+</li>
+<li><p>VO是指值对象或者View对象（Value Object、View Object）。注意，本文的VO特指View Object。</p>
+</li>
+</ul>
+<ul>
+<li><p>持久对象实际上必须对应数据库中的entity，所以和POJO有所区别。比如说POJO是由new创建，由GC回收。但是持久对象是insert数据库创建，由数据库delete删除的。基本上持久对象生命周期和数据库密切相关。另外持久对象往往只能存在一个数据库Connection之中，Connnection关闭以后，持久对象就不存在了，而POJO只要不被GC回收，总是存在的。</p>
+</li>
+<li><p>由于存在诸多差别，因此持久对象PO(Persistent Object)在代码上肯定和POJO不同，起码PO相对于POJO会增加一些用来管理数据库entity状态的属性和方法。而ORM追求的目标就是要PO在使用上尽量和POJO一致，对于程序员来说，他们可以把PO当做POJO来用，而感觉不到PO的存在。</p>
+</li>
+</ul>
+<ol>
+<li>POJO的扩展</li>
+</ol>
+<p>POJO仅包含最简单的字段属性，没有多余的东西，它本质上就是一个普通的JavaBean。</p>
+<p>但是在POJO的基础上，能够扩展出不同的对象。</p>
+<ul>
+<li>为POJO增加了持久化的方法（Insert、Update、Delete……）之后，POJO就变成了PO。</li>
+<li>为POJO增加了数据绑定功能之后，POJO就变成了View Object，即UI Model。</li>
+<li>为POJO增加业务逻辑的方法（比如单据审核、转帐……）之后，POJO就变成了Domain Model。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/28/Spring概述/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2224,220 +2425,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/11/并发情况下HashMap出现死循环情况解析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="NobiGo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/雄.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="NobiGo's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/11/并发情况下HashMap出现死循环情况解析/" itemprop="url">并发情况下HashMap出现死循环情况解析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-11T14:58:09+08:00">
-                2017-09-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/源码/" itemprop="url" rel="index">
-                    <span itemprop="name">源码</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="并发情况下HashMap出现死循环情况解析"><a href="#并发情况下HashMap出现死循环情况解析" class="headerlink" title="并发情况下HashMap出现死循环情况解析"></a>并发情况下HashMap出现死循环情况解析</h1><h2 id="现象发生"><a href="#现象发生" class="headerlink" title="现象发生"></a>现象发生</h2><p>由于偶尔会遇到HashMap死循环造成CPU100%，重启后问题消失，隔一段时间又会反复出现。今天在这里来仔细剖析下多线程情况下HashMap所带来的问题：</p>
-<h2 id="多线程put操作后，get操作导致死循环。"><a href="#多线程put操作后，get操作导致死循环。" class="headerlink" title="多线程put操作后，get操作导致死循环。"></a>多线程put操作后，get操作导致死循环。</h2><h3 id="死循环场景重现"><a href="#死循环场景重现" class="headerlink" title="死循环场景重现"></a>死循环场景重现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public class Test extends Thread</div><div class="line">&#123;</div><div class="line">    static HashMap&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;(2);</div><div class="line">    static AtomicInteger at = new AtomicInteger();</div><div class="line">    </div><div class="line">    public void run()</div><div class="line">    &#123;</div><div class="line">        while(at.get() &lt; 100000)</div><div class="line">        &#123;</div><div class="line">            map.put(at.get(),at.get());</div><div class="line">            at.incrementAndGet();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">package dx.hashmap.com;</div><div class="line"></div><div class="line">public class Main &#123;</div><div class="line">    public static void main(String[] args)</div><div class="line">    &#123;</div><div class="line">        Test t0 = new Test();</div><div class="line">        Test t1 = new Test();</div><div class="line">        Test t2 = new Test();</div><div class="line">        Test t3 = new Test();</div><div class="line">        Test t4 = new Test();</div><div class="line">        t0.start();</div><div class="line">        t1.start();</div><div class="line">        t2.start();</div><div class="line">        t3.start();</div><div class="line">        t4.start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>反复执行几次，出现这种情况则表示死循环了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&quot;Thread-0&quot; prio=5 tid=0x00007ffec50f5800 nid=0x4b03 runnable [0x0000700001c8f000]</div><div class="line">   java.lang.Thread.State: RUNNABLE</div><div class="line">        at java.util.HashMap.transfer(HashMap.java:601)</div><div class="line">        at java.util.HashMap.resize(HashMap.java:581)</div><div class="line">        at java.util.HashMap.addEntry(HashMap.java:879)</div><div class="line">        at java.util.HashMap.put(HashMap.java:505)</div><div class="line">        at dx.hashmap.com.Test.run(Test.java:13)</div><div class="line"></div><div class="line">&quot;Service Thread&quot; daemon prio=5 tid=0x00007ffec5022000 nid=0x4703 runnable [0x0000000000000000]</div><div class="line">   java.lang.Thread.State: RUNNABLE</div></pre></td></tr></table></figure>
-<p>通过堆栈可以看到：Thread-0由于HashMap的扩容操作导致了死循环。</p>
-<h3 id="正常的扩容过程"><a href="#正常的扩容过程" class="headerlink" title="正常的扩容过程"></a>正常的扩容过程</h3><p>我们先来看下单线程情况下，正常的rehash过程</p>
-<ul>
-<li><p>1.假设我们的hash算法是简单的key mod一下表的大小（即数组的长度）。</p>
-</li>
-<li><p>2.最上面是old hash表，其中HASH表的size=2，所以key=3,5,7在mod 2 以后都冲突在table[1]这个位置上了。</p>
-</li>
-<li><p>3.接下来HASH表扩容，resize=4，然后所有的<key,value>重新进行散列分布，过程如下：</key,value></p>
-</li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620074305522-158439805.png" alt=""></p>
-<p>在单线程情况下，一切看起来都很美妙，扩容过程也相当顺利。接下来看下并发情况下的扩容。</p>
-<h3 id="并发情况下的扩容"><a href="#并发情况下的扩容" class="headerlink" title="并发情况下的扩容"></a>并发情况下的扩容</h3><ul>
-<li><p>1.首先假设我们有两个线程，分别用红色和蓝色标注了。</p>
-</li>
-<li><p>2.扩容部分的源代码：</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * Transfers all entries from current table to newTable.</div><div class="line">     */</div><div class="line">    void transfer(Entry[] newTable, boolean rehash) &#123;</div><div class="line">        int newCapacity = newTable.length;</div><div class="line">        for (Entry&lt;K,V&gt; e : table) &#123;</div><div class="line">            while(null != e) &#123;</div><div class="line">                Entry&lt;K,V&gt; next = e.next;</div><div class="line">                if (rehash) &#123;</div><div class="line">                    e.hash = null == e.key ? 0 : hash(e.key);</div><div class="line">                &#125;</div><div class="line">                int i = indexFor(e.hash, newCapacity);</div><div class="line">                e.next = newTable[i];</div><div class="line">                newTable[i] = e;</div><div class="line">                e = next;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>3.如果在线程一执行到Entry<k,v> next = e.next<br>代码就被CPU调度挂起，去执行线程2，且线程2把上面代码都执行完毕。我们来看看这个时候的状态：</k,v></li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620074911319-1507561812.png" alt=""></p>
-<ul>
-<li>4.接着CPU切换到线程一上来，继续执行代码，首先安置3这个Entry：</li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620215401225-1774760096.png" alt=""></p>
-<p>这里需要注意的是：线程二已经完成执行完成，现在table里面所有的Entry都是最新的，就是说7的next是3,3的next是null；现在第一次循环已经结束，3已经安置妥当。看看接下来会发生什么事情：</p>
-<ul>
-<li><p>1.e=next=7</p>
-</li>
-<li><p>2.e!=null,循环继续</p>
-</li>
-<li><p>3.next=e.next=3</p>
-</li>
-<li><p>4.e.next 7的next指向3</p>
-</li>
-<li><p>5.放置7这个Entry，现在如图所示：</p>
-</li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620220528615-1921197618.png" alt=""></p>
-<p>放置7之后，接着运行代码：</p>
-<ul>
-<li><ol>
-<li>e=next=3;</li>
-</ol>
-</li>
-<li><ol>
-<li>判断不为空，继续循环</li>
-</ol>
-</li>
-<li><ol>
-<li>next= e.next  这里也就是3的next 为null</li>
-</ol>
-</li>
-<li><ol>
-<li>e.next=7,就3的next指向7.</li>
-</ol>
-</li>
-<li><ol>
-<li>放置3这个Entry，此时的状态如图： </li>
-</ol>
-</li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620220921022-137089907.png" alt=""></p>
-<p>这个时候其实就出现了死循环了，3移动节点头的位置，指向7这个Entry;在这之前7的next同时也指向了3这个Entry。</p>
-<p>代码接着往下执行，e=next=null，此时条件判断会终止循环。这次扩容结束了。但是后续如果有查询（无论是查询的迭代还是扩容），都会hang死在table【3】这个位置上。现在回过来看文章开头的那个Demo，就是挂死在扩容阶段的transfer这个方法上面。</p>
-<p><strong>出现上面这种情况绝不是我要在测试环境弄一批数据专门为了演示这种问题。我们仔细思考一下就会得出这样一个结论：如果扩容前相邻的两个Entry在扩容后还是分配到相同的table位置上，就会出现死循环的BUG。在复杂的生产环境中，这种情况尽管不常见，但是可能会碰到。</strong></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2491,7 +2478,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
