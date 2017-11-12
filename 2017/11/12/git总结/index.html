@@ -79,7 +79,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="git," />
 
 
 
@@ -95,16 +95,18 @@
 
 
 
-<meta name="description" content="愿你出走半生，归来依旧少年">
-<meta property="og:type" content="website">
-<meta property="og:title" content="NobiGo&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/tags/源码/index.html">
+<meta name="description" content="git rebase冲突解决方案  在rebase过程中，也许会出现冲突，在这种情况下，git会停止rebase并会让你去解决冲突；在解决完冲突后，用“git -add”命令去更新这些内容的索引，然后，无需执行git-commit： 12git add .git rebase continue  git rebase原理  12git checkout devgit rebase -i  mas">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git总结">
+<meta property="og:url" content="http://yoursite.com/2017/11/12/git总结/index.html">
 <meta property="og:site_name" content="NobiGo&#39;s blog">
-<meta property="og:description" content="愿你出走半生，归来依旧少年">
+<meta property="og:description" content="git rebase冲突解决方案  在rebase过程中，也许会出现冲突，在这种情况下，git会停止rebase并会让你去解决冲突；在解决完冲突后，用“git -add”命令去更新这些内容的索引，然后，无需执行git-commit： 12git add .git rebase continue  git rebase原理  12git checkout devgit rebase -i  mas">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-12T15:01:30.517Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NobiGo&#39;s blog">
-<meta name="twitter:description" content="愿你出走半生，归来依旧少年">
+<meta name="twitter:title" content="git总结">
+<meta name="twitter:description" content="git rebase冲突解决方案  在rebase过程中，也许会出现冲突，在这种情况下，git会停止rebase并会让你去解决冲突；在解决完冲突后，用“git -add”命令去更新这些内容的索引，然后，无需执行git-commit： 12git add .git rebase continue  git rebase原理  12git checkout devgit rebase -i  mas">
 
 
 
@@ -134,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/源码/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/12/git总结/"/>
 
 
 
 
 
-  <title>标签: 源码 | NobiGo's blog</title>
+  <title>git总结 | NobiGo's blog</title>
   
 
 
@@ -159,7 +161,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -253,110 +255,179 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block tag">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>源码<small>标签</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/12/git总结/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="NobiGo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/雄.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NobiGo's blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2017/09/22/正确实现Java中的HashCode-一致性/" itemprop="url">
-              
-                <span itemprop="name">正确实现Java中的HashCode-一致性</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">git总结</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-22T14:19:13+08:00"
-              content="2017-09-22" >
-          09-22
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-12T22:42:32+08:00">
+                2017-11-12
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程技巧/" itemprop="url" rel="index">
+                    <span itemprop="name">编程技巧</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/09/11/图解集合：ConcurrentHashMap/" itemprop="url">
-              
-                <span itemprop="name">图解集合：ConcurrentHashMap</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-11T22:44:50+08:00"
-              content="2017-09-11" >
-          09-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/09/11/图解集合：HashMap/" itemprop="url">
-              
-                <span itemprop="name">图解集合：HashMap</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-11T16:02:51+08:00"
-              content="2017-09-11" >
-          09-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <ol>
+<li>git rebase冲突解决方案</li>
+</ol>
+<p>在rebase过程中，也许会出现冲突，在这种情况下，git会停止rebase并会让你去解决冲突；在解决完冲突后，用“git -add”命令去更新这些内容的索引，然后，无需执行git-commit：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git add .</div><div class="line">git rebase continue</div></pre></td></tr></table></figure>
+<ol>
+<li>git rebase原理</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout dev</div><div class="line">git rebase -i  master</div></pre></td></tr></table></figure>
+<p>这些命令会把dev分支中的每个提交取消掉，并且将他们保存为补丁（patch）（这些补丁放在“.git/rebase”目录中），然后把dev分支更新为最新的master分支，最后把保存的补丁应用到dev分支上。</p>
+<p>作用：主要用在从上游分支获取最新commit信息，并有机的将当前分支和上游分支进行合并。</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/05/POJO模式/" rel="next" title="POJO模式">
+                <i class="fa fa-chevron-left"></i> POJO模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -364,6 +435,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -577,6 +652,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
 
   
 
