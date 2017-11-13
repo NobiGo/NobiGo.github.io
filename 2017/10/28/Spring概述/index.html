@@ -105,7 +105,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/10/28/Spring概述/Spring框架结构.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/10/28/Spring概述/Spring框架结构.jpg">
-<meta property="og:updated_time" content="2017-10-28T06:31:24.000Z">
+<meta property="og:updated_time" content="2017-11-13T02:19:24.072Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring概述">
 <meta name="twitter:description" content="Spring是分层的Java SE／EE应用一站式的轻量级开源框架，以IOC（控制反转）和AOP（切面编程）为内核，提供了展现层Spring MVC／持久层Spring JDBC以及业务层事务管理等一站式的企业级应用技术。 理念：好的设计优于具体实现，代码应易于测试 Spring好处：   方便节藕，简化开发。（控制反转IOC） AOP编程的支持 声明式事务的支持 方便程序的测试 方便集成各种优">
@@ -379,6 +379,32 @@
 </ol>
 <img src="/2017/10/28/Spring概述/Spring框架结构.jpg" alt="Spring框架结构.jpg" title="">
 <p><img src="/2017/10/28/Spring概述/Spring框架结构.jpg" alt="框架结构"></p>
+<ol>
+<li>Spring框架结构解释</li>
+</ol>
+<ul>
+<li><p>持久层负责数据的访问和操作，Dao类被上层的业务类调用，从数据库表中加载数据并实例化领域对象，或将领域对象持久化到数据库表中</p>
+</li>
+<li><p>领域对象（实体类）：</p>
+</li>
+</ul>
+<ol>
+<li>它代表了业务的状态，切贯穿展现层／业务层／持久层</li>
+<li>使数据库操作以面向对象的方式进行</li>
+<li>注意：领域对象不一定等同于数据库表，不过对与简单的应用来说，可以使对等的</li>
+</ol>
+<h1 id="SpringBoot"><a href="#SpringBoot" class="headerlink" title="SpringBoot"></a>SpringBoot</h1><ul>
+<li>SpringBoot更像一个管家，它会在后台“智能地”整个后项目所需地第三方依赖类库和框架。因此大部分基于Spring Boot的应用仅需很少的配置就可以运行。</li>
+</ul>
+<p>特性：</p>
+<ol>
+<li>快速上手</li>
+<li>内置Tomcat和Jetty，可以独立运行</li>
+<li>提供许多基于Maven的pom配置模板来简化工程配置</li>
+<li>提供实现自动化配置的基础设施</li>
+<li>提供可以直接在生产环境中使用的功能</li>
+<li>开箱即用</li>
+</ol>
 
       
     </div>
@@ -473,8 +499,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
             <img class="site-author-image" itemprop="image"
@@ -492,7 +527,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -539,6 +574,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringBoot"><span class="nav-number">1.</span> <span class="nav-text">SpringBoot</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
