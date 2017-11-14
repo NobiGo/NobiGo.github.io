@@ -11,16 +11,16 @@
     
 
     
-    <meta name="description" content="愿你出走半生，归来依旧少年">
+    <meta name="description" content="编程实践,阅读">
 <meta property="og:type" content="website">
 <meta property="og:title" content="NobiGo&#39;s blog">
 <meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="NobiGo&#39;s blog">
-<meta property="og:description" content="愿你出走半生，归来依旧少年">
+<meta property="og:description" content="编程实践,阅读">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NobiGo&#39;s blog">
-<meta name="twitter:description" content="愿你出走半生，归来依旧少年">
+<meta name="twitter:description" content="编程实践,阅读">
 
     
     <link rel="alternative" href="/atom.xml" title="NobiGo&#39;s blog" type="application/atom+xml">
@@ -46,7 +46,7 @@
 			
 			<div id="textlogo">
 				<h1 class="site-name"><a href="/" title="NobiGo&#39;s blog">NobiGo&#39;s blog</a></h1>
-				<h2 class="blog-motto">编程实践,阅读</h2>
+				<h2 class="blog-motto">愿你出走半生，归来依旧少年</h2>
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
@@ -76,780 +76,156 @@
     <div id="container">
       <div id="main">
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/09/22/正确实现Java中的HashCode-一致性/" title="正确实现Java中的HashCode-一致性" itemprop="url">正确实现Java中的HashCode-一致性</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
-		
-  <p class="article-time">
-    <time datetime="2017-09-22T06:19:13.000Z" itemprop="datePublished"> Published 2017-09-22</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>默认情况下，用户自定义实现HashCode时，它们会使用相同的字段，但有一个细节需要考虑。</p>
-<h1 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h1><p>第一是一致性要求。它应该经过非常严格的计算。如果有字段产生了变化，哈希码也应该允许变化（对于可变类来说，这往往是不可避免的），依赖哈希的数据结构并未准备应付这种情况。</p>
-<p>正如我们所知哈希码用于确定一个元素的桶，但是如果哈希相关的字段发生变化，并不会立即重新计算哈希码，而且内部的数组也不会更新。</p>
-<p>这就意味着，再对一个相等的对象甚至同一个对象的查询会失败！这个数据结构会计算当前的哈希码，这个哈希码与实例存入时的哈希码并不相同，这直接导致找错了桶。</p>
-<p><strong>小结：最好不要用可变的字段来计算哈希码！</strong></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/SpecialNote/">SpecialNote</a>
-</div>
-
-
-  <div class="article-tags">
   
-  <span></span> <a href="/tags/源码/">源码</a><a href="/tags/数据结构/">数据结构</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/09/22/Java高并发：锁概览/" title="Java高并发：锁概览" itemprop="url">Java高并发：锁概览</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
-		
-  <p class="article-time">
-    <time datetime="2017-09-22T05:52:48.000Z" itemprop="datePublished"> Published 2017-09-22</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>在学习或者使用Java的过程中进程会遇到各种各样的锁的概念：公平锁、非公平锁、自旋锁、可重入锁、偏向锁、轻量级锁、重量级锁、读写锁、互斥锁等待。这里整理了Java中的各种锁，若有不足之处希望大家在下方留言探讨。</p>
-<h1 id="公平锁和非公平锁"><a href="#公平锁和非公平锁" class="headerlink" title="公平锁和非公平锁"></a>公平锁和非公平锁</h1><p>公平锁是指多个线程在等待同一个锁时，必须按照申请锁的先后顺序来一次获得锁。</p>
-<p>公平锁的好处是等待锁的线程不会饿死，但是整体效率相对低一些；非公平锁的好处是整体效率相对高一些，但是有些线程可能会饿死或者说很早就在等待锁，但要等很久才会获得锁。其中的原因是公平锁是严格按照请求所的顺序来排队获得锁的，而非公平锁时可以抢占的，即如果在某个时刻有线程需要获取锁，而这个时候刚好锁可用，那么这个线程会直接抢占，而这时阻塞在等待队列的线程则不会被唤醒。</p>
-<p>公平锁可以使用new ReentrantLock(true)实现。</p>
-<h1 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h1><p>Java的线程是映射到操作系统的原生线程之上的，如果要阻塞或唤醒一个线程，都需要操作系统来帮忙完成，这就需要从用户态转换到核心态中，因此状态装换需要耗费很多的处理器时间，<strong>对于代码简单的同步块（如被synchronized修饰的getter()和setter()方法），状态转换消耗的时间有可能比用户代码执行的时间还要长。</strong></p>
-<p>虚拟机的开发团队注意到在许多应用上，共享数据的锁定状态只会持续很短的一段时间，为了这段时间挂起和恢复现场并不值得。如果物理机器有一个以上的处理器，能让两个或以上的线程同时并行执行，我们就可以让后面请求锁的那个线程“稍等一下“，但不放弃处理器的执行时间，看看持有锁的线程是否很快就会释放锁。<strong>为了让线程等待，我们只需让线程执行一个忙循环（自旋），这项技术就是所谓的自旋锁。</strong></p>
-<p>自旋等待不能代替阻塞。<strong>自旋等待本身虽然避免了线程切换的开销，但它是要占用处理器时间的，因此，如果锁被占用的时间很短，自旋当代的效果就会非常好，反之，如果锁被占用的时间很长，那么自旋的线程只会拜拜浪费处理器资源。</strong>因此，自旋等待的时间必须要有一定的限度，如果自旋超过了限定次数（默认是10次，可以使用-XX:PreBlockSpin来更改）没有成功获得锁，就应当使用传统的方式去挂起线程了。</p>
-<p>自旋锁在JDK1.4.2中引入，使用-XX:+UseSpinning来开启。JDK6中已经变为默认开启，并且引入了自适应的自旋锁。自适应意味着自旋的时间不在固定了，而是由前一次在同一个锁上的自旋时间及锁的拥有者的状态来决定。</p>
-<p><strong>自旋是在轻量级锁中使用的，在重量级锁中，线程不使用自旋。</strong></p>
-<p><strong>如果在同一个锁对象上，自旋等待刚刚成功获得过锁，并且持有锁的线程正在运行中，那么虚拟机就会认为这次自旋也是很有可能再次成功，进而它将允许自旋等待持续相对更长的时间，比如100次循环。另外，如果对于某个锁，自旋很少成功获得过，那在以后要获取这个锁时将可能省略掉自旋过程，以避免浪费处理器资源。</strong></p>
-<h1 id="锁消除"><a href="#锁消除" class="headerlink" title="锁消除"></a>锁消除</h1><p>锁消除是虚拟机JIT在运行时，对一些代码上要求同步，但是被检测到不可能存在共享数据竞争的锁进行消除。锁消除的主要判断依据是来源于<strong>逃逸分析</strong>的数据支持，<strong>如果判断在一段代码中，堆上的所有数据都不会逃逸出去从而能被其他线程访问到，那就可以把他们当做栈上数据对待，认为他们是线程私有的，同步加锁自然就无需进行。</strong></p>
-<p>来看这样一个方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public String concatString(String s1, String s2, String s3)</div><div class="line">   &#123;</div><div class="line">       StringBuffer sb = new StringBuffer();</div><div class="line">       sb.append(s1);</div><div class="line">       sb.append(s2);</div><div class="line">       sb.append(s3);</div><div class="line">       return sb.toString();</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>可以知道StringBuffer(线程安全的)的append方法定义如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public synchronized StringBuffer append(StringBuffer sb) &#123;</div><div class="line">        super.append(sb);</div><div class="line">        return this;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>也就是说在append方法中涉及了同步操作。但是可以观察到sb对象它的作用域被限制在方法的内部，也就是sb对象不会“逃逸”出去，其他线程无法访问。因此，虽然这里有锁，但是可以被安全的消除，在即时编译之后，这段代码就会忽略掉所有的同步而直接执行了。</p>
-<h1 id="锁粗化"><a href="#锁粗化" class="headerlink" title="锁粗化"></a>锁粗化</h1><p>原则上，我们在编写代码的时候，总是推荐将同步块的作用范围限制的尽量小——只在共享数据的实际作用域中才进行同步，这样是为了使得需要同步的操作数量尽可能变小，如果存在锁禁止，那等待的线程也能尽快拿到锁。大部分情况下，这些都是正确的。<strong>但是，如果一些列的联系操作都是同一个对象反复加上和解锁，甚至加锁操作是出现在循环体中的，那么即使没有线程竞争，频繁地进行互斥同步操作也导致不必要的性能损耗。</strong></p>
-<p>举个案例，类似锁消除的append()方法。如果StringBuffer sb = new StringBuffer();定义在方法体之外，那么就会有线程竞争，但是每个append()操作都对同一个对象反复加锁解锁，那么虚拟机探测到有这样的情况的话，会把加锁同步的范围扩展到整个操作序列的外部，即扩展到第一个append()操作之前和最后一个append()操作之后，这样的一个锁范围扩展的操作就称之为锁粗化。</p>
-<h1 id="可重入锁"><a href="#可重入锁" class="headerlink" title="可重入锁"></a>可重入锁</h1><p>可重入锁，也叫做递归锁，指的是同一线程外层函数获得锁之后 ，内层递归函数仍然有获取该锁的代码，但不受影响。</p>
-<p>在JAVA环境下 ReentrantLock 和synchronized 都是可重入锁。可重入锁最大的作用是避免死锁。</p>
-<h2 id="类锁和对象锁"><a href="#类锁和对象锁" class="headerlink" title="类锁和对象锁"></a>类锁和对象锁</h2><p>类锁：在方法上加上static synchronized的锁，或者synchronized(xxx.class)的锁。如下代码中的method1和method2：</p>
-<p>对象锁：参考method4, method5,method6.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">public class LockStrategy</div><div class="line">&#123;</div><div class="line">    //对象</div><div class="line">    public Object object1 = new Object();</div><div class="line">    //类锁</div><div class="line">    public static synchronized void method1()&#123;&#125;</div><div class="line">    //类锁</div><div class="line">    public void method2()&#123;</div><div class="line">        synchronized(LockStrategy.class)&#123;&#125;</div><div class="line">    &#125;</div><div class="line">    //对象锁</div><div class="line">    public synchronized void method4()&#123;</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">    //对象锁</div><div class="line">    public void method5()</div><div class="line">    &#123;</div><div class="line">        synchronized(this)&#123;&#125;</div><div class="line">    &#125;</div><div class="line">    //对象锁</div><div class="line">    public void method6()</div><div class="line">    &#123;</div><div class="line">        synchronized(object1)&#123;&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>下面做一道习题来加深一下对对象锁和类锁的理解.<br>有一个类这样定义:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public class SynchronizedTest</div><div class="line">&#123;</div><div class="line">    public synchronized void method1()&#123;&#125;</div><div class="line">    public synchronized void method2()&#123;&#125;</div><div class="line">    public static synchronized void method3()&#123;&#125;</div><div class="line">    public static synchronized void method4()&#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>那么，有SynchronizedTest的两个实例a和b，对于一下的几个选项有哪些能被一个以上的线程同时访问呢？(BE)</p>
-<ul>
-<li>A. a.method1()(对象锁) vs. a.method2()(对象锁)</li>
-<li>B. a.method1()(对象锁) vs. b.method1()(对象锁)</li>
-<li>C. a.method3()(类锁) vs. b.method4()(类锁)</li>
-<li>D. a.method3()(类锁) vs. b.method3()(类锁)</li>
-<li>E. a.method1()(对象锁) vs. a.method3()(类锁)</li>
-</ul>
-<h1 id="偏向锁、轻量级锁和重量级锁"><a href="#偏向锁、轻量级锁和重量级锁" class="headerlink" title="偏向锁、轻量级锁和重量级锁"></a>偏向锁、轻量级锁和重量级锁</h1><p>synchronized的偏向锁、轻量级锁以及重量级锁是通过Java对象头实现的。博主在Java对象大小内幕浅析中提到了Java对象的内存布局分为：对象头、实例数据和对其填充，而对象头又可以分为”Mark Word”和类型指针klass。”Mark Word”是关键，默认情况下，其存储对象的HashCode、分代年龄和锁标记位。</p>
-<p>这里说的都是以HotSpot虚拟机为基准的。首先来看一下”Mark Word”的内容：</p>
-<table>
-<thead>
-<tr>
-<th>锁状态</th>
-<th>存储内容</th>
-<th>标志位</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>无锁</td>
-<td>对象的hashCode、对象分代年龄、是否是偏向锁（0）</td>
-<td>01</td>
-</tr>
-<tr>
-<td>轻量级</td>
-<td>指向栈中锁记录的指针</td>
-<td>00</td>
-</tr>
-<tr>
-<td>重量级</td>
-<td>指向互斥量（重量级锁）的指针</td>
-<td>10</td>
-</tr>
-<tr>
-<td>GC标记</td>
-<td>（空）</td>
-<td>11</td>
-</tr>
-<tr>
-<td>偏向锁</td>
-<td>偏向线程ID、偏向时间戳、对象分代年龄、是否是偏向锁（1）</td>
-<td>01</td>
-</tr>
-</tbody>
-</table>
-<p>偏向锁是JDK6中引入的一项锁优化，它的目的是消除数据在无竞争情况下的同步原语，进一步提高程序的运行性能。</p>
-<p>偏向锁会偏向于第一个获得它的线程，如果在接下来的执行过程中，该锁没有被其他的线程获取，则持有偏向锁的线程将永远不需要同步。大多数情况下，锁不仅不存在多线程竞争，而且总是由同一线程多次获得，为了让线程获得锁的代价更低而引入了偏向锁。</p>
-<p>当锁对象第一次被线程获取的时候，线程使用CAS操作把这个锁的线程ID记录再对象Mark Word之中，同时置偏向标志位1。以后该线程在进入和退出同步块时不需要进行CAS操作来加锁和解锁，只需要简单地测试一下对象头的Mark Word里是否存储着指向当前线程的偏向锁。如果测试成功，表示线程已经获得了锁。</p>
-<p>如果线程使用CAS操作时失败则表示该锁对象上存在竞争并且这个时候另外一个线程获得偏向锁的所有权。当到达全局安全点（safepoint，这个时间点上没有正在执行的字节码）时获得偏向锁的线程被挂起，膨胀为轻量级锁（涉及Monitor Record，Lock Record相关操作，这里不展开），同时被撤销偏向锁的线程继续往下执行同步代码。</p>
-<p>当有另外一个线程去尝试获取这个锁时，偏向模式就宣告结束。</p>
-<p>线程在执行同步块之前，JVM会先在当前线程的栈帧中创建用于存储锁记录(Lock Record)的空间，并将对象头中的Mard Word复制到锁记录中，官方称为Displaced Mark Word。然后线程尝试使用CAS将对象头中的Mark Word替换为指向锁记录的指针。如果成功，当前线程获得锁，如果失败，表示其他线程竞争锁，当前线程便尝试使用自旋来获取锁。如果自旋失败则锁会膨胀成重量级锁。如果自旋成功则依然处于轻量级锁的状态。</p>
-<p>轻量级锁的解锁过程也是通过CAS操作来进行的，如果对象的Mark Word仍然指向线程的锁记录，那就用CAS操作把对象当前的Mark Word和线程中赋值的Displaced Mark Word替换回来，如果替换成功，整个同步过程就完成了，如果替换失败，就说明有其他线程尝试过获取该锁，那就要在释放锁的同时，唤醒被挂起的线程。</p>
-<p>轻量级锁提升程序同步性能的依据是：对于绝大部分的锁，在整个同步周期内都是不存在竞争的（区别于偏向锁）。这是一个经验数据。如果没有竞争，轻量级锁使用CAS操作避免了使用互斥量的开销，但如果存在锁竞争，除了互斥量的开销外，还额外发生了CAS操作，因此在有竞争的情况下，轻量级锁比传统的重量级锁更慢。</p>
-<p>整个synchronized锁流程如下：</p>
-<ol>
-<li>检测Mark Word里面是不是当前线程的ID，如果是，表示当前线程处于偏向锁</li>
-<li>如果不是，则使用CAS将当前线程的ID替换Mard Word，如果成功则表示当前线程获得偏向锁，置偏向标志位1</li>
-<li>如果失败，则说明发生竞争，撤销偏向锁，进而升级为轻量级锁。</li>
-<li>当前线程使用CAS将对象头的Mark Word替换为锁记录指针，如果成功，当前线程获得锁</li>
-<li>如果失败，表示其他线程竞争锁，当前线程便尝试使用自旋来获取锁。</li>
-<li>如果自旋成功则依然处于轻量级状态。</li>
-<li>如果自旋失败，则升级为重量级锁。</li>
-</ol>
-<h1 id="悲观锁和乐观锁"><a href="#悲观锁和乐观锁" class="headerlink" title="悲观锁和乐观锁"></a>悲观锁和乐观锁</h1><p>悲观锁：假定会发生并发冲突，屏蔽一切可能违反数据完整性的操作。<br>乐观锁：假定不会发生并发冲突，只在提交操作时检测是否违反数据完整性。（使用版本号或者时间戳来配合实现）</p>
-<h1 id="共享锁和排它锁"><a href="#共享锁和排它锁" class="headerlink" title="共享锁和排它锁"></a>共享锁和排它锁</h1><p>共享锁：如果事务T对数据A加上共享锁后，则其他事务只能对A再加共享锁，不能加排它锁。获准共享锁的事务只能读数据，不能修改数据。<br>排它锁：如果事务T对数据A加上排它锁后，则其他事务不能再对A加任何类型的锁。获得排它锁的事务即能读数据又能修改数据。</p>
-<h1 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h1><p>读写锁是一个资源能够被多个读线程访问，或者被一个写线程访问但不能同时存在读线程。Java当中的读写锁通过ReentrantReadWriteLock实现。具体使用方法这里不展开。</p>
-<h1 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h1><p>所谓互斥锁就是指一次最多只能有一个线程持有的锁。在JDK中synchronized和JUC的Lock就是互斥锁。</p>
-<h1 id="无锁"><a href="#无锁" class="headerlink" title="无锁"></a>无锁</h1><p>要保证现场安全，并不是一定就要进行同步，两者没有因果关系。同步只是保证共享数据争用时的正确性的手段，如果一个方法本来就不涉及共享数据，那它自然就无须任何同步措施去保证正确性，因此会有一些代码天生就是线程安全的。</p>
-<ol>
-<li>无状态编程。无状态代码有一些共同的特征：不依赖于存储在对上的数据和公用的系统资源、用到的状态量都由参数中传入、不调用非无状态的方法等。可以参考Servlet。</li>
-<li>线程本地存储。可以参考ThreadLocal</li>
-<li>volatile</li>
-<li>CAS</li>
-<li>协程：在单线程里实现多任务的调度，并在单线程里维持多个任务间的切换。</li>
-</ol>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/高并发/">高并发</a>
-</div>
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/高并发/">高并发</a><a href="/tags/锁/">锁</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/09/22/Java高并发：ReentrantLock-重入锁-以及公平性/" title="Java高并发：ReentrantLock(重入锁)以及公平性" itemprop="url">Java高并发：ReentrantLock(重入锁)以及公平性</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
-		
-  <p class="article-time">
-    <time datetime="2017-09-22T05:47:47.000Z" itemprop="datePublished"> Published 2017-09-22</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p><strong>ReentrantLock</strong>的实现不仅可以替代隐式的synchronized关键字，而且能够提供超过关键字本身的多种功能。</p>
-<p>这里提到一个锁获取的公平性问题，如果在绝对时间上，先对锁进行获取的请求一定被先满足，那么这个锁是公平的，反之，是不公平的，也就是说等待时间最长的线程最有机会获取锁，也可以说锁的获取是有序的。ReentrantLock这个锁提供了一个构造函数，能够控制这个锁是否是公平的。</p>
-<p>而锁的名字也是说明了这个锁具备了重复进入的可能，也就是说能够让当前线程多次的进行对锁的获取操作，这样的最大次数限制是Integer.MAX_VALUE，约21亿次左右。</p>
-<p>事实上<strong>公平的锁机制往往没有非公平的效率高</strong>，因为公平的获取锁没有考虑到操作系统对线程的调度因素，这样造成JVM对于等待中的线程调度次序和操作系统对线程的调度之间的不匹配。对于锁的快速且重复的获取过程中，连续获取的概率是非常高的，而公平锁会压制这种情况，虽然公平性得以保障，但是响应比却下降了，但是并不是任何场景都是以TPS作为唯一指标的，因为公平锁能够减少“饥饿”发生的概率，等待越久的请求越是能够得到优先满足。</p>
-<p><strong>可重入锁的最大作用：避免死锁</strong></p>
-<h1 id="Java应用"><a href="#Java应用" class="headerlink" title="Java应用"></a>Java应用</h1><p>可重入锁，也叫做递归锁，指的是同一线程外层函数获得锁之后,内层递归函数仍然有获取该锁的代码，但不受影响。</p>
-<p><strong>在JAVA环境下 ReentrantLock 和synchronized 都是 可重入锁</strong></p>
-<h3 id="synchronized-Demo"><a href="#synchronized-Demo" class="headerlink" title="synchronized Demo"></a>synchronized Demo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">package dx.concurrent.reentrantlock;</div><div class="line"></div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by dx on 2017/9/12.</div><div class="line"> */</div><div class="line">public class Test1 implements Runnable &#123;</div><div class="line"></div><div class="line">    public synchronized void get() &#123;</div><div class="line">        System.out.println(Thread.currentThread().getId());</div><div class="line">        set();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public synchronized void set() &#123;</div><div class="line">        System.out.println(Thread.currentThread().getId());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void run() &#123;</div><div class="line">        get();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        Test1 ss = new Test1();</div><div class="line">        new Thread(ss).start();</div><div class="line">        new Thread(ss).start();</div><div class="line">        new Thread(ss).start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">10</div><div class="line">10</div><div class="line">12</div><div class="line">12</div><div class="line">11</div><div class="line">11</div></pre></td></tr></table></figure>
-<h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">package dx.concurrent.reentrantlock;</div><div class="line"></div><div class="line">import java.util.concurrent.locks.ReentrantLock;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by dx on 2017/9/12.</div><div class="line"> */</div><div class="line">public class Test2 implements Runnable &#123;</div><div class="line">    ReentrantLock lock = new ReentrantLock();</div><div class="line"></div><div class="line">    public void get() &#123;</div><div class="line">        lock.lock();</div><div class="line">        System.out.println(Thread.currentThread().getId());</div><div class="line">        set();</div><div class="line">        lock.unlock();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void set() &#123;</div><div class="line">        lock.lock();</div><div class="line">        System.out.println(Thread.currentThread().getId());</div><div class="line">        lock.unlock();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void run() &#123;</div><div class="line">        get();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        Test2 ss = new Test2();</div><div class="line">        new Thread(ss).start();</div><div class="line">        new Thread(ss).start();</div><div class="line">        new Thread(ss).start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="结果-1"><a href="#结果-1" class="headerlink" title="结果"></a>结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">10</div><div class="line">10</div><div class="line">12</div><div class="line">12</div><div class="line">11</div><div class="line">11</div></pre></td></tr></table></figure>
-<h1 id="实现分析"><a href="#实现分析" class="headerlink" title="实现分析"></a>实现分析</h1><p>在ReentrantLock中，对于公平和非公平的定义是通过对同步器<strong>AbstractQueuedSynchronizer</strong>的扩展加以实现的，也就是在tryAcquire的实现上做了语义的控制。</p>
-<h2 id="非公平实现语义"><a href="#非公平实现语义" class="headerlink" title="非公平实现语义"></a>非公平实现语义</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">final boolean nonfairTryAcquire(int acquires) &#123;</div><div class="line">           final Thread current = Thread.currentThread();</div><div class="line">           int c = getState();</div><div class="line">           //当前状态为初试状态，尝试设置初试状态</div><div class="line">           if (c == 0) &#123;</div><div class="line">               if (compareAndSetState(0, acquires)) &#123;</div><div class="line">                   setExclusiveOwnerThread(current);</div><div class="line">                   //如果状态设置成功后就返回</div><div class="line">                   return true;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           //如果状态被设置，且获取锁的线程又是当前线程的时候，进行状态的自增；</div><div class="line">           else if (current == getExclusiveOwnerThread()) &#123;</div><div class="line">               int nextc = c + acquires;</div><div class="line">               if (nextc &lt; 0) // overflow</div><div class="line">                   throw new Error(&quot;Maximum lock count exceeded&quot;);</div><div class="line">               setState(nextc);</div><div class="line">               return true;</div><div class="line">           &#125;</div><div class="line">           //如果未设置成功状态且当前线程不是获取锁的线程，那么返回失败。</div><div class="line">           return false;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
-<h3 id="公平的实现语义"><a href="#公平的实现语义" class="headerlink" title="公平的实现语义"></a>公平的实现语义</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">protected final boolean tryAcquire(int acquires) &#123;</div><div class="line">	final Thread current = Thread.currentThread();</div><div class="line">	int c = getState();</div><div class="line">	if (c == 0) &#123;</div><div class="line">	//判断当前线程是否有前置线程在等待</div><div class="line">		if (!hasQueuedPredecessors() &amp;&amp; compareAndSetState(0, acquires)) &#123;</div><div class="line">			setExclusiveOwnerThread(current);</div><div class="line">			return true;</div><div class="line">		&#125;</div><div class="line">	&#125; else if (current == getExclusiveOwnerThread()) &#123;</div><div class="line">		int nextc = c + acquires;</div><div class="line">		if (nextc &lt; 0)</div><div class="line">			throw new Error(&quot;Maximum lock count exceeded&quot;);</div><div class="line">		setState(nextc);</div><div class="line">		return true;</div><div class="line">	&#125;</div><div class="line">	return false;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="释放语义"><a href="#释放语义" class="headerlink" title="释放语义"></a>释放语义</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">protected final boolean tryRelease(int releases) &#123;</div><div class="line">	int c = getState() - releases;</div><div class="line">	if (Thread.currentThread() != getExclusiveOwnerThread())</div><div class="line">		throw new IllegalMonitorStateException();</div><div class="line">	boolean free = false;</div><div class="line">	if (c == 0) &#123;</div><div class="line">		free = true;</div><div class="line">		setExclusiveOwnerThread(null);</div><div class="line">	&#125;</div><div class="line">	setState(c);</div><div class="line">	return free;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上述逻辑主要主要计算了释放状态后的值，如果为0则完全释放，返回true，反之仅是设置状态，返回false。</p>
-<h2 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line">import java.util.concurrent.locks.Lock;</div><div class="line">import java.util.concurrent.locks.ReentrantLock;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by dx on 2017/9/12.</div><div class="line"> */</div><div class="line">public class ReentrantLockTest &#123;</div><div class="line">    //公平锁</div><div class="line">    private static Lock fairLock = new ReentrantLock(true);</div><div class="line">    //非公平锁</div><div class="line">    private static Lock unfairLock = new ReentrantLock();</div><div class="line"></div><div class="line">    @Test</div><div class="line">    public void fair() &#123;</div><div class="line">        System.out.println(&quot;fair version&quot;);</div><div class="line"></div><div class="line">        for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">            Thread thread = new Thread(new Job(fairLock));</div><div class="line">            //设置线程名字</div><div class="line">            thread.setName(&quot;&quot; + i);</div><div class="line">            thread.start();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        try &#123;</div><div class="line">            Thread.sleep(5000);</div><div class="line">        &#125; catch (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Test</div><div class="line">    public void unfair() &#123;</div><div class="line">        System.out.println(&quot;unfair version&quot;);</div><div class="line">        for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">            Thread thread = new Thread(new Job(unfairLock));</div><div class="line">            thread.setName(&quot;&quot; + i);</div><div class="line">            thread.start();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        try &#123;</div><div class="line">            Thread.sleep(5000);</div><div class="line">        &#125; catch (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private static class Job implements Runnable &#123;</div><div class="line">        private Lock lock;</div><div class="line">        public Job(Lock lock) &#123;</div><div class="line">            this.lock = lock;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void run() &#123;</div><div class="line">            for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">                lock.lock();</div><div class="line">                try &#123;</div><div class="line">                    System.out.println(&quot;Lock by:&quot;</div><div class="line">                            + Thread.currentThread().getName());</div><div class="line">                &#125; finally &#123;</div><div class="line">                    System.out.println(&quot;unLock by:&quot;+Thread.currentThread().getName());</div><div class="line">                    lock.unlock();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="返回结果："><a href="#返回结果：" class="headerlink" title="返回结果："></a>返回结果：</h3><ul>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">fair version</div><div class="line">Lock by:0</div><div class="line">Lock by:1</div><div class="line">Lock by:2</div><div class="line">Lock by:0</div><div class="line">Lock by:3</div><div class="line">Lock by:4</div><div class="line">Lock by:1</div><div class="line">Lock by:2</div><div class="line">Lock by:0</div><div class="line">Lock by:3</div><div class="line">Lock by:4</div><div class="line">Lock by:1</div><div class="line">Lock by:2</div><div class="line">Lock by:0</div><div class="line">Lock by:3</div><div class="line">Lock by:4</div><div class="line">Lock by:1</div><div class="line">Lock by:2</div><div class="line">Lock by:0</div><div class="line">Lock by:3</div><div class="line">Lock by:4</div><div class="line">Lock by:1</div><div class="line">Lock by:2</div><div class="line">Lock by:3</div><div class="line">Lock by:4</div></pre></td></tr></table></figure>
-</li>
-<li></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">unfair version</div><div class="line">Lock by:0</div><div class="line">Lock by:0</div><div class="line">Lock by:0</div><div class="line">Lock by:2</div><div class="line">Lock by:2</div><div class="line">Lock by:2</div><div class="line">Lock by:2</div><div class="line">Lock by:2</div><div class="line">Lock by:0</div><div class="line">Lock by:0</div><div class="line">Lock by:1</div><div class="line">Lock by:1</div><div class="line">Lock by:1</div><div class="line">Lock by:1</div><div class="line">Lock by:1</div><div class="line">Lock by:3</div><div class="line">Lock by:3</div><div class="line">Lock by:3</div><div class="line">Lock by:3</div><div class="line">Lock by:3</div><div class="line">Lock by:4</div><div class="line">Lock by:4</div><div class="line">Lock by:4</div><div class="line">Lock by:4</div><div class="line">Lock by:4</div></pre></td></tr></table></figure>
-<h3 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h3><p>仔细观察返回的结果(其中每个数字代表一个线程)，非公平的结果一个线程连续获取锁的情况非常多，而公平的结果连续获取的情况基本没有。那么在一个线程获取了锁的那一刻，究竟锁的公平性会导致锁有什么样的处理逻辑呢？<br>通过之前的同步器(AbstractQueuedSynchronizer)的介绍，在锁上是存在一个等待队列，sync队列，我们通过复写ReentrantLock的获取当前锁的sync队列，输出在ReentrantLock被获取时刻，当前的sync队列的状态。</p>
-<h2 id="测试用例2"><a href="#测试用例2" class="headerlink" title="测试用例2"></a>测试用例2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div></pre></td><td class="code"><pre><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line">import java.util.Collection;</div><div class="line">import java.util.concurrent.locks.Lock;</div><div class="line">import java.util.concurrent.locks.ReentrantLock;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by dx on 2017/9/12.</div><div class="line"> */</div><div class="line">public class ReentrantLockTest2 &#123;</div><div class="line">    private static Lock fairLock = new ReentrantLock2(true);</div><div class="line">    private static Lock unfairLock = new ReentrantLock2();</div><div class="line"></div><div class="line">    @Test</div><div class="line">    public void fair() &#123;</div><div class="line">        System.out.println(&quot;fair version&quot;);</div><div class="line">        for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">            Thread thread = new Thread(new Job(fairLock)) &#123;</div><div class="line">                public String toString() &#123;</div><div class="line">                    return getName();</div><div class="line">                &#125;</div><div class="line">            &#125;;</div><div class="line">            thread.setName(&quot;&quot; + i);</div><div class="line">            thread.start();</div><div class="line">        &#125;</div><div class="line">        // sleep 5000ms</div><div class="line">        try &#123;</div><div class="line">            Thread.sleep(5000);</div><div class="line">        &#125; catch (InterruptedException ex) &#123;</div><div class="line">            ex.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Test</div><div class="line">    public void unfair() &#123;</div><div class="line">        System.out.println(&quot;unfair version&quot;);</div><div class="line">        for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">            Thread thread = new Thread(new Job(unfairLock)) &#123;</div><div class="line">                public String toString() &#123;</div><div class="line">                    return getName();</div><div class="line">                &#125;</div><div class="line">            &#125;;</div><div class="line">            thread.setName(&quot;&quot; + i);</div><div class="line">            thread.start();</div><div class="line">        &#125;</div><div class="line">        // sleep 5000ms</div><div class="line">        try &#123;</div><div class="line">            Thread.sleep(5000);</div><div class="line">        &#125; catch (InterruptedException ex) &#123;</div><div class="line">            ex.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private static class Job implements Runnable &#123;</div><div class="line">        private Lock lock;</div><div class="line"></div><div class="line">        public Job(Lock lock) &#123;</div><div class="line">            this.lock = lock;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void run() &#123;</div><div class="line">            for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">                lock.lock();</div><div class="line">                try &#123;</div><div class="line">                    System.out.println(&quot;Lock by:&quot;</div><div class="line">                            + Thread.currentThread().getName() + &quot; and &quot;</div><div class="line">                            + ((ReentrantLock2) lock).getQueuedThreads()</div><div class="line">                            + &quot; waits.&quot;);</div><div class="line">                &#125; finally &#123;</div><div class="line">                    lock.unlock();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private static class ReentrantLock2 extends ReentrantLock &#123;</div><div class="line">        // Constructor Override</div><div class="line"></div><div class="line">        public ReentrantLock2(boolean flag) &#123;</div><div class="line">            super(flag);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        public ReentrantLock2() &#123;</div><div class="line">            super();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        private static final long serialVersionUID = 1773716895097002072L;</div><div class="line"></div><div class="line">        public Collection&lt;Thread&gt; getQueuedThreads() &#123;</div><div class="line">            return super.getQueuedThreads();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="返回结果：-1"><a href="#返回结果：-1" class="headerlink" title="返回结果："></a>返回结果：</h3><ul>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">fair version</div><div class="line">fair version</div><div class="line">Lock by:1 and [0] waits.</div><div class="line">Lock by:0 and [1, 4, 3, 2] waits.</div><div class="line">Lock by:2 and [0, 1, 4, 3] waits.</div><div class="line">Lock by:3 and [2, 0, 1, 4] waits.</div><div class="line">Lock by:4 and [3, 2, 0, 1] waits.</div><div class="line">Lock by:1 and [4, 3, 2, 0] waits.</div><div class="line">Lock by:0 and [1, 4, 3, 2] waits.</div><div class="line">Lock by:2 and [0, 1, 4, 3] waits.</div><div class="line">Lock by:3 and [2, 0, 1, 4] waits.</div><div class="line">Lock by:4 and [3, 2, 0, 1] waits.</div><div class="line">Lock by:1 and [4, 3, 2, 0] waits.</div><div class="line">Lock by:0 and [1, 4, 3, 2] waits.</div><div class="line">Lock by:2 and [0, 1, 4, 3] waits.</div><div class="line">Lock by:3 and [2, 0, 1, 4] waits.</div><div class="line">Lock by:4 and [3, 2, 0, 1] waits.</div><div class="line">Lock by:1 and [4, 3, 2, 0] waits.</div><div class="line">Lock by:0 and [1, 4, 3, 2] waits.</div><div class="line">Lock by:2 and [0, 1, 4, 3] waits.</div><div class="line">Lock by:3 and [2, 0, 1, 4] waits.</div><div class="line">Lock by:4 and [3, 2, 0, 1] waits.</div><div class="line">Lock by:1 and [4, 3, 2, 0] waits.</div><div class="line">Lock by:0 and [4, 3, 2] waits.</div><div class="line">Lock by:2 and [4, 3] waits.</div><div class="line">Lock by:3 and [4] waits.</div><div class="line">Lock by:4 and [] waits.</div></pre></td></tr></table></figure>
-</li>
-<li></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">unfair version</div><div class="line">Lock by:0 and [] waits.</div><div class="line">Lock by:0 and [] waits.</div><div class="line">Lock by:0 and [1] waits.</div><div class="line">Lock by:2 and [1] waits.</div><div class="line">Lock by:2 and [3, 1] waits.</div><div class="line">Lock by:2 and [3, 1] waits.</div><div class="line">Lock by:2 and [0, 3, 1] waits.</div><div class="line">Lock by:2 and [0, 3, 1] waits.</div><div class="line">Lock by:1 and [0, 3] waits.</div><div class="line">Lock by:1 and [4, 0, 3] waits.</div><div class="line">Lock by:1 and [4, 0, 3] waits.</div><div class="line">Lock by:1 and [4, 0, 3] waits.</div><div class="line">Lock by:1 and [4, 0, 3] waits.</div><div class="line">Lock by:3 and [4, 0] waits.</div><div class="line">Lock by:3 and [4, 0] waits.</div><div class="line">Lock by:3 and [4, 0] waits.</div><div class="line">Lock by:3 and [4, 0] waits.</div><div class="line">Lock by:3 and [4, 0] waits.</div><div class="line">Lock by:0 and [4] waits.</div><div class="line">Lock by:0 and [4] waits.</div><div class="line">Lock by:4 and [] waits.</div><div class="line">Lock by:4 and [] waits.</div><div class="line">Lock by:4 and [] waits.</div><div class="line">Lock by:4 and [] waits.</div><div class="line">Lock by:4 and [] waits.</div></pre></td></tr></table></figure>
-<h3 id="结果分析-1"><a href="#结果分析-1" class="headerlink" title="结果分析"></a>结果分析</h3><p>可以明显看出，在非公平获取的过程中，“插队”现象非常严重，后续获取锁的线程根本不顾及sync队列中等待的线程，而是能获取就获取。反观公平获取的过程，锁的获取就类似线性化的，每次都由sync队列中等待最长的线程（链表的第一个，sync队列是由尾部结点添加，当前输出的sync队列是逆序输出）获取锁。一个 hasQueuedPredecessors方法能够获得公平性的特性，这点实际上是由AbstractQueuedSynchronizer来完成的，看一下acquire方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public final void acquire(int arg) &#123;</div><div class="line">	if (!tryAcquire(arg) &amp;&amp; acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</div><div class="line">		selfInterrupt();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>可以看到，如果获取状态和在sync队列中排队是短路的判断，也就是说如果tryAcquire成功，那么是不会进入sync队列的，可以通过下图来深刻的认识公平性和AbstractQueuedSynchronizer的获取过程。<br>非公平的，或者说默认的获取方式如下图所示：</p>
-<p>对于状态的获取，可以快速的通过tryAcquire的成功，也就是黄色的Fast路线，也可以由于tryAcquire的失败，构造节点，进入sync队列中排序后再次获取。因此可以理解为Fast就是一个快速通道，当例子中的线程释放锁之后，快速的通过Fast通道再次获取锁，就算当前sync队列中有排队等待的线程也会被忽略。这种模式，可以保证进入和退出锁的吞吐量，但是sync队列中过早排队的线程会一直处于阻塞状态，造成“饥饿”场景。</p>
-<p><img src="http://ifeve.com/wp-content/uploads/2013/12/Untitled.png" alt=""></p>
-<p>而公平性锁，就是在tryAcquire的调用中顾及当前sync队列中的等待节点（废弃了Fast通道），也就是任意请求都需要按照sync队列中既有的顺序进行，先到先得。这样很好的确保了公平性，但是可以从结果中看到，吞吐量就没有非公平的锁高了。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/高并发/">高并发</a>
-</div>
-
-
-  <div class="article-tags">
+    <a href="/2017/09/22/正确实现Java中的HashCode-一致性/" title="正确实现Java中的HashCode-一致性" itemprop="url">
   
-  <span></span> <a href="/tags/高并发/">高并发</a><a href="/tags/锁/">锁</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+    <h1 itemprop="name">正确实现Java中的HashCode-一致性</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
+     
+           <p itemprop="description" >默认情况下，用户自定义实现HashCode时，它们会使用相同的字段，但有一个细节需要考虑。
+一致性第一是一致性要求。它应该经过非常严格的计算。如果有字段产生了变化，哈希码也应该允许变化（对于可变类来说，这往往是不可避免的），依赖哈希的数据结构并未准备应付这种情况。
+正如我们所知哈</p>
+        
     
-      <a href="/2017/09/11/图解集合：ConcurrentHashMap/" title="图解集合：ConcurrentHashMap" itemprop="url">图解集合：ConcurrentHashMap</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
-		
-  <p class="article-time">
-    <time datetime="2017-09-11T14:44:50.000Z" itemprop="datePublished"> Published 2017-09-11</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="ConcurrentHashMap为什么高效？"><a href="#ConcurrentHashMap为什么高效？" class="headerlink" title="ConcurrentHashMap为什么高效？"></a>ConcurrentHashMap为什么高效？</h2><p>与Hashtable不同的是,ConcurrentHashMap使用的是<strong>分段锁技术</strong>,将ConcurrentHashMap容器的数据分段存储,每一段数据分配一个Segment,当线程占用一个Segment时,其他线程可以访问其他段的数据.</p>
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
-<li><p>Segment : 可重入锁,继承ReentrantLock</p>
-</li>
-<li><p>HashEntry : 主要存储键值对,可以叫节点</p>
-</li>
-</ul>
-<p><img src="http://7xjcjk.com1.z0.glb.clouddn.com/FtGrQxW5HJkkNelqtvhXWpV-hrHo" alt="image"></p>
-<p>HashEntry结构:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">static final class HashEntry&lt;K,V&gt; &#123;</div><div class="line">        final int hash;</div><div class="line">        // key值初始化后不能改变</div><div class="line">        final K key;</div><div class="line">        //volatile保证读到的数据为最新值</div><div class="line">        volatile V value;</div><div class="line">        //volatile保证读到的数据为最新的</div><div class="line">        volatile HashEntry&lt;K,V&gt; next;</div></pre></td></tr></table></figure>
-<p>总结：</p>
-<p>ConcurrentHashMap包含一个Segment数组,每个Segment包含一个HashEntry数组,当修改HashEntry数组采用开链法处理冲突,所以它的每个HashEntry元素又是链表结构的元素。</p>
-<h2 id="基本操作源码分析"><a href="#基本操作源码分析" class="headerlink" title="基本操作源码分析"></a>基本操作源码分析</h2><h3 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h3><h4 id="HashEntry"><a href="#HashEntry" class="headerlink" title="HashEntry"></a>HashEntry</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">//HashEntry类，作为一个Segment中的节点类。HashEntry类基本不可变。</div><div class="line">   static final class HashEntry&lt;K,V&gt; &#123;</div><div class="line">        final int hash;  //hash和key都是final，保证了读操作时不用加锁</div><div class="line">        final K key;</div><div class="line">        volatile V value;//为了确保读操作能够看到最新的值，将value设置成volatile</div><div class="line">        volatile HashEntry&lt;K,V&gt; next;</div><div class="line">        //不再用final关键字，采用unsafe操作保证并发安全</div><div class="line"></div><div class="line">        HashEntry(int hash, K key, V value, HashEntry&lt;K,V&gt; next) &#123;</div><div class="line">            this.hash = hash;</div><div class="line">            this.key = key;</div><div class="line">            this.value = value;</div><div class="line">            this.next = next;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        //setNext方法可以设置该节点的next节点</div><div class="line">        final void setNext(HashEntry&lt;K,V&gt; n) &#123;</div><div class="line">            UNSAFE.putOrderedObject(this, nextOffset, n);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // Unsafe mechanics</div><div class="line">        static final sun.misc.Unsafe UNSAFE;</div><div class="line">        static final long nextOffset;</div><div class="line">        static &#123;</div><div class="line">            try &#123;</div><div class="line">                UNSAFE = sun.misc.Unsafe.getUnsafe();</div><div class="line">                Class k = HashEntry.class;</div><div class="line">                nextOffset = UNSAFE.objectFieldOffset</div><div class="line">                    (k.getDeclaredField(&quot;next&quot;));</div><div class="line">            &#125; catch (Exception e) &#123;</div><div class="line">                throw new Error(e);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h4 id="Setment"><a href="#Setment" class="headerlink" title="Setment"></a>Setment</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div></pre></td><td class="code"><pre><div class="line">//Segment类</div><div class="line">static final class Segment&lt;K,V&gt; extends ReentrantLock implements Serializable </div><div class="line">//继承ReentrantLock，说明每一个Segment都是一个锁</div><div class="line"></div><div class="line">    Segment(float lf, int threshold, HashEntry&lt;K,V&gt;[] tab) &#123;</div><div class="line">        this.loadFactor = lf;</div><div class="line">        this.threshold = threshold;</div><div class="line">        //HashEntry的数组</div><div class="line">        this.table = tab;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">// 1.put方法，将一个HashEntry放入到该Segment中，使用自旋机制，减少了加锁的可能性</div><div class="line"></div><div class="line">   final V put(K key, int hash, V value, boolean onlyIfAbsent) &#123;</div><div class="line">        HashEntry&lt;K,V&gt; node = tryLock() ? null :</div><div class="line">            scanAndLockForPut(key, hash, value); //如果加锁失败，则调用该方法</div><div class="line">        V oldValue;</div><div class="line">        try &#123;</div><div class="line">            HashEntry&lt;K,V&gt;[] tab = table;</div><div class="line">            int index = (tab.length - 1) &amp; hash; //同hashMap相同的哈希定位方式</div><div class="line">            HashEntry&lt;K,V&gt; first = entryAt(tab, index);</div><div class="line">            for (HashEntry&lt;K,V&gt; e = first;;) &#123;</div><div class="line">                if (e != null) &#123; </div><div class="line">            //若不为null，则持续查找，知道找到key和hash值相同的节点，将其value更新</div><div class="line">                    K k;</div><div class="line">                    if ((k = e.key) == key ||</div><div class="line">                        (e.hash == hash &amp;&amp; key.equals(k))) &#123;</div><div class="line">                        oldValue = e.value;</div><div class="line">                        if (!onlyIfAbsent) &#123;</div><div class="line">                            e.value = value;</div><div class="line">                            ++modCount;</div><div class="line">                        &#125;</div><div class="line">                        break;</div><div class="line">                    &#125;</div><div class="line">                    e = e.next;</div><div class="line">                &#125;</div><div class="line">                else &#123; //若头结点为null</div><div class="line">                    if (node != null) //在遍历key对应节点链时没有找到相应的节点</div><div class="line">                        node.setNext(first);</div><div class="line">                        //当前修改并不需要让其他线程知道，在锁退出时修改自然会</div><div class="line">                        //更新到内存中,可提升性能</div><div class="line">                    else</div><div class="line">                        node = new HashEntry&lt;K,V&gt;(hash, key, value, first);</div><div class="line">                    int c = count + 1;</div><div class="line">                    if (c &gt; threshold &amp;&amp; tab.length &lt; MAXIMUM_CAPACITY)</div><div class="line">                        rehash(node); //如果超过阈值，则进行rehash操作</div><div class="line">                    else</div><div class="line">                        setEntryAt(tab, index, node);</div><div class="line">                    ++modCount;</div><div class="line">                    count = c;</div><div class="line">                    //没有值，返回null</div><div class="line">                    oldValue = null;</div><div class="line">                    break;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; finally &#123;</div><div class="line">            unlock();</div><div class="line">        &#125;</div><div class="line">        return oldValue;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">// 2.scanAndLockForPut方法，该操作持续查找key对应的节点链中是否已存在该节点，如果没有找到已存在的节点，则预创建一个新节点，并且尝试n次，直到尝试次数超出限制，才真正进入等待状态，即所谓的自旋等待。</div><div class="line"></div><div class="line">    private HashEntry&lt;K,V&gt; scanAndLockForPut(K key, int hash, V value) &#123;</div><div class="line">        //根据hash值找到segment中的HashEntry节点</div><div class="line">        HashEntry&lt;K,V&gt; first = entryForHash(this, hash); //首先获取头结点</div><div class="line">        HashEntry&lt;K,V&gt; e = first;</div><div class="line">        HashEntry&lt;K,V&gt; node = null;</div><div class="line">        int retries = -1; // negative while locating node</div><div class="line">        while (!tryLock()) &#123;  //持续遍历该哈希链</div><div class="line">            HashEntry&lt;K,V&gt; f; // to recheck first below</div><div class="line">            if (retries &lt; 0) &#123;</div><div class="line">                if (e == null) &#123;</div><div class="line">                    if (node == null) //若不存在要插入的节点，则创建一个新的节点</div><div class="line">                        node = new HashEntry&lt;K,V&gt;(hash, key, value, null);</div><div class="line">                    retries = 0;</div><div class="line">                &#125;</div><div class="line">                else if (key.equals(e.key))</div><div class="line">                    retries = 0;</div><div class="line">                else</div><div class="line">                    e = e.next;</div><div class="line">            &#125;</div><div class="line">            else if (++retries &gt; MAX_SCAN_RETRIES) &#123; </div><div class="line">            //尝试次数超出限制，则进行自旋等待</div><div class="line">                lock();</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">            /*当在自旋过程中发现节点链的链头发生了变化，则更新节点链的链头，</div><div class="line">            并重置retries值为－1，重新为尝试获取锁而自旋遍历*/</div><div class="line">            else if ((retries &amp; 1) == 0 &amp;&amp;</div><div class="line">                     (f = entryForHash(this, hash)) != first) &#123;</div><div class="line">                e = first = f; // re-traverse if entry changed</div><div class="line">                retries = -1;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return node;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">// rehash方法，用于当容量超出阈值后，进行扩容操作，类似于hashMap的扩容操作</div><div class="line">    private void rehash(HashEntry&lt;K,V&gt; node) &#123;</div><div class="line">        HashEntry&lt;K,V&gt;[] oldTable = table;</div><div class="line">        int oldCapacity = oldTable.length;</div><div class="line">        int newCapacity = oldCapacity &lt;&lt; 1;</div><div class="line">        threshold = (int)(newCapacity * loadFactor);</div><div class="line">        HashEntry&lt;K,V&gt;[] newTable =</div><div class="line">            (HashEntry&lt;K,V&gt;[]) new HashEntry[newCapacity];</div><div class="line">        int sizeMask = newCapacity - 1;</div><div class="line">        for (int i = 0; i &lt; oldCapacity ; i++) &#123;</div><div class="line">            HashEntry&lt;K,V&gt; e = oldTable[i];</div><div class="line">            if (e != null) &#123;</div><div class="line">                HashEntry&lt;K,V&gt; next = e.next;</div><div class="line">                int idx = e.hash &amp; sizeMask;</div><div class="line">                if (next == null)   //  Single node on list</div><div class="line">                    newTable[idx] = e;</div><div class="line">                else &#123; // Reuse consecutive sequence at same slot</div><div class="line">                    HashEntry&lt;K,V&gt; lastRun = e;</div><div class="line">                    int lastIdx = idx;</div><div class="line">                    for (HashEntry&lt;K,V&gt; last = next;</div><div class="line">                         last != null;</div><div class="line">                         last = last.next) &#123;</div><div class="line">                        int k = last.hash &amp; sizeMask; //判断添加到哪个链表中去</div><div class="line">                        if (k != lastIdx) &#123;</div><div class="line">                            lastIdx = k;</div><div class="line">                            lastRun = last;</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                    newTable[lastIdx] = lastRun;</div><div class="line">                    // Clone remaining nodes</div><div class="line">                    for (HashEntry&lt;K,V&gt; p = e; p != lastRun; p = p.next) &#123;</div><div class="line">                        V v = p.value;</div><div class="line">                        int h = p.hash;</div><div class="line">                        int k = h &amp; sizeMask;</div><div class="line">                        HashEntry&lt;K,V&gt; n = newTable[k];</div><div class="line">                        newTable[k] = new HashEntry&lt;K,V&gt;(h, p.key, v, n);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        int nodeIndex = node.hash &amp; sizeMask; // add the new node</div><div class="line">        node.setNext(newTable[nodeIndex]);</div><div class="line">        newTable[nodeIndex] = node;</div><div class="line">        table = newTable;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">// remove方法，用于移除某个节点，返回移除的节点值</div><div class="line">    final V remove(Object key, int hash, Object value) &#123;</div><div class="line">        if (!tryLock())</div><div class="line">            scanAndLock(key, hash);</div><div class="line">        V oldValue = null;</div><div class="line">        try &#123;</div><div class="line">            HashEntry&lt;K,V&gt;[] tab = table;</div><div class="line">            int index = (tab.length - 1) &amp; hash; </div><div class="line">            //根据这种哈希定位方式来定位对应的HashEntry</div><div class="line">            HashEntry&lt;K,V&gt; e = entryAt(tab, index); </div><div class="line">            HashEntry&lt;K,V&gt; pred = null;</div><div class="line">            while (e != null) &#123;</div><div class="line">                K k;</div><div class="line">                HashEntry&lt;K,V&gt; next = e.next;</div><div class="line">                if ((k = e.key) == key ||</div><div class="line">                    (e.hash == hash &amp;&amp; key.equals(k))) &#123;</div><div class="line">                    V v = e.value;</div><div class="line">                    if (value == null || value == v || value.equals(v)) &#123;</div><div class="line">                        if (pred == null)</div><div class="line">                            setEntryAt(tab, index, next);</div><div class="line">                        else</div><div class="line">                            pred.setNext(next);</div><div class="line">                        ++modCount;</div><div class="line">                        --count;</div><div class="line">                        oldValue = v;</div><div class="line">                    &#125;</div><div class="line">                    break;</div><div class="line">                &#125;</div><div class="line">                pred = e;</div><div class="line">                e = next;</div><div class="line">            &#125;</div><div class="line">        &#125; finally &#123;</div><div class="line">            unlock();</div><div class="line">        &#125;</div><div class="line">        return oldValue;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">// clear方法，要首先对整个segment加锁，然后将每一个HashEntry都设置为null</div><div class="line">    final void clear() &#123;</div><div class="line">        lock();</div><div class="line">        try &#123;</div><div class="line">            HashEntry&lt;K,V&gt;[] tab = table;</div><div class="line">            for (int i = 0; i &lt; tab.length ; i++)</div><div class="line">                setEntryAt(tab, i, null);</div><div class="line">            ++modCount;</div><div class="line">            count = 0;</div><div class="line">        &#125; finally &#123;</div><div class="line">            unlock();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">public ConcurrentHashMap(int initialCapacity,</div><div class="line">                             float loadFactor, int concurrencyLevel) &#123;</div><div class="line">        //处理异常情况</div><div class="line">        if (!(loadFactor &gt; 0) || initialCapacity &lt; 0 || concurrencyLevel &lt;= 0)</div><div class="line">            throw new IllegalArgumentException();</div><div class="line">        //判断并发级别是否大于最大并发级别（最大的并发等级不能超过MAX_SEGMENTS 1&lt;&lt;16(也就是1的二进制向左移16位,65536)）</div><div class="line">        if (concurrencyLevel &gt; MAX_SEGMENTS)</div><div class="line">            concurrencyLevel = MAX_SEGMENTS;</div><div class="line">        int sshift = 0;</div><div class="line">        int ssize = 1;</div><div class="line">        //取得大于数值最小的2的整数倍值</div><div class="line">        while (ssize &lt; concurrencyLevel) &#123;</div><div class="line">            ++sshift;</div><div class="line">            ssize &lt;&lt;= 1;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        //向左移动的位数</div><div class="line">        this.segmentShift = 32 - sshift;  //3定位segment</div><div class="line">        //达到最后取余的情况下（其余为正好全为11），正好是&amp;的结果</div><div class="line">        this.segmentMask = ssize - 1;   //4定位segment</div><div class="line">        if (initialCapacity &gt; MAXIMUM_CAPACITY)</div><div class="line">            initialCapacity = MAXIMUM_CAPACITY;</div><div class="line">        //c代表平均每个元素的多少（不足时，全+1）</div><div class="line">        int c = initialCapacity / ssize;</div><div class="line">        if (c * ssize &lt; initialCapacity)</div><div class="line">            ++c;</div><div class="line">        //最小HashEntry表的数量</div><div class="line">        int cap = MIN_SEGMENT_TABLE_CAPACITY;</div><div class="line">        while (cap &lt; c)</div><div class="line">            cap &lt;&lt;= 1;</div><div class="line">        </div><div class="line">        //segment初始化</div><div class="line">        Segment&lt;K,V&gt; s0 =</div><div class="line">            new Segment&lt;K,V&gt;(loadFactor, (int)(cap * loadFactor),(HashEntry&lt;K,V&gt;[])new HashEntry[cap]);//初始化每个segment的长度</div><div class="line">        </div><div class="line">        Segment&lt;K,V&gt;[] ss = (Segment&lt;K,V&gt;[])new Segment[ssize]; //初始化segment数组</div><div class="line">        UNSAFE.putOrderedObject(ss, SBASE, s0); </div><div class="line">        this.segments = ss;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h3 id="查找数据操作"><a href="#查找数据操作" class="headerlink" title="查找数据操作"></a>查找数据操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">public V get(Object key) &#123;</div><div class="line">        Segment&lt;K,V&gt; s; </div><div class="line">        HashEntry&lt;K,V&gt;[] tab;</div><div class="line">        //根据key的值计算hash值</div><div class="line">        int h = hash(key);</div><div class="line">        //获得segment的index</div><div class="line">        long u = (((h &gt;&gt;&gt; segmentShift) &amp; segmentMask) &lt;&lt; SSHIFT) + SBASE;</div><div class="line">        if ((s = (Segment&lt;K,V&gt;)UNSAFE.getObjectVolatile(segments, u)) != null &amp;&amp;  //通过hash值定位segment中对应的HashEntry 遍历HashEntry,如果key存在,返回key对应的value 如果不存在则返回null</div><div class="line">            (tab = s.table) != null) &#123;</div><div class="line">            for (HashEntry&lt;K,V&gt; e = (HashEntry&lt;K,V&gt;) UNSAFE.getObjectVolatile</div><div class="line">                     (tab, ((long)(((tab.length - 1) &amp; h)) &lt;&lt; TSHIFT) + TBASE);</div><div class="line">                 e != null; e = e.next) &#123;</div><div class="line">                K k;</div><div class="line">                if ((k = e.key) == key || (e.hash == h &amp;&amp; key.equals(k)))</div><div class="line">                    return e.value;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return null;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h2 id="插入数据操作"><a href="#插入数据操作" class="headerlink" title="插入数据操作"></a>插入数据操作</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public V put(K key, V value) &#123;</div><div class="line">        Segment&lt;K,V&gt; s;</div><div class="line">        //键和值都不能为空</div><div class="line">        if (value == null)</div><div class="line">            throw new NullPointerException();</div><div class="line">        //计算key的hash值</div><div class="line">        int hash = hash(key);</div><div class="line">        //获得key所属的segemngt</div><div class="line">        int j = (hash &gt;&gt;&gt; segmentShift) &amp; segmentMask;</div><div class="line">        if ((s = (Segment&lt;K,V&gt;)UNSAFE.getObject          </div><div class="line">             (segments, (j &lt;&lt; SSHIFT) + SBASE)) == null)</div><div class="line">            //初试化segment（懒加载模式）</div><div class="line">            s = ensureSegment(j);</div><div class="line">        return s.put(key, hash, value, false);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>segment的put方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">final V put(K key, int hash, V value, boolean onlyIfAbsent) &#123;</div><div class="line">//获取锁，保证线程安全</div><div class="line">            HashEntry&lt;K,V&gt; node = tryLock() ? null :</div><div class="line">                scanAndLockForPut(key, hash, value);</div><div class="line">            V oldValue;</div><div class="line">            try &#123;</div><div class="line">                HashEntry&lt;K,V&gt;[] tab = table;</div><div class="line">                </div><div class="line">                int index = (tab.length - 1) &amp; hash;</div><div class="line">                HashEntry&lt;K,V&gt; first = entryAt(tab, index);  //定位到具体的HashEntry</div><div class="line">                for (HashEntry&lt;K,V&gt; e = first;;) &#123; //3</div><div class="line">                    if (e != null) &#123;</div><div class="line">                        K k;</div><div class="line">                        if ((k = e.key) == key ||</div><div class="line">                            (e.hash == hash &amp;&amp; key.equals(k))) &#123;</div><div class="line">                            oldValue = e.value;</div><div class="line">                            //覆盖旧值</div><div class="line">                            if (!onlyIfAbsent) &#123;</div><div class="line">                                e.value = value;</div><div class="line">                                ++modCount;</div><div class="line">                            &#125;</div><div class="line">                            break;</div><div class="line">                        &#125;</div><div class="line">                        e = e.next;</div><div class="line">                    &#125;</div><div class="line">                    else &#123;</div><div class="line">                        if (node != null)</div><div class="line">                            node.setNext(first);</div><div class="line">                        else</div><div class="line">                            node = new HashEntry&lt;K,V&gt;(hash, key, value, first);</div><div class="line">                        int c = count + 1;</div><div class="line">                        if (c &gt; threshold &amp;&amp; tab.length &lt; MAXIMUM_CAPACITY)</div><div class="line">                            rehash(node);</div><div class="line">                        else</div><div class="line">                            setEntryAt(tab, index, node);</div><div class="line">                        ++modCount;</div><div class="line">                        count = c;</div><div class="line">                        oldValue = null;</div><div class="line">                        break;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125; finally &#123;</div><div class="line">            //释放锁</div><div class="line">                unlock();</div><div class="line">            &#125;</div><div class="line">            //返回旧值</div><div class="line">            return oldValue;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
-<h2 id="获取大小"><a href="#获取大小" class="headerlink" title="获取大小"></a>获取大小</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">public int size() &#123;</div><div class="line">        final Segment&lt;K,V&gt;[] segments = this.segments;</div><div class="line">        int size;</div><div class="line">        boolean overflow; </div><div class="line">        long sum;         </div><div class="line">        long last = 0L;   </div><div class="line">        int retries = -1; </div><div class="line">        try &#123;</div><div class="line">            for (;;) &#123;</div><div class="line">            //RETRIES_BEFORE_LOCK为不变常量2 尝试两次不锁住Segment的方式来统计每个Segment的大小,如果在统计的过程中Segment的count发生变化,这时候再加锁统计Segment的count</div><div class="line">                if (retries++ == RETRIES_BEFORE_LOCK) &#123;  //加锁</div><div class="line">                    for (int j = 0; j &lt; segments.length; ++j)</div><div class="line">                        ensureSegment(j).lock(); </div><div class="line">                &#125;</div><div class="line">                sum = 0L;</div><div class="line">                size = 0;</div><div class="line">                overflow = false;</div><div class="line">                for (int j = 0; j &lt; segments.length; ++j) &#123;</div><div class="line">                    Segment&lt;K,V&gt; seg = segmentAt(segments, j);</div><div class="line">                    if (seg != null) &#123;</div><div class="line">                        sum += seg.modCount;  //2</div><div class="line">                        int c = seg.count;</div><div class="line">                        if (c &lt; 0 || (size += c) &lt; 0)</div><div class="line">                            overflow = true;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                if (sum == last)</div><div class="line">                    break;</div><div class="line">                last = sum;</div><div class="line">            &#125;</div><div class="line">        &#125; finally &#123;</div><div class="line">            if (retries &gt; RETRIES_BEFORE_LOCK) &#123;</div><div class="line">                for (int j = 0; j &lt; segments.length; ++j)</div><div class="line">                    segmentAt(segments, j).unlock();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return overflow ? Integer.MAX_VALUE : size;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h1 id="弱一致性体现"><a href="#弱一致性体现" class="headerlink" title="弱一致性体现"></a>弱一致性体现</h1><p>get与containsKey两个方法几乎完全一致：他们都没有使用锁，而是通过Unsafe对象的getObjectVolatile()方法提供的原子读语义，来获得Segment以及对应的链表，然后对链表遍历判断是否存在key相同的节点以及获得该节点的value。但由于遍历过程中其他线程可能对链表结构做了调整，因此get和containsKey返回的可能是过时的数据，这一点是ConcurrentHashMap在弱一致性上的体现。如果要求强一致性，那么必须使用Collections.synchronizedMap()方法。</p>
-<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1><ul>
-<li>ConcurrentHashMap中的key和value值都不能为null，HashMap中key可以为null，HashTable中key不能为null。</li>
-<li>ConcurrentHashMap是线程安全的类并不能保证使用了ConcurrentHashMap的操作都是线程安全的！</li>
-<li>ConcurrentHashMap的get操作不需要加锁，put操作需要加锁 - put和get都只关心一个segment里面的hash操作质量也是很高的，如果hash后都存放在同一个segment中，那么使用这个类的意义就不会很大.</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/源码/">源码</a>
-</div>
+    <time datetime="2017-09-22T06:19:13.000Z" itemprop="datePublished">2017-09-22</time>
+  </a>
+</section>
 
 
-  <div class="article-tags">
+
+
+
+
   
-  <span></span> <a href="/tags/集合/">集合</a><a href="/tags/源码/">源码</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/09/11/图解集合：HashMap/" title="图解集合：HashMap" itemprop="url">图解集合：HashMap</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
-		
-  <p class="article-time">
-    <time datetime="2017-09-11T08:02:51.000Z" itemprop="datePublished"> Published 2017-09-11</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="初识HashMap"><a href="#初识HashMap" class="headerlink" title="初识HashMap"></a>初识HashMap</h1><p>之前的List，讲了ArrayList、LinkedList，最后讲到CopyOnWriteArrayList，就前两者而言，反映的是两种思想：</p>
-<ol>
-<li>ArrayList以数组形式实现，顺序插入、查找快，插入、删除较慢</li>
-<li>LinkedList以双向链表形式实现，顺序插入、查找较慢，插入、删除方便</li>
-</ol>
-<p>那么是否有一种数据结构能够结合上面两种的优点呢？有，答案就是HashMap。</p>
-<p>HashMap是一种非常常见、方便和有用的集合，是一种键值对（K-V）形式的存储结构，下面将还是用图示的方式解读HashMap的实现原理。</p>
-<h1 id="四个关注点在HashMap上的答案"><a href="#四个关注点在HashMap上的答案" class="headerlink" title="四个关注点在HashMap上的答案"></a>四个关注点在HashMap上的答案</h1><p><img src="http://img.blog.csdn.net/20170619205256171?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRfZHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<h1 id="添加数据"><a href="#添加数据" class="headerlink" title="添加数据"></a>添加数据</h1><p>首先看一下HashMap的一个存储单元Entry：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">static class Entry&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; &#123;</div><div class="line">    final K key;</div><div class="line">    V value;</div><div class="line">    Entry&lt;K,V&gt; next;</div><div class="line">    int hash;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>之前一篇写LinkedList的文章，里面写到LinkedList是一个双向链表，从HashMap的Entry看得出，Entry组成的是一个单向链表，因为里面只有Entry的后继Entry，而没有Entry的前驱Entry。用图表示应该是这么一个数据结构：</p>
-<p><img src="http://img.blog.csdn.net/20170619205358656?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRfZHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>接下来，假设我有这么一段代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args)</div><div class="line">&#123;</div><div class="line">     Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();</div><div class="line">     map.put(&quot;111&quot;, &quot;111&quot;);</div><div class="line">     map.put(&quot;222&quot;, &quot;222&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>看一下做了什么。首先从第3行开始，new了一个HashMap出来：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public HashMap() &#123;</div><div class="line">     this.loadFactor = DEFAULT_LOAD_FACTOR;</div><div class="line">     threshold = (int)(DEFAULT_INITIAL_CAPACITY * DEFAULT_LOAD_FACTOR);</div><div class="line">     table = new Entry[DEFAULT_INITIAL_CAPACITY];</div><div class="line">     init();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>注意一下第5行的init()是个空方法，它是HashMap的子类比如LinkedHashMap构造的时候使用的。loadFactor译为装载因子。装载因子用来衡量HashMap满的程度。loadFactor的默认值为0.75f。计算HashMap的实时装载因子的方法为元素的数量去除以capacity。DEFAULT_INITIAL_CAPACITY为16，也就是说，HashMap在new的时候构造出了一个大小为16的Entry数组，Entry内所有数据都取默认值，如图示为：</p>
-<p><img src="http://img.blog.csdn.net/20170619205636003?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRfZHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>看到new出了一个大小为16的Entry数组来。接着第4行，put了一个Key和Value同为111的字符串，看一下put的时候底层做了什么：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">public V put(K key, V value) &#123;</div><div class="line">    if (key == null)</div><div class="line">        return putForNullKey(value);</div><div class="line">    int hash = hash(key.hashCode());</div><div class="line">    int i = indexFor(hash, table.length);</div><div class="line">   //看是否存在相同的数据，当存在时，进行值覆盖</div><div class="line">    for (Entry&lt;K,V&gt; e = table[i]; e != null; e = e.next) &#123;</div><div class="line">       Object k;</div><div class="line">        if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) &#123;</div><div class="line">            V oldValue = e.value;</div><div class="line">            e.value = value;</div><div class="line">            e.recordAccess(this);</div><div class="line">            return oldValue;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">  //为了记录改变数据的操作的次数，在遍历Map时，会使用到modCount记录是否在遍历过程中是否modCount发生了改变。</div><div class="line">    modCount++;</div><div class="line">    addEntry(hash, key, value, i);</div><div class="line">    return null;</div><div class="line">&#125;</div><div class="line"></div><div class="line">static int hash(int h) &#123;</div><div class="line">    // This function ensures that hashCodes that differ only by</div><div class="line">    // constant multiples at each bit position have a bounded</div><div class="line">    // number of collisions (approximately 8 at default load factor).</div><div class="line">    h ^= (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12);</div><div class="line">    return h ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);</div><div class="line">&#125;</div><div class="line"></div><div class="line">static int indexFor(int h, int length) &#123;</div><div class="line">     return h &amp; (length-1);</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<p>看一下put方法的几个步骤：</p>
-<ol>
-<li>第2行~第3行就是HashMap允许Key值为空的原因，空的Key会默认放在第0位的数组位置上</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">private V putForNullKey(V value) &#123;</div><div class="line">//判断索引为0处的元素是否为空，若为空，则进行添加，若不为空，则对元素进行覆盖</div><div class="line">    for (Entry&lt;K,V&gt; e = table[0]; e != null; e = e.next) &#123;</div><div class="line">        if (e.key == null) &#123;</div><div class="line">            V oldValue = e.value;</div><div class="line">            e.value = value;</div><div class="line">            //为hashMap的子类提供，在hashMap中此方法为空</div><div class="line">            e.recordAccess(this);</div><div class="line">            return oldValue;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    modCount++;</div><div class="line">    addEntry(0, null, value, 0);</div><div class="line">    return null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ol>
-<li><p>第4行拿到Key值的HashCode，由于HashCode是Object的方法，因此每个对象都有一个HashCode，对这个HashCode做一次hash计算。按照JDK源码注释的说法，这次hash的作用是根据给定的HashCode对它做一次打乱的操作，防止一些糟糕的Hash算法产生的糟糕的Hash值，至于为什么要防止糟糕的Hash值，HashMap添加元素的最后会讲到。</p>
-</li>
-<li><p>第5行根据重新计算的HashCode，对Entry数组的大小取模得到一个Entry数组的位置。看到这里使用了&amp;，移位加快一点代码运行效率。另外，这个取模操作的正确性依赖于length必须是2的N次幂，这个熟悉二进制的朋友一定理解，因此注意HashMap构造函数中，如果你指定HashMap初始数组的大小initialCapacity，如果initialCapacity不是2的N次幂，HashMap会算出大于initialCapacity的最小2的N次幂的值，作为Entry数组的初始化大小。这里为了讲解方便，我们假定字符串111和字符串222算出来的i都是1<br>这段代码保证初始化时 HashMap 的容量总是 2 的 n 次方，即底层数组的长度总是为 2 的 n 次方。当 length 总是 2 的 n 次方时，h&amp; (length-1)运算等价于对 length 取模，也就是 h%length，但是 &amp; 比 % 具有更高的效率。这看上去很简单，其实比较有玄机的，我们举个例子来说明：<br>假设数组长度分别为 15 和 16，优化后的 hash 码分别为 8 和 9，那么 &amp; 运算后的结果如下：</p>
-</li>
-</ol>
-<p><img src="http://img.blog.csdn.net/20170619213553681?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRfZHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>从上面的例子中可以看出：当它们和 15-1（1110）“与”的时候，产生了相同的结果，也就是说它们会定位到数组中的同一个位置上去，这就产生了碰撞，8 和 9 会被放到数组中的同一个位置上形成链表，那么查询的时候就需要遍历这个链表，得到8或者9，这样就降低了查询的效率。同时，我们也可以发现，当数组长度为 15 的时候，hash 值会与 15-1（1110）进行“与”，那么最后一位永远是 0，而 0001，0011，0101，1001，1011，0111，1101 这几个位置永远都不能存放元素了，空间浪费相当大，更糟的是这种情况中，数组可以使用的位置比数组长度小了很多，这意味着进一步增加了碰撞的几率，减慢了查询的效率！而当数组长度为16时，即为2的n次方时，2n-1 得到的二进制数的每个位上的值都为 1，这使得在低位上&amp;时，得到的和原 hash 的低位相同，加之 hash(int h)方法对 key 的 hashCode 的进一步优化，加入了高位计算，就使得只有相同的 hash 值的两个值才会被放到数组中的同一个位置上形成链表。</p>
-<p>所以说，当数组长度为 2 的 n 次幂的时候，不同的 key 算得得 index 相同的几率较小，那么数据在数组上分布就比较均匀，也就是说碰撞的几率小，相对的，查询的时候就不用遍历某个位置上的链表，这样查询效率也就较高了。</p>
-<ol>
-<li><p>第6行~第14行会先判断一下原数据结构中是否存在相同的Key值，存在则覆盖并返回，不执行后面的代码。注意一下recordAccess这个方法，它也是HashMap的子类比如LinkedHashMap用的，HashMap中这个方法为空。另外，注意一点，对比Key是否相同，是先比HashCode是否相同，HashCode相同再判断equals是否为true，这样大大增加了HashMap的效率.</p>
-</li>
-<li><p>第16行的modeCount++是用于fail-fast机制的，每次修改HashMap数据结构的时候都会自增一次这个值</p>
-</li>
-</ol>
-<p>然后就到了关键的addEntry方法了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">void addEntry(int hash, K key, V value, int bucketIndex) &#123;</div><div class="line">	Entry&lt;K,V&gt; e = table[bucketIndex];</div><div class="line">       table[bucketIndex] = new Entry&lt;K,V&gt;(hash, key, value, e);</div><div class="line">       //当超过阈值时，就进行扩容操作</div><div class="line">       if (size++ &gt;= threshold)</div><div class="line">           resize(2 * table.length);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>咱们再看一下Entry的构造方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Entry(int h, K k, V v, Entry&lt;K,V&gt; n) &#123;</div><div class="line">    value = v;</div><div class="line">    next = n;</div><div class="line">    key = k;</div><div class="line">    hash = h;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>假设new出来的Entry地址为0×00000001，那么，put(“111″, “111″)用图表示应该是这样的：<br><img src="http://img.blog.csdn.net/20170619214119617?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRfZHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>每一个新增的Entry都位于table[1]上，另外，里面的hash是rehash之后的hash而不是Key最原始的hash。看到table[1]上存放了111—-&gt;111这个键值对，它持有原table[1]的引用地址，因此可以寻址到原table[1]，这就是单向链表。 再看一下put(“222″, “222″)做了什么，一张图就可以理解了：</p>
-<p><img src="http://img.blog.csdn.net/20170619214154516?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRfZHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>新的Entry再次占据table[1]的位置，并且持有原table[1]，也就是111—-&gt;111这个键值对。<br>至此，HashMap进行put数据的过程就呈现清楚了。不过还有一个问题，就是HashMap如何进行扩容，再看一下addEntry方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">void addEntry(int hash, K key, V value, int bucketIndex) &#123;</div><div class="line">      Entry&lt;K,V&gt; e = table[bucketIndex];</div><div class="line">      table[bucketIndex] = new Entry&lt;K,V&gt;(hash, key, value, e);</div><div class="line">      if (size++ &gt;= threshold)</div><div class="line">          resize(2 * table.length);</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<p>看到第4行~第5行，也就是说在每次放置完Entry之后都会判断是否需要扩容。</p>
-<h1 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h1><p>有一段代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args)</div><div class="line">&#123;</div><div class="line">    Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();</div><div class="line">    map.put(&quot;111&quot;, &quot;111&quot;);</div><div class="line">    map.put(&quot;222&quot;, &quot;222&quot;);</div><div class="line">    map.remove(&quot;111&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>第6行删除元素，看一下删除元素的时候做了什么，第4行~第5行添加了两个键值对就沿用上面的图，HashMap删除指定键值对的源代码是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public V remove(Object key) &#123;</div><div class="line">      Entry&lt;K,V&gt; e = removeEntryForKey(key);</div><div class="line">      //判断是否为空，若为空，则返回null，否则返回e.value</div><div class="line">      return (e == null ? null : e.value);</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">final Entry&lt;K,V&gt; removeEntryForKey(Object key) &#123;</div><div class="line">    //判断key值是否为null，若为空，则保存在索引为0的位置上</div><div class="line">    int hash = (key == null) ? 0 : hash(key.hashCode());</div><div class="line">    //求出对应的hash值在表中的索引位置</div><div class="line">    int i = indexFor(hash, table.length);</div><div class="line">    //将table[i]位置的链表取出来，进行修改</div><div class="line">    //prev表示上一个元素</div><div class="line">    Entry&lt;K,V&gt; prev = table[i];</div><div class="line">    //e表示当前值</div><div class="line">    Entry&lt;K,V&gt; e = prev;</div><div class="line">    while (e != null) &#123;</div><div class="line">        Entry&lt;K,V&gt; next = e.next;</div><div class="line">        Object k;</div><div class="line">        if (e.hash == hash &amp;&amp;</div><div class="line">            ((k = e.key) == key || (key != null &amp;&amp; key.equals(k)))) &#123;</div><div class="line">            modCount++;</div><div class="line">            size--;</div><div class="line">            if (prev == e)</div><div class="line">                table[i] = next;</div><div class="line">            else</div><div class="line">                prev.next = next;</div><div class="line">            e.recordRemoval(this);</div><div class="line">            return e;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        prev = e;</div><div class="line">        e = next;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    return e;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>分析一下remove元素的时候做了几步：</p>
-<p>1、根据key的hash找到待删除的键值对位于table的哪个位置上</p>
-<p>2、记录一个prev表示待删除的Entry的前一个位置Entry，e可以认为是当前位置</p>
-<p>3、从table[i]开始遍历链表，假如找到了匹配的Entry，要做一个判断，这个Entry是不是table[i]：</p>
-<p>（1）是的话，也就是第14行~第15行，table[i]就直接是table[i]的下一个节点，后面的都不需要动</p>
-<p>（2）不是的话，也就是第16行~第17行，e的前一个Entry也就是prev，prev的next指向e的后一个节点，也就是next，这样，e所代表的Entry就被踢出了，e的前后Entry就连起来了</p>
-<p>remove(“111″)用图表示就是：</p>
-<p><img src="http://img.blog.csdn.net/20170619220555159?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaXRfZHg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>整个过程只需要修改一个节点的next的值即可，非常方便。</p>
-<h1 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h1><p>修改元素也是put，看一下源代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">public V put(K key, V value) &#123;</div><div class="line">//判断key值是否为空</div><div class="line">    if (key == null)</div><div class="line">        return putForNullKey(value);</div><div class="line">    int hash = hash(key.hashCode());</div><div class="line">    //求出元素所对应桶的位置</div><div class="line">    int i = indexFor(hash, table.length);</div><div class="line">    for (Entry&lt;K,V&gt; e = table[i]; e != null; e = e.next) &#123;</div><div class="line">        Object k;</div><div class="line">        if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) &#123;</div><div class="line">            V oldValue = e.value;</div><div class="line">            e.value = value;</div><div class="line">            e.recordAccess(this);</div><div class="line">            return oldValue;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    modCount++;</div><div class="line">    addEntry(hash, key, value, i);</div><div class="line">    return null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个其实前面已经提到过了，第6行~第14行就是修改元素的逻辑，如果某个Key已经在数据结构中存在的话，那么就会覆盖原value，也就是第10行的代码。</p>
-<h1 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h1><p>所谓”插入元素”，在我的理解里，一定是基于数据结构是有序的前提下的。像ArrayList、LinkedList，再远点说就是数据库，一条一条都是有序的。<br>而HashMap，它的顺序是基于HashCode，HashCode是一个随机性很强的数字，所以HashMap中的Entry完全是随机存放的。HashMap又不像LinkedHashMap这样维护了插入元素的顺序，所以对HashMap这个数据结构谈插入元素是没有意义的。<br>所以，HashMap并没有插入的概念。</p>
-<h1 id="再谈HashCode的重要性"><a href="#再谈HashCode的重要性" class="headerlink" title="再谈HashCode的重要性"></a>再谈HashCode的重要性</h1><p>前面讲到了，HashMap中对Key的HashCode要做一次rehash，防止一些糟糕的Hash算法生成的糟糕的HashCode，那么为什么要防止糟糕HashCode？</p>
-<p>糟糕的HashCode意味着的是Hash冲突，即多个不同的Key可能得到的是同一个HashCode，糟糕的Hash算法意味着的就是Hash冲突的概率增大，这意味着HashMap的性能将下降，表现在两方面：</p>
-<p>1、有10个Key，可能6个Key的HashCode都相同，另外四个Key所在的Entry均匀分布在table的位置上，而某一个位置上却连接了6个Entry。这就失去了HashMap的意义，HashMap这种数据结构性高性能的前提是，Entry均匀地分布在table位置上，但现在确是1 1 1 1 6的分布。所以，我们要求HashCode有很强的随机性，这样就尽可能地可以保证了Entry分布的随机性，提升了HashMap的效率。</p>
-<p>2、HashMap在一个某个table位置上遍历链表的时候的代码：</p>
-<p>if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k)))</p>
-<p>看到，由于采用了”&amp;&amp;”运算符，因此先比较HashCode，HashCode都不相同就直接pass了，不会再进行equals比较了。HashCode因为是int值，比较速度非常快，而equals方法往往会对比一系列的内容，速度会慢一些。Hash冲突的概率大，意味着equals比较的次数势必增多，必然降低了HashMap的效率了。 </p>
-<h1 id="HashMap的table为什么是transient的"><a href="#HashMap的table为什么是transient的" class="headerlink" title="HashMap的table为什么是transient的"></a>HashMap的table为什么是transient的</h1><p>一个非常细节的地方：</p>
-<p>transient Entry[] table;</p>
-<p>看到table用了transient修饰，也就是说table里面的内容全都不会被序列化，不知道大家有没有想过这么写的原因？</p>
-<p>在我看来，这么写是非常必要的。因为HashMap是基于HashCode的，HashCode作为Object的方法，是native的：</p>
-<p>public native int hashCode();</p>
-<p>这意味着的是：HashCode和底层实现相关，不同的虚拟机可能有不同的HashCode算法。再进一步说得明白些就是，可能同一个Key在虚拟机A上的HashCode=1，在虚拟机B上的HashCode=2，在虚拟机C上的HashCode=3。</p>
-<p>这就有问题了，Java自诞生以来，就以跨平台性作为最大卖点，好了，如果table不被transient修饰，在虚拟机A上可以用的程序到虚拟机B上可以用的程序就不能用了，失去了跨平台性，因为：</p>
-<p>1、Key在虚拟机A上的HashCode=100，连在table[4]上</p>
-<p>2、Key在虚拟机B上的HashCode=101，这样，就去table[5]上找Key，明显找不到</p>
-<p>整个代码就出问题了。因此，为了避免这一点，Java采取了重写自己序列化table的方法，在writeObject选择将key和value追加到序列化的文件最后面：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">private void writeObject(java.io.ObjectOutputStream s)</div><div class="line">        throws IOException</div><div class="line">&#123;</div><div class="line">Iterator&lt;Map.Entry&lt;K,V&gt;&gt; i =</div><div class="line">    (size &gt; 0) ? entrySet0().iterator() : null;</div><div class="line"> </div><div class="line">// Write out the threshold, loadfactor, and any hidden stuff</div><div class="line">s.defaultWriteObject();</div><div class="line"> </div><div class="line">// Write out number of buckets</div><div class="line">s.writeInt(table.length);</div><div class="line"> </div><div class="line">// Write out size (number of Mappings)</div><div class="line">s.writeInt(size);</div><div class="line"> </div><div class="line">    // Write out keys and values (alternating)</div><div class="line">if (i != null) &#123;</div><div class="line"> while (i.hasNext()) &#123;</div><div class="line">    Map.Entry&lt;K,V&gt; e = i.next();</div><div class="line">    s.writeObject(e.getKey());</div><div class="line">    s.writeObject(e.getValue());</div><div class="line">    &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>而在readObject的时候重构HashMap数据结构：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">private void readObject(java.io.ObjectInputStream s)</div><div class="line">         throws IOException, ClassNotFoundException</div><div class="line">&#123;</div><div class="line">// Read in the threshold, loadfactor, and any hidden stuff</div><div class="line">s.defaultReadObject();</div><div class="line"> </div><div class="line">// Read in number of buckets and allocate the bucket array;</div><div class="line">int numBuckets = s.readInt();</div><div class="line">table = new Entry[numBuckets];</div><div class="line"> </div><div class="line">    init();  // Give subclass a chance to do its thing.</div><div class="line"> </div><div class="line">// Read in size (number of Mappings)</div><div class="line">int size = s.readInt();</div><div class="line"> </div><div class="line">// Read the keys and values, and put the mappings in the HashMap</div><div class="line">for (int i=0; i&lt;size; i++) &#123;</div><div class="line">    K key = (K) s.readObject();</div><div class="line">    V value = (V) s.readObject();</div><div class="line">    putForCreate(key, value);</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>一种麻烦的方式，但却保证了跨平台性。</p>
-<p>这个例子也告诉了我们：尽管使用的虚拟机大多数情况下都是HotSpot，但是也不能对其它虚拟机不管不顾，有跨平台的思想是一件好事。</p>
-<h1 id="HashMap和Hashtable的区别"><a href="#HashMap和Hashtable的区别" class="headerlink" title="HashMap和Hashtable的区别"></a>HashMap和Hashtable的区别</h1><p>HashMap和Hashtable是一组相似的键值对集合，它们的区别也是面试常被问的问题之一，我这里简单总结一下HashMap和Hashtable的区别：</p>
-<p>1、Hashtable是线程安全的，Hashtable所有对外提供的方法都使用了synchronized，也就是同步，而HashMap则是线程非安全的</p>
-<p>2、Hashtable不允许空的value，空的value将导致空指针异常，而HashMap则无所谓，没有这方面的限制</p>
-<p>3、上面两个缺点是最主要的区别，另外一个区别无关紧要，我只是提一下，就是两个的rehash算法不同，Hashtable的是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">private int hash(Object k) &#123;</div><div class="line">    // hashSeed will be zero if alternative hashing is disabled.</div><div class="line">    return hashSeed ^ k.hashCode();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个hashSeed是使用sun.misc.Hashing类的randomHashSeed方法产生的。HashMap的rehash算法上面看过了，也就是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">static int hash(int h) &#123;</div><div class="line">    // This function ensures that hashCodes that differ only by</div><div class="line">    // constant multiples at each bit position have a bounded</div><div class="line">    // number of collisions (approximately 8 at default load factor).</div><div class="line">    h ^= (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12);</div><div class="line">    return h ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/源码/">源码</a>
-</div>
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/集合/">集合</a><a href="/tags/源码/">源码</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/09/11/并发情况下HashMap出现死循环情况解析/" title="并发情况下HashMap出现死循环情况解析" itemprop="url">并发情况下HashMap出现死循环情况解析</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
-		
-  <p class="article-time">
-    <time datetime="2017-09-11T06:58:09.000Z" itemprop="datePublished"> Published 2017-09-11</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="并发情况下HashMap出现死循环情况解析"><a href="#并发情况下HashMap出现死循环情况解析" class="headerlink" title="并发情况下HashMap出现死循环情况解析"></a>并发情况下HashMap出现死循环情况解析</h1><h2 id="现象发生"><a href="#现象发生" class="headerlink" title="现象发生"></a>现象发生</h2><p>由于偶尔会遇到HashMap死循环造成CPU100%，重启后问题消失，隔一段时间又会反复出现。今天在这里来仔细剖析下多线程情况下HashMap所带来的问题：</p>
-<h2 id="多线程put操作后，get操作导致死循环。"><a href="#多线程put操作后，get操作导致死循环。" class="headerlink" title="多线程put操作后，get操作导致死循环。"></a>多线程put操作后，get操作导致死循环。</h2><h3 id="死循环场景重现"><a href="#死循环场景重现" class="headerlink" title="死循环场景重现"></a>死循环场景重现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public class Test extends Thread</div><div class="line">&#123;</div><div class="line">    static HashMap&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;(2);</div><div class="line">    static AtomicInteger at = new AtomicInteger();</div><div class="line">    </div><div class="line">    public void run()</div><div class="line">    &#123;</div><div class="line">        while(at.get() &lt; 100000)</div><div class="line">        &#123;</div><div class="line">            map.put(at.get(),at.get());</div><div class="line">            at.incrementAndGet();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">package dx.hashmap.com;</div><div class="line"></div><div class="line">public class Main &#123;</div><div class="line">    public static void main(String[] args)</div><div class="line">    &#123;</div><div class="line">        Test t0 = new Test();</div><div class="line">        Test t1 = new Test();</div><div class="line">        Test t2 = new Test();</div><div class="line">        Test t3 = new Test();</div><div class="line">        Test t4 = new Test();</div><div class="line">        t0.start();</div><div class="line">        t1.start();</div><div class="line">        t2.start();</div><div class="line">        t3.start();</div><div class="line">        t4.start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>反复执行几次，出现这种情况则表示死循环了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&quot;Thread-0&quot; prio=5 tid=0x00007ffec50f5800 nid=0x4b03 runnable [0x0000700001c8f000]</div><div class="line">   java.lang.Thread.State: RUNNABLE</div><div class="line">        at java.util.HashMap.transfer(HashMap.java:601)</div><div class="line">        at java.util.HashMap.resize(HashMap.java:581)</div><div class="line">        at java.util.HashMap.addEntry(HashMap.java:879)</div><div class="line">        at java.util.HashMap.put(HashMap.java:505)</div><div class="line">        at dx.hashmap.com.Test.run(Test.java:13)</div><div class="line"></div><div class="line">&quot;Service Thread&quot; daemon prio=5 tid=0x00007ffec5022000 nid=0x4703 runnable [0x0000000000000000]</div><div class="line">   java.lang.Thread.State: RUNNABLE</div></pre></td></tr></table></figure>
-<p>通过堆栈可以看到：Thread-0由于HashMap的扩容操作导致了死循环。</p>
-<h3 id="正常的扩容过程"><a href="#正常的扩容过程" class="headerlink" title="正常的扩容过程"></a>正常的扩容过程</h3><p>我们先来看下单线程情况下，正常的rehash过程</p>
-<ul>
-<li><p>1.假设我们的hash算法是简单的key mod一下表的大小（即数组的长度）。</p>
-</li>
-<li><p>2.最上面是old hash表，其中HASH表的size=2，所以key=3,5,7在mod 2 以后都冲突在table[1]这个位置上了。</p>
-</li>
-<li><p>3.接下来HASH表扩容，resize=4，然后所有的<key,value>重新进行散列分布，过程如下：</key,value></p>
-</li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620074305522-158439805.png" alt=""></p>
-<p>在单线程情况下，一切看起来都很美妙，扩容过程也相当顺利。接下来看下并发情况下的扩容。</p>
-<h3 id="并发情况下的扩容"><a href="#并发情况下的扩容" class="headerlink" title="并发情况下的扩容"></a>并发情况下的扩容</h3><ul>
-<li><p>1.首先假设我们有两个线程，分别用红色和蓝色标注了。</p>
-</li>
-<li><p>2.扩容部分的源代码：</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * Transfers all entries from current table to newTable.</div><div class="line">     */</div><div class="line">    void transfer(Entry[] newTable, boolean rehash) &#123;</div><div class="line">        int newCapacity = newTable.length;</div><div class="line">        for (Entry&lt;K,V&gt; e : table) &#123;</div><div class="line">            while(null != e) &#123;</div><div class="line">                Entry&lt;K,V&gt; next = e.next;</div><div class="line">                if (rehash) &#123;</div><div class="line">                    e.hash = null == e.key ? 0 : hash(e.key);</div><div class="line">                &#125;</div><div class="line">                int i = indexFor(e.hash, newCapacity);</div><div class="line">                e.next = newTable[i];</div><div class="line">                newTable[i] = e;</div><div class="line">                e = next;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>3.如果在线程一执行到Entry<k,v> next = e.next<br>代码就被CPU调度挂起，去执行线程2，且线程2把上面代码都执行完毕。我们来看看这个时候的状态：</k,v></li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620074911319-1507561812.png" alt=""></p>
-<ul>
-<li>4.接着CPU切换到线程一上来，继续执行代码，首先安置3这个Entry：</li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620215401225-1774760096.png" alt=""></p>
-<p>这里需要注意的是：线程二已经完成执行完成，现在table里面所有的Entry都是最新的，就是说7的next是3,3的next是null；现在第一次循环已经结束，3已经安置妥当。看看接下来会发生什么事情：</p>
-<ul>
-<li><p>1.e=next=7</p>
-</li>
-<li><p>2.e!=null,循环继续</p>
-</li>
-<li><p>3.next=e.next=3</p>
-</li>
-<li><p>4.e.next 7的next指向3</p>
-</li>
-<li><p>5.放置7这个Entry，现在如图所示：</p>
-</li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620220528615-1921197618.png" alt=""></p>
-<p>放置7之后，接着运行代码：</p>
-<ul>
-<li><ol>
-<li>e=next=3;</li>
-</ol>
-</li>
-<li><ol>
-<li>判断不为空，继续循环</li>
-</ol>
-</li>
-<li><ol>
-<li>next= e.next  这里也就是3的next 为null</li>
-</ol>
-</li>
-<li><ol>
-<li>e.next=7,就3的next指向7.</li>
-</ol>
-</li>
-<li><ol>
-<li>放置3这个Entry，此时的状态如图： </li>
-</ol>
-</li>
-</ul>
-<p><img src="http://images2015.cnblogs.com/blog/831179/201606/831179-20160620220921022-137089907.png" alt=""></p>
-<p>这个时候其实就出现了死循环了，3移动节点头的位置，指向7这个Entry;在这之前7的next同时也指向了3这个Entry。</p>
-<p>代码接着往下执行，e=next=null，此时条件判断会终止循环。这次扩容结束了。但是后续如果有查询（无论是查询的迭代还是扩容），都会hang死在table【3】这个位置上。现在回过来看文章开头的那个Demo，就是挂死在扩容阶段的transfer这个方法上面。</p>
-<p><strong>出现上面这种情况绝不是我要在测试环境弄一批数据专门为了演示这种问题。我们仔细思考一下就会得出这样一个结论：如果扩容前相邻的两个Entry在扩容后还是分配到相同的table位置上，就会出现死循环的BUG。在复杂的生产环境中，这种情况尽管不常见，但是可能会碰到。</strong></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/源码/">源码</a>
-</div>
-
-
-  <div class="article-tags">
+    <a href="/2017/09/22/Java高并发：锁概览/" title="Java高并发：锁概览" itemprop="url">
   
-  <span></span> <a href="/tags/集合/">集合</a><a href="/tags/HashMap/">HashMap</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+    <h1 itemprop="name">Java高并发：锁概览</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
+     
+           <p itemprop="description" >在学习或者使用Java的过程中进程会遇到各种各样的锁的概念：公平锁、非公平锁、自旋锁、可重入锁、偏向锁、轻量级锁、重量级锁、读写锁、互斥锁等待。这里整理了Java中的各种锁，若有不足之处希望大家在下方留言探讨。
+公平锁和非公平锁公平锁是指多个线程在等待同一个锁时，必须按照申请锁的</p>
+        
     
-      <a href="/2017/09/09/树相关算法/" title="树的相关算法" itemprop="url">树的相关算法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
-		
-  <p class="article-time">
-    <time datetime="2017-09-08T16:00:00.000Z" itemprop="datePublished"> Published 2017-09-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="1-平衡二叉树"><a href="#1-平衡二叉树" class="headerlink" title="1. 平衡二叉树"></a>1. 平衡二叉树</h1><h2 id="输入一棵二叉树，判断该二叉树是否是平衡二叉树。"><a href="#输入一棵二叉树，判断该二叉树是否是平衡二叉树。" class="headerlink" title="输入一棵二叉树，判断该二叉树是否是平衡二叉树。"></a>输入一棵二叉树，判断该二叉树是否是平衡二叉树。</h2><h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public class Solution &#123;</div><div class="line">    public boolean IsBalanced_Solution(TreeNode root) &#123;</div><div class="line">        //判断异常情况</div><div class="line">        if(root==null)</div><div class="line">            return true;</div><div class="line">        int left = TreeDepth(root.left);</div><div class="line">        int right = TreeDepth(root.right);</div><div class="line">        if(Math.abs(left-right)&gt;1)</div><div class="line">            return false;</div><div class="line">        return IsBalanced_Solution(root.left)&amp;&amp;IsBalanced_Solution(root.right);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    //获得二叉树的深度</div><div class="line">    public int TreeDepth(TreeNode root)&#123;</div><div class="line">        if(root==null)</div><div class="line">            return 0;</div><div class="line">        int left = TreeDepth(root.left);</div><div class="line">        int right = TreeDepth(root.right);</div><div class="line">        return (left&gt;right?left+1:right+1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">public class Solution &#123;</div><div class="line">    boolean flag = true;</div><div class="line">    public boolean IsBalanced_Solution(TreeNode root) &#123;</div><div class="line">        //判断异常情况</div><div class="line">        TreeDepth(root);</div><div class="line">        return flag;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    //获得二叉树的深度</div><div class="line">    public int TreeDepth(TreeNode root)&#123;</div><div class="line">        if(root==null)</div><div class="line">            return 0;</div><div class="line">        </div><div class="line">        int left = TreeDepth(root.left);</div><div class="line">        int right = TreeDepth(root.right);</div><div class="line">        </div><div class="line">        if(Math.abs(left-right)&gt;1)&#123;</div><div class="line">            flag = false;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        return (left&gt;right?left+1:right+1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="2-重建二叉树"><a href="#2-重建二叉树" class="headerlink" title="2. 重建二叉树"></a>2. 重建二叉树</h1><h2 id="输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列-1-2-4-7-3-5-6-8-和中序遍历序列-4-7-2-1-5-3-8-6-，则重建二叉树并返回。"><a href="#输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列-1-2-4-7-3-5-6-8-和中序遍历序列-4-7-2-1-5-3-8-6-，则重建二叉树并返回。" class="headerlink" title="输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。"></a>输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Definition for binary tree</div><div class="line"> * public class TreeNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     TreeNode left;</div><div class="line"> *     TreeNode right;</div><div class="line"> *     TreeNode(int x) &#123; val = x; &#125;</div><div class="line"> * &#125;</div><div class="line"> */</div><div class="line">public class Solution &#123;</div><div class="line">    public TreeNode reConstructBinaryTree(int [] pre,int [] in) &#123;</div><div class="line">        if(pre.length==0)</div><div class="line">            return null;</div><div class="line">        return reConstructBinaryTree(pre,0,pre.length-1,in,0,in.length-1);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    public TreeNode reConstructBinaryTree(int [] pre,int prestart,int preend,int [] in,int instart,int inend) &#123;</div><div class="line">        if(prestart&gt;preend||instart&gt;inend)</div><div class="line">            return null;</div><div class="line">        int rootData = pre[prestart];</div><div class="line">        TreeNode root = new TreeNode(pre[prestart]);</div><div class="line">        //找到根节点的位置</div><div class="line">        int rootIndex = findIndexInArray(in,rootData,instart,inend);</div><div class="line">        int offSet =  rootIndex - instart - 1;</div><div class="line">        root.left = reConstructBinaryTree(pre,prestart+1,prestart+1+offSet,in,instart,instart+offSet);</div><div class="line">        root.right = reConstructBinaryTree(pre,prestart+2+offSet,preend,in,rootIndex+1,inend);</div><div class="line">        return root;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    public int findIndexInArray(int [] value,int rootData,int begin,int end)&#123;</div><div class="line">        for(int i = begin;i&lt;=end;i++)&#123;</div><div class="line">            if(value[i]==rootData)</div><div class="line">                return i;</div><div class="line">        &#125;</div><div class="line">        return -1;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="3-二叉树的镜像"><a href="#3-二叉树的镜像" class="headerlink" title="3. 二叉树的镜像"></a>3. 二叉树的镜像</h1><h2 id="操作给定的二叉树，将其变换为源二叉树的镜像。"><a href="#操作给定的二叉树，将其变换为源二叉树的镜像。" class="headerlink" title="操作给定的二叉树，将其变换为源二叉树的镜像。"></a>操作给定的二叉树，将其变换为源二叉树的镜像。</h2><ul>
-<li>源二叉树：8 6 10 5 7 9 11</li>
-<li>镜像二叉树：8 10 6 11 9 7 5</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">public class TreeNode &#123;</div><div class="line">    int val = 0;</div><div class="line">    TreeNode left = null;</div><div class="line">    TreeNode right = null;</div><div class="line"></div><div class="line">    public TreeNode(int val) &#123;</div><div class="line">        this.val = val;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">*/</div><div class="line">public class Solution &#123;</div><div class="line">    public void Mirror(TreeNode root) &#123;</div><div class="line">        if(root==null)</div><div class="line">            return;</div><div class="line">        //将二插树的左右子树交换</div><div class="line">        TreeNode left = root.left;</div><div class="line">        root.left = root.right;</div><div class="line">        root.right = left;</div><div class="line">        Mirror(root.left);</div><div class="line">        Mirror(root.right);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="4-树的子结构"><a href="#4-树的子结构" class="headerlink" title="4. 树的子结构"></a>4. 树的子结构</h1><h2 id="输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）"><a href="#输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）" class="headerlink" title="输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）"></a>输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">public class TreeNode &#123;</div><div class="line">    int val = 0;</div><div class="line">    TreeNode left = null;</div><div class="line">    TreeNode right = null;</div><div class="line"></div><div class="line">    public TreeNode(int val) &#123;</div><div class="line">        this.val = val;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">*/</div><div class="line">public class Solution &#123;</div><div class="line">    public boolean HasSubtree(TreeNode root1,TreeNode root2) &#123;</div><div class="line">        if(root2==null||root1==null)</div><div class="line">            return false;</div><div class="line">        if(isSubtree(root1,root2))</div><div class="line">            return true;</div><div class="line">        else</div><div class="line">            return HasSubtree(root1.left,root2)||HasSubtree(root1.right,root2);</div><div class="line">    &#125;</div><div class="line">    public boolean isSubtree(TreeNode root1,TreeNode root2)&#123;</div><div class="line">        if(root2==null)</div><div class="line">            return true;</div><div class="line">        if(root1==null)</div><div class="line">            return false;</div><div class="line">        if(root1.val!=root2.val)</div><div class="line">            return false;</div><div class="line">        return isSubtree(root1.left,root2.left)&amp;&amp;isSubtree(root1.right,root2.right);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="5-从上往下打印二叉树"><a href="#5-从上往下打印二叉树" class="headerlink" title="5. 从上往下打印二叉树"></a>5. 从上往下打印二叉树</h1><h2 id="从上往下打印出二叉树的每个节点，同层节点从左至右打印。"><a href="#从上往下打印出二叉树的每个节点，同层节点从左至右打印。" class="headerlink" title="从上往下打印出二叉树的每个节点，同层节点从左至右打印。"></a>从上往下打印出二叉树的每个节点，同层节点从左至右打印。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">import java.util.*;</div><div class="line">/**</div><div class="line">public class TreeNode &#123;</div><div class="line">    int val = 0;</div><div class="line">    TreeNode left = null;</div><div class="line">    TreeNode right = null;</div><div class="line"></div><div class="line">    public TreeNode(int val) &#123;</div><div class="line">        this.val = val;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">*/</div><div class="line">public class Solution &#123;</div><div class="line">    public ArrayList&lt;Integer&gt; PrintFromTopToBottom(TreeNode root) &#123;</div><div class="line">        ArrayList&lt;Integer&gt; value = new ArrayList&lt;Integer&gt;();</div><div class="line">        if(root==null)</div><div class="line">            return value;</div><div class="line">        //用于递归保存数据</div><div class="line">        Queue&lt;TreeNode&gt; queue = new LinkedList&lt;TreeNode&gt;();</div><div class="line">        //将根节点压入队列</div><div class="line">         queue.add(root);</div><div class="line">        while(queue.size()!=0)&#123;</div><div class="line">            TreeNode node = queue.remove();</div><div class="line">            value.add(node.val);</div><div class="line">            if(node.left!=null)</div><div class="line">                queue.add(node.left);</div><div class="line">            if(node.right!=null)</div><div class="line">                queue.add(node.right);</div><div class="line">        &#125;</div><div class="line">        return value;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="6-二叉搜索树的后序遍历序列"><a href="#6-二叉搜索树的后序遍历序列" class="headerlink" title="6. 二叉搜索树的后序遍历序列"></a>6. 二叉搜索树的后序遍历序列</h1><h2 id="输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes-否则输出No。假设输入的数组的任意两个数字都互不相同。"><a href="#输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes-否则输出No。假设输入的数组的任意两个数字都互不相同。" class="headerlink" title="输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。"></a>输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">public class Solution &#123;</div><div class="line">    public boolean VerifySquenceOfBST(int [] sequence) &#123;</div><div class="line">        if(sequence==null||sequence.length==0)</div><div class="line">            return false;</div><div class="line">        return VerifySquenceOfBST(sequence,0,sequence.length-1);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    public boolean VerifySquenceOfBST(int [] sequence,int start,int index)&#123;</div><div class="line">        if(start&gt;=index)</div><div class="line">            return true;</div><div class="line">        int i = index;</div><div class="line">        int temp = sequence[i];</div><div class="line">        while(i&gt;=0&amp;&amp;sequence[i]&gt;=temp) i--;</div><div class="line">        for(int j = i;j&gt;=0;j--)</div><div class="line">            if(sequence[j]&gt;temp)</div><div class="line">                return false;</div><div class="line">        return VerifySquenceOfBST(sequence,start,i)&amp;&amp;VerifySquenceOfBST(sequence,i+1,index-1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="7-二叉树中和为某一值的路径"><a href="#7-二叉树中和为某一值的路径" class="headerlink" title="7. 二叉树中和为某一值的路径"></a>7. 二叉树中和为某一值的路径</h1><h2 id="输入一颗二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。"><a href="#输入一颗二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。" class="headerlink" title="输入一颗二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。"></a>输入一颗二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">import java.util.ArrayList;</div><div class="line">/**</div><div class="line">public class TreeNode &#123;</div><div class="line">    int val = 0;</div><div class="line">    TreeNode left = null;</div><div class="line">    TreeNode right = null;</div><div class="line"></div><div class="line">    public TreeNode(int val) &#123;</div><div class="line">        this.val = val;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">*/</div><div class="line">public class Solution &#123;</div><div class="line">    ArrayList&lt;ArrayList&lt;Integer&gt;&gt; value = new ArrayList&lt;ArrayList&lt;Integer&gt;&gt;();</div><div class="line">    ArrayList&lt;Integer&gt;  item = new ArrayList&lt;Integer&gt;();</div><div class="line">    </div><div class="line">    //打印数的根节点到叶节点的路径和(先序遍历）</div><div class="line">    public ArrayList&lt;ArrayList&lt;Integer&gt;&gt; FindPath(TreeNode root,int target)&#123;</div><div class="line">        if(root==null)</div><div class="line">            return value;</div><div class="line">        target = target - root.val;</div><div class="line">        item.add(root.val);</div><div class="line">        if(root.left==null&amp;&amp;root.right==null&amp;&amp;target==0)</div><div class="line">            value.add(new ArrayList&lt;Integer&gt;(item));</div><div class="line">        FindPath(root.left,target);</div><div class="line">        FindPath(root.right,target);</div><div class="line">        item.remove(item.size()-1);</div><div class="line">        return value;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="8-二插搜索树与双向链表"><a href="#8-二插搜索树与双向链表" class="headerlink" title="8. 二插搜索树与双向链表"></a>8. 二插搜索树与双向链表</h1><p>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">public class TreeNode &#123;</div><div class="line">    int val = 0;</div><div class="line">    TreeNode left = null;</div><div class="line">    TreeNode right = null;</div><div class="line"></div><div class="line">    public TreeNode(int val) &#123;</div><div class="line">        this.val = val;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">*/</div><div class="line">public class Solution &#123;</div><div class="line">    //保证二插搜索树的有序（采用中序遍历）</div><div class="line">    TreeNode head = null;</div><div class="line">    TreeNode pre = null;</div><div class="line">    public TreeNode Convert(TreeNode pRootOfTree) &#123;</div><div class="line">        if(pRootOfTree==null)</div><div class="line">            return null;</div><div class="line">        Convert(pRootOfTree.left);</div><div class="line">        //处理逻辑</div><div class="line">        //选择头结点</div><div class="line">        if(head==null)</div><div class="line">            head = pRootOfTree;</div><div class="line">        //保存为上一次遍历的节点</div><div class="line">        if(pre!=null)</div><div class="line">            pre.right = pRootOfTree;</div><div class="line">        pRootOfTree.left = pre;</div><div class="line">        pre = pRootOfTree;</div><div class="line">        Convert(pRootOfTree.right);</div><div class="line">        return head;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="9-二叉树的深度"><a href="#9-二叉树的深度" class="headerlink" title="9. 二叉树的深度"></a>9. 二叉树的深度</h1><h2 id="输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。"><a href="#输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。" class="headerlink" title="输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。"></a>输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">public class TreeNode &#123;</div><div class="line">    int val = 0;</div><div class="line">    TreeNode left = null;</div><div class="line">    TreeNode right = null;</div><div class="line"></div><div class="line">    public TreeNode(int val) &#123;</div><div class="line">        this.val = val;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">*/</div><div class="line">public class Solution &#123;</div><div class="line">    public int TreeDepth(TreeNode root) &#123;</div><div class="line">        if(root==null)</div><div class="line">            return 0;</div><div class="line">        int left = TreeDepth(root.left);</div><div class="line">        int right = TreeDepth(root.right);</div><div class="line">        return left&gt;right?left+1:right+1;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="10-平衡二叉树"><a href="#10-平衡二叉树" class="headerlink" title="10. 平衡二叉树"></a>10. 平衡二叉树</h1><h2 id="输入一棵二叉树，判断该二叉树是否是平衡二叉树。-1"><a href="#输入一棵二叉树，判断该二叉树是否是平衡二叉树。-1" class="headerlink" title="输入一棵二叉树，判断该二叉树是否是平衡二叉树。"></a>输入一棵二叉树，判断该二叉树是否是平衡二叉树。</h2><h3 id="方法1-1"><a href="#方法1-1" class="headerlink" title="方法1"></a>方法1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">public class Solution &#123;</div><div class="line">    boolean flag = true;</div><div class="line">    public boolean IsBalanced_Solution(TreeNode root) &#123;</div><div class="line">        //判断异常情况</div><div class="line">        TreeDepth(root);</div><div class="line">        return flag;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    //获得二叉树的深度</div><div class="line">    public int TreeDepth(TreeNode root)&#123;</div><div class="line">        if(root==null)</div><div class="line">            return 0;</div><div class="line">        int left = TreeDepth(root.left);</div><div class="line">        int right = TreeDepth(root.right);</div><div class="line">        if(Math.abs(left-right)&gt;1)&#123;</div><div class="line">            flag = false;</div><div class="line">        &#125;</div><div class="line">        return (left&gt;right?left+1:right+1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="方法2-1"><a href="#方法2-1" class="headerlink" title="方法2"></a>方法2</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public class Solution &#123;</div><div class="line">    public boolean IsBalanced_Solution(TreeNode root) &#123;</div><div class="line">        //判断异常情况</div><div class="line">       if(root==null)</div><div class="line">           return true;</div><div class="line">        int left = TreeDepth(root.left);</div><div class="line">        int right = TreeDepth(root.right);</div><div class="line">        if(Math.abs(left-right)&gt;1)</div><div class="line">            return false;</div><div class="line">        return IsBalanced_Solution(root.left)&amp;&amp;IsBalanced_Solution(root.right);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    //获得二叉树的深度</div><div class="line">    public int TreeDepth(TreeNode root)&#123;</div><div class="line">        if(root==null)</div><div class="line">            return 0;</div><div class="line">        int left = TreeDepth(root.left);</div><div class="line">        int right = TreeDepth(root.right);</div><div class="line">        return (left&gt;right?left+1:right+1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="11-二叉树的下一个节点"><a href="#11-二叉树的下一个节点" class="headerlink" title="11. 二叉树的下一个节点"></a>11. 二叉树的下一个节点</h1><h2 id="给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。"><a href="#给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。" class="headerlink" title="给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。"></a>给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">public class TreeLinkNode &#123;</div><div class="line">    int val;</div><div class="line">    TreeLinkNode left = null;</div><div class="line">    TreeLinkNode right = null;</div><div class="line">    TreeLinkNode next = null;</div><div class="line"></div><div class="line">    TreeLinkNode(int val) &#123;</div><div class="line">        this.val = val;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line">public class Solution &#123;</div><div class="line">    public TreeLinkNode GetNext(TreeLinkNode pNode)</div><div class="line">    &#123;</div><div class="line">        //判断异常情况</div><div class="line">        if(pNode==null)</div><div class="line">            return null;</div><div class="line">        //右子树不为空</div><div class="line">        if(pNode.right!=null)&#123;</div><div class="line">            TreeLinkNode right = pNode.right;</div><div class="line">            while(right.left!=null)&#123;</div><div class="line">                right = right.left;</div><div class="line">            &#125;</div><div class="line">            return right;</div><div class="line">        &#125;</div><div class="line">        //右子树为空</div><div class="line">        while(pNode.next!=null&amp;&amp;pNode.next.left!=pNode)&#123;</div><div class="line">            pNode = pNode.next;</div><div class="line">        &#125;</div><div class="line">        return pNode.next;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="12-对称的二叉树"><a href="#12-对称的二叉树" class="headerlink" title="12. 对称的二叉树"></a>12. 对称的二叉树</h1><h2 id="请实现一个函数，用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。"><a href="#请实现一个函数，用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。" class="headerlink" title="请实现一个函数，用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。"></a>请实现一个函数，用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">public class TreeNode &#123;</div><div class="line">    int val = 0;</div><div class="line">    TreeNode left = null;</div><div class="line">    TreeNode right = null;</div><div class="line"></div><div class="line">    public TreeNode(int val) &#123;</div><div class="line">        this.val = val;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">*/</div><div class="line">public class Solution &#123;</div><div class="line">    boolean isSymmetrical(TreeNode pRoot)</div><div class="line">    &#123;</div><div class="line">        if(pRoot==null)</div><div class="line">            return true;</div><div class="line">        return isSymmetrical(pRoot.left,pRoot.right);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    boolean isSymmetrical(TreeNode left,TreeNode right)&#123;</div><div class="line">        if(left==null)</div><div class="line">            return right==null;</div><div class="line">        if(right==null)</div><div class="line">            return false;</div><div class="line">        if(left.val!=right.val)</div><div class="line">            return false;</div><div class="line">         return isSymmetrical(left.left,right.right)&amp;&amp;isSymmetrical(left.right,right.left);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="13-按之字形顺序打印二叉树"><a href="#13-按之字形顺序打印二叉树" class="headerlink" title="13. 按之字形顺序打印二叉树"></a>13. 按之字形顺序打印二叉树</h1><h2 id="请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。"><a href="#请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。" class="headerlink" title="请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。"></a>请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.*;</div><div class="line">/*</div><div class="line">public class TreeNode &#123;</div><div class="line">    int val = 0;</div><div class="line">    TreeNode left = null;</div><div class="line">    TreeNode right = null;</div><div class="line">    public TreeNode(int val) &#123;</div><div class="line">        this.val = val;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line">public class Solution &#123;</div><div class="line">    </div><div class="line">    Stack&lt;TreeNode&gt; stack1 = new Stack&lt;TreeNode&gt;();</div><div class="line">    Stack&lt;TreeNode&gt; stack2 = new Stack&lt;TreeNode&gt;();</div><div class="line">    </div><div class="line">    public ArrayList&lt;ArrayList&lt;Integer&gt; &gt; Print(TreeNode pRoot) &#123;</div><div class="line">        ArrayList&lt;ArrayList&lt;Integer&gt;&gt;  value= new ArrayList&lt;ArrayList&lt;Integer&gt;&gt;();</div><div class="line">        if(pRoot==null)</div><div class="line">            return value;</div><div class="line">        stack1.push(pRoot);</div><div class="line">        </div><div class="line">        </div><div class="line">        while(!stack1.isEmpty()||!stack2.isEmpty())&#123;</div><div class="line">            ArrayList&lt;Integer&gt; arraylist = new ArrayList&lt;Integer&gt;();</div><div class="line">            while(!stack1.isEmpty())&#123;</div><div class="line">            TreeNode node = stack1.pop();</div><div class="line">            arraylist.add(node.val);</div><div class="line">            if(node.left!=null)</div><div class="line">            stack2.push(node.left);</div><div class="line">            if(node.right!=null)</div><div class="line">            stack2.push(node.right);</div><div class="line">            &#125;</div><div class="line">            if(arraylist.size()&gt;0)</div><div class="line">            value.add(arraylist);</div><div class="line">            arraylist = new ArrayList&lt;Integer&gt;();</div><div class="line">            while(!stack2.isEmpty())&#123;</div><div class="line">               TreeNode node = stack2.pop();</div><div class="line">               arraylist.add(node.val);</div><div class="line">               if(node.right!=null)</div><div class="line">               stack1.push(node.right);</div><div class="line">               if(node.left!=null)</div><div class="line">               stack1.push(node.left);</div><div class="line">            &#125;</div><div class="line">            if(arraylist.size()&gt;0)</div><div class="line">            value.add(arraylist);</div><div class="line">        &#125;</div><div class="line">        return value;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="14-把二叉树打印成多行"><a href="#14-把二叉树打印成多行" class="headerlink" title="14. 把二叉树打印成多行"></a>14. 把二叉树打印成多行</h1><h2 id="从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。"><a href="#从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。" class="headerlink" title="从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。"></a>从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line">import javax.swing.tree.TreeNode;</div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.LinkedList;</div><div class="line">import java.util.Queue;</div><div class="line"></div><div class="line"></div><div class="line">/*</div><div class="line">public class TreeNode &#123;</div><div class="line">    int val = 0;</div><div class="line">    TreeNode left = null;</div><div class="line">    TreeNode right = null;</div><div class="line"></div><div class="line">    public TreeNode(int val) &#123;</div><div class="line">        this.val = val;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">*/</div><div class="line">public class Solution &#123;</div><div class="line">    ArrayList&lt;ArrayList&lt;Integer&gt;&gt; Print(TreeNode pRoot) &#123;</div><div class="line">        //保存当前值</div><div class="line">        ArrayList&lt;ArrayList&lt;Integer&gt;&gt; value = new ArrayList&lt;ArrayList&lt;Integer&gt;&gt;();</div><div class="line">        if (pRoot == null)</div><div class="line">            return value;</div><div class="line"></div><div class="line">        int current = 0;</div><div class="line">        int next = 0;</div><div class="line"></div><div class="line">        Queue&lt;TreeNode&gt; queue = new LinkedList&lt;TreeNode&gt;();</div><div class="line">        current = 1;</div><div class="line">        queue.add(pRoot);</div><div class="line"></div><div class="line">        while (queue.size() != 0) &#123;</div><div class="line">            ArrayList&lt;Integer&gt; item = new ArrayList&lt;Integer&gt;();</div><div class="line">            while (current != 0) &#123;</div><div class="line">                TreeNode node = queue.remove();</div><div class="line">                item.add(node.val);</div><div class="line">                current--;</div><div class="line">                if (node.left != null) &#123;</div><div class="line">                    queue.add(node.left);</div><div class="line">                    next++;</div><div class="line">                &#125;</div><div class="line">                if (node.right != null) &#123;</div><div class="line">                    queue.add(node.right);</div><div class="line">                    next++;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            if (item.size() != 0)</div><div class="line">                value.add(item);</div><div class="line">            item = new ArrayList&lt;Integer&gt;();</div><div class="line"></div><div class="line">            while (next != 0) &#123;</div><div class="line">                TreeNode node = queue.remove();</div><div class="line">                next--;</div><div class="line">                item.add(node.val);</div><div class="line">                if (node.left != null) &#123;</div><div class="line">                    queue.add(node.left);</div><div class="line">                    current++;</div><div class="line">                &#125;</div><div class="line">                if (node.right != null) &#123;</div><div class="line">                    queue.add(node.right);</div><div class="line">                    current++;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            if (item.size() != 0)</div><div class="line">                value.add(item);</div><div class="line">            item = new ArrayList&lt;Integer&gt;();</div><div class="line">        &#125;</div><div class="line">        return value;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="15-序列化二叉树"><a href="#15-序列化二叉树" class="headerlink" title="15. 序列化二叉树"></a>15. 序列化二叉树</h1><h2 id="请实现两个函数，分别用来序列化和反序列化二叉树"><a href="#请实现两个函数，分别用来序列化和反序列化二叉树" class="headerlink" title="请实现两个函数，分别用来序列化和反序列化二叉树"></a>请实现两个函数，分别用来序列化和反序列化二叉树</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">public class TreeNode &#123;</div><div class="line">    int val = 0;</div><div class="line">    TreeNode left = null;</div><div class="line">    TreeNode right = null;</div><div class="line"></div><div class="line">    public TreeNode(int val) &#123;</div><div class="line">        this.val = val;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">*/</div><div class="line">public class Solution &#123;</div><div class="line">    public int index = -1;</div><div class="line">    String Serialize(TreeNode root) &#123;</div><div class="line">        StringBuffer stringBuffer = new StringBuffer();</div><div class="line">        if(root==null)&#123;</div><div class="line">            stringBuffer.append(&quot;#,&quot;);</div><div class="line">            return stringBuffer.toString();</div><div class="line">        &#125;</div><div class="line">        //中序遍历</div><div class="line">        stringBuffer.append(root.val+&quot;,&quot;);</div><div class="line">        //左子树</div><div class="line">        stringBuffer.append(Serialize(root.left));</div><div class="line">        //右子树</div><div class="line">        stringBuffer.append(Serialize(root.right));</div><div class="line">        return stringBuffer.toString();</div><div class="line">  &#125;</div><div class="line">    TreeNode Deserialize(String str) &#123;</div><div class="line">       index++;</div><div class="line">       if(index&gt;=str.length())</div><div class="line">           return null;</div><div class="line">        String [] strr = str.split(&quot;,&quot;);</div><div class="line">        TreeNode node = null;</div><div class="line">        if(!strr[index].equals(&quot;#&quot;))&#123;</div><div class="line">            node = new TreeNode(Integer.valueOf(strr[index]));</div><div class="line">            node.left = Deserialize(str);</div><div class="line">            node.right = Deserialize(str);</div><div class="line">        &#125;</div><div class="line">        return node;</div><div class="line">        </div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="16-二叉搜索树的第k个结点"><a href="#16-二叉搜索树的第k个结点" class="headerlink" title="16. 二叉搜索树的第k个结点"></a>16. 二叉搜索树的第k个结点</h1><h2 id="给定一颗二叉搜索树，请找出其中的第k大的结点。例如，-5-3-7-2-4-6-8-中，按结点数值大小顺序第三个结点的值为4。"><a href="#给定一颗二叉搜索树，请找出其中的第k大的结点。例如，-5-3-7-2-4-6-8-中，按结点数值大小顺序第三个结点的值为4。" class="headerlink" title="给定一颗二叉搜索树，请找出其中的第k大的结点。例如， 5 / \ 3 7 /\ /\ 2 4 6 8 中，按结点数值大小顺序第三个结点的值为4。"></a>给定一颗二叉搜索树，请找出其中的第k大的结点。例如， 5 / \ 3 7 /\ /\ 2 4 6 8 中，按结点数值大小顺序第三个结点的值为4。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">class TreeNode &#123;</div><div class="line">    int val = 0;</div><div class="line">    TreeNode left = null;</div><div class="line">    TreeNode right = null;</div><div class="line"></div><div class="line">    public TreeNode(int val) &#123;</div><div class="line">        this.val = val;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 中序遍历第k个元素的值</div><div class="line"> **/</div><div class="line">public class Solution &#123;</div><div class="line">    int index = 0;</div><div class="line"></div><div class="line">    TreeNode KthNode(TreeNode pRoot, int k) &#123;</div><div class="line">        if (pRoot == null || k == 0)</div><div class="line">            return null;</div><div class="line">        return middleSort(pRoot, k);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    TreeNode middleSort(TreeNode pRoot, int k) &#123;</div><div class="line">        if (pRoot != null) &#123;</div><div class="line">            TreeNode node = middleSort(pRoot.left, k);</div><div class="line">            if (node != null)</div><div class="line">                return node;</div><div class="line">            index = index + 1;</div><div class="line">            if (index == k)</div><div class="line">                return pRoot;</div><div class="line">            node = middleSort(pRoot.right, k);</div><div class="line">            if (node != null)</div><div class="line">                return node;</div><div class="line">        &#125;</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/算法/">算法</a>
-</div>
+    <time datetime="2017-09-22T05:52:48.000Z" itemprop="datePublished">2017-09-22</time>
+  </a>
+</section>
 
 
-  <div class="article-tags">
+
+
+
+
   
-  <span></span> <a href="/tags/树/">树</a><a href="/tags/算法/">算法</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/09/22/Java高并发：ReentrantLock-重入锁-以及公平性/" title="Java高并发：ReentrantLock(重入锁)以及公平性" itemprop="url">
+  
+    <h1 itemprop="name">Java高并发：ReentrantLock(重入锁)以及公平性</h1>
+    
+     
+           <p itemprop="description" >简介ReentrantLock的实现不仅可以替代隐式的synchronized关键字，而且能够提供超过关键字本身的多种功能。
+这里提到一个锁获取的公平性问题，如果在绝对时间上，先对锁进行获取的请求一定被先满足，那么这个锁是公平的，反之，是不公平的，也就是说等待时间最长的线程最有机</p>
+        
+    
+    <time datetime="2017-09-22T05:47:47.000Z" itemprop="datePublished">2017-09-22</time>
+  </a>
+</section>
 
 
 
 
 
 
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/09/11/图解集合：ConcurrentHashMap/" title="图解集合：ConcurrentHashMap" itemprop="url">
+  
+    <h1 itemprop="name">图解集合：ConcurrentHashMap</h1>
+    
+     
+           <p itemprop="description" >ConcurrentHashMap为什么高效？与Hashtable不同的是,ConcurrentHashMap使用的是分段锁技术,将ConcurrentHashMap容器的数据分段存储,每一段数据分配一个Segment,当线程占用一个Segment时,其他线程可以访问其他段的数据</p>
+        
+    
+    <time datetime="2017-09-11T14:44:50.000Z" itemprop="datePublished">2017-09-11</time>
+  </a>
+</section>
 
-  <nav id="page-nav" class="clearfix">
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/09/11/图解集合：HashMap/" title="图解集合：HashMap" itemprop="url">
+  
+    <h1 itemprop="name">图解集合：HashMap</h1>
+    
+     
+           <p itemprop="description" >初识HashMap之前的List，讲了ArrayList、LinkedList，最后讲到CopyOnWriteArrayList，就前两者而言，反映的是两种思想：
+
+ArrayList以数组形式实现，顺序插入、查找快，插入、删除较慢
+LinkedList以双向链表形式实现，顺序插</p>
+        
+    
+    <time datetime="2017-09-11T08:02:51.000Z" itemprop="datePublished">2017-09-11</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/09/11/并发情况下HashMap出现死循环情况解析/" title="并发情况下HashMap出现死循环情况解析" itemprop="url">
+  
+    <h1 itemprop="name">并发情况下HashMap出现死循环情况解析</h1>
+    
+     
+           <p itemprop="description" >并发情况下HashMap出现死循环情况解析现象发生由于偶尔会遇到HashMap死循环造成CPU100%，重启后问题消失，隔一段时间又会反复出现。今天在这里来仔细剖析下多线程情况下HashMap所带来的问题：
+多线程put操作后，get操作导致死循环。死循环场景重现12345678</p>
+        
+    
+    <time datetime="2017-09-11T06:58:09.000Z" itemprop="datePublished">2017-09-11</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/09/09/树相关算法/" title="树的相关算法" itemprop="url">
+  
+    <h1 itemprop="name">树的相关算法</h1>
+    
+     
+           <p itemprop="description" >1. 平衡二叉树输入一棵二叉树，判断该二叉树是否是平衡二叉树。方法1123456789101112131415161718192021public class Solution &amp;#123;    public boolean IsBalanced_Solution(TreeNo</p>
+        
+    
+    <time datetime="2017-09-08T16:00:00.000Z" itemprop="datePublished">2017-09-09</time>
+  </a>
+</section>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix unexpand">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
   </nav>
 
@@ -997,7 +373,7 @@
 
   <div class="weiboshow">
   <p class="asidetitle">Weibo</p>
-    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=b3593ceb&dpc=1"></iframe>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=5245489251&verifier=9f9f84e5&dpc=1"></iframe>
 </div>
 
 
@@ -1013,13 +389,13 @@
 	
 	
 	<section class="info">
-		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+		<p> Hello ,I&#39;m NobiGo in BIT. <br/>
 			This is my blog,believe it or not.</p>
 	</section>
 	 
 	<div class="social-font" class="clearfix">
 		
-		<a href="http://weibo.com/2176287895" target="_blank" class="icon-weibo" title="微博"></a>
+		<a href="http://weibo.com/5245489251" target="_blank" class="icon-weibo" title="微博"></a>
 		
 		
 		
