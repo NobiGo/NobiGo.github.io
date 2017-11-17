@@ -4,25 +4,25 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Java参数传递 | NobiGo&#39;s blog</title>
+    <title>Spring Boot忽略https证书：No subject alternative names present | NobiGo&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="NobiGo">
     
 
     
-    <meta name="description" content="JAVA属于值传递还是引用传递？ 不管你传的是什么,传过去的都只是一个副本而已,这个副本作为方法的局部变量保存在栈中。 如果传的是基本数据类型,修改这个值并不会影响作为参数传进来的那个变量,因为你修改的是方法的局部变量,是一个副本。 如果传的是一个对象的引用,也是一样的,也是一个副本,但是这个副本和作为参数传进来的那个引用指向的是内存中的同一个对象,所以你通过这个副本也可以操作那个对象。但是如果你">
-<meta name="keywords" content="java基础">
+    <meta name="description" content="在启动时候调用：  1disableSslVerification();  具体实现如下：  1234567891011121314151617181920212223242526272829303132333435private static void disableSslVerification() &amp;#123;       try       &amp;#123;           // Cre">
+<meta name="keywords" content="错误记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java参数传递">
-<meta property="og:url" content="http://yoursite.com/2017/09/26/Java参数传递/index.html">
+<meta property="og:title" content="Spring Boot忽略https证书：No subject alternative names present">
+<meta property="og:url" content="http://yoursite.com/2017/11/17/Spring-Boot忽略https证书：No-subject-alternative-names-present/index.html">
 <meta property="og:site_name" content="NobiGo&#39;s blog">
-<meta property="og:description" content="JAVA属于值传递还是引用传递？ 不管你传的是什么,传过去的都只是一个副本而已,这个副本作为方法的局部变量保存在栈中。 如果传的是基本数据类型,修改这个值并不会影响作为参数传进来的那个变量,因为你修改的是方法的局部变量,是一个副本。 如果传的是一个对象的引用,也是一样的,也是一个副本,但是这个副本和作为参数传进来的那个引用指向的是内存中的同一个对象,所以你通过这个副本也可以操作那个对象。但是如果你">
+<meta property="og:description" content="在启动时候调用：  1disableSslVerification();  具体实现如下：  1234567891011121314151617181920212223242526272829303132333435private static void disableSslVerification() &amp;#123;       try       &amp;#123;           // Cre">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-09-26T06:45:07.000Z">
+<meta property="og:updated_time" content="2017-11-17T09:49:20.233Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java参数传递">
-<meta name="twitter:description" content="JAVA属于值传递还是引用传递？ 不管你传的是什么,传过去的都只是一个副本而已,这个副本作为方法的局部变量保存在栈中。 如果传的是基本数据类型,修改这个值并不会影响作为参数传进来的那个变量,因为你修改的是方法的局部变量,是一个副本。 如果传的是一个对象的引用,也是一样的,也是一个副本,但是这个副本和作为参数传进来的那个引用指向的是内存中的同一个对象,所以你通过这个副本也可以操作那个对象。但是如果你">
+<meta name="twitter:title" content="Spring Boot忽略https证书：No subject alternative names present">
+<meta name="twitter:description" content="在启动时候调用：  1disableSslVerification();  具体实现如下：  1234567891011121314151617181920212223242526272829303132333435private static void disableSslVerification() &amp;#123;       try       &amp;#123;           // Cre">
 
     
     <link rel="alternative" href="/atom.xml" title="NobiGo&#39;s blog" type="application/atom+xml">
@@ -80,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/09/26/Java参数传递/" title="Java参数传递" itemprop="url">Java参数传递</a>
+      <a href="/2017/11/17/Spring-Boot忽略https证书：No-subject-alternative-names-present/" title="Spring Boot忽略https证书：No subject alternative names present" itemprop="url">Spring Boot忽略https证书：No subject alternative names present</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
 		
   <p class="article-time">
-    <time datetime="2017-09-26T06:41:53.000Z" itemprop="datePublished"> Published 2017-09-26</time>
+    <time datetime="2017-11-17T09:46:00.000Z" itemprop="datePublished"> Published 2017-11-17</time>
     
   </p>
 </header>
@@ -100,11 +100,14 @@
 		
 		</div>
 		
-		<p>JAVA属于值传递还是引用传递？</p>
-<p>不管你传的是什么,传过去的都只是一个副本而已,这个副本作为方法的局部变量保存在栈中。</p>
-<p>如果传的是基本数据类型,修改这个值并不会影响作为参数传进来的那个变量,因为你修改的是方法的局部变量,是一个副本。</p>
-<p>如果传的是一个对象的引用,也是一样的,也是一个副本,但是这个副本和作为参数传进来的那个引用指向的是内存中的同一个对象,所以你通过这个副本也可以操作那个对象。但是如果你修改这个引用本身,比如让他指向内存中的另外一个对象,原来作为参数传进来的那个引用不会受到影响。</p>
-<p>我觉得弄明白这些就行了,说值传递或引用传递都无所谓,但是说值传递更适合一些,这个值可以是引用也可以是基本数据类型。</p>
+		<ul>
+<li>在启动时候调用：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">disableSslVerification();</div></pre></td></tr></table></figure>
+<ul>
+<li>具体实现如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">private static void disableSslVerification() &#123;</div><div class="line">       try</div><div class="line">       &#123;</div><div class="line">           // Create a trust manager that does not validate certificate chains</div><div class="line">           TrustManager[] trustAllCerts = new TrustManager[] &#123;new X509TrustManager() &#123;</div><div class="line">               public java.security.cert.X509Certificate[] getAcceptedIssuers() &#123;</div><div class="line">                   return null;</div><div class="line">               &#125;</div><div class="line">               public void checkClientTrusted(X509Certificate[] certs, String authType) &#123;</div><div class="line">               &#125;</div><div class="line">               public void checkServerTrusted(X509Certificate[] certs, String authType) &#123;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           &#125;;</div><div class="line"></div><div class="line">           // Install the all-trusting trust manager</div><div class="line">           SSLContext sc = SSLContext.getInstance(&quot;SSL&quot;);</div><div class="line">           sc.init(null, trustAllCerts, new java.security.SecureRandom());</div><div class="line">           HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());</div><div class="line"></div><div class="line">           // Create all-trusting host name verifier</div><div class="line">           HostnameVerifier allHostsValid = new HostnameVerifier() &#123;</div><div class="line">               public boolean verify(String hostname, SSLSession session) &#123;</div><div class="line">                   return true;</div><div class="line">               &#125;</div><div class="line">           &#125;;</div><div class="line"></div><div class="line">           // Install the all-trusting host verifier</div><div class="line">           HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);</div><div class="line">       &#125; catch (NoSuchAlgorithmException e) &#123;</div><div class="line">           e.printStackTrace();</div><div class="line">       &#125; catch (KeyManagementException e) &#123;</div><div class="line">           e.printStackTrace();</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -112,13 +115,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/SpecialNote/">SpecialNote</a>
+  <a class="article-category-link" href="/categories/编程实践/">编程实践</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/java基础/">java基础</a>
+  <span></span> <a href="/tags/错误记录/">错误记录</a>
   </div>
 
 </div>
@@ -163,19 +166,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/10/11/逆序字符串的最长公共子序列长度/" title="逆序字符串的最长公共子序列长度">
-  <strong>上一篇：</strong><br/>
-  <span>
-  逆序字符串的最长公共子序列长度</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/09/22/正确实现Java中的HashCode-一致性/"  title="正确实现Java中的HashCode-一致性">
+<a href="/2017/11/17/SpringBoot中启动HTTPS/"  title="SpringBoot中启动HTTPS">
  <strong>下一篇：</strong><br/> 
- <span>正确实现Java中的HashCode-一致性
+ <span>SpringBoot中启动HTTPS
 </span>
 </a>
 </div>
