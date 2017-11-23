@@ -4,23 +4,25 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>NobiGo&#39;s blog</title>
+    <title>IDEA搭建MyBatis项目之异常：java.io.IOException: Could not find resource mapping/******.xml | NobiGo&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="NobiGo">
     
 
     
-    <meta name="description" content="编程实践,阅读">
-<meta property="og:type" content="website">
-<meta property="og:title" content="NobiGo&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+    <meta name="description" content="错误原因IDEA的Maven是不会编译src的java目录的xml文件，所以在Mybatis的配置文件中找不到xml文件！ 解决方案将下列代码添加到Maven文件中： 12345678910&amp;lt;build&amp;gt;    &amp;lt;resources&amp;gt;        &amp;lt;resource&amp;gt;            &amp;lt;directory&amp;gt;src/main/java&amp;lt;/">
+<meta name="keywords" content="错误记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IDEA搭建MyBatis项目之异常：java.io.IOException: Could not find resource mapping&#x2F;******.xml">
+<meta property="og:url" content="http://yoursite.com/2017/11/23/IDEA搭建MyBatis项目之异常：java-io-IOException-Could-not-find-resource-mapping-xml/index.html">
 <meta property="og:site_name" content="NobiGo&#39;s blog">
-<meta property="og:description" content="编程实践,阅读">
+<meta property="og:description" content="错误原因IDEA的Maven是不会编译src的java目录的xml文件，所以在Mybatis的配置文件中找不到xml文件！ 解决方案将下列代码添加到Maven文件中： 12345678910&amp;lt;build&amp;gt;    &amp;lt;resources&amp;gt;        &amp;lt;resource&amp;gt;            &amp;lt;directory&amp;gt;src/main/java&amp;lt;/">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-23T02:27:34.939Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NobiGo&#39;s blog">
-<meta name="twitter:description" content="编程实践,阅读">
+<meta name="twitter:title" content="IDEA搭建MyBatis项目之异常：java.io.IOException: Could not find resource mapping&#x2F;******.xml">
+<meta name="twitter:description" content="错误原因IDEA的Maven是不会编译src的java目录的xml文件，所以在Mybatis的配置文件中找不到xml文件！ 解决方案将下列代码添加到Maven文件中： 12345678910&amp;lt;build&amp;gt;    &amp;lt;resources&amp;gt;        &amp;lt;resource&amp;gt;            &amp;lt;directory&amp;gt;src/main/java&amp;lt;/">
 
     
     <link rel="alternative" href="/atom.xml" title="NobiGo&#39;s blog" type="application/atom+xml">
@@ -72,247 +74,109 @@
 </div>
     </header>
     <div id="container">
-      <div id="main">
-
+      <div id="main" class="post" itemscope itemprop="blogPost">
   
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/11/13/FinTech技术/" title="FinTech技术" itemprop="url">
-  
-    <h1 itemprop="name">FinTech技术</h1>
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
     
-     
-           <p itemprop="description" >基础
-金融是在不确定的环境中进行资源跨界的最优配置决策行为，其本质是价值流通。
-科技的介入可以加速解决传统金融的信息采集、风险定价模型、投资决策、信用中介等行业痛点，大数据、云计算、人工智能、区块链等均是FinTech重要的技术维度驱动力。
-FinTech划分为大数据风控、区块链</p>
-        
+      <a href="/2017/11/23/IDEA搭建MyBatis项目之异常：java-io-IOException-Could-not-find-resource-mapping-xml/" title="IDEA搭建MyBatis项目之异常：java.io.IOException: Could not find resource mapping/******.xml" itemprop="url">IDEA搭建MyBatis项目之异常：java.io.IOException: Could not find resource mapping/******.xml</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
+		
+  <p class="article-time">
+    <time datetime="2017-11-23T02:24:11.000Z" itemprop="datePublished"> Published 2017-11-23</time>
     
-    <time datetime="2017-11-13T02:13:48.000Z" itemprop="datePublished">2017-11-13</time>
-  </a>
-</section>
-
-
-
-
-
-
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#错误原因"><span class="toc-number">1.</span> <span class="toc-text">错误原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案"><span class="toc-number">2.</span> <span class="toc-text">解决方案</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h2><p>IDEA的Maven是不会编译src的java目录的xml文件，所以在Mybatis的配置文件中找不到xml文件！</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>将下列代码添加到Maven文件中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;build&gt;</div><div class="line">    &lt;resources&gt;</div><div class="line">        &lt;resource&gt;</div><div class="line">            &lt;directory&gt;src/main/java&lt;/directory&gt;</div><div class="line">            &lt;includes&gt;</div><div class="line">                &lt;include&gt;**/*.xml&lt;/include&gt;</div><div class="line">            &lt;/includes&gt;</div><div class="line">        &lt;/resource&gt;</div><div class="line">    &lt;/resources&gt;</div><div class="line">&lt;/build&gt;</div></pre></td></tr></table></figure>
   
-<section class="post" itemscope itemprop="blogitem">
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程实践/">编程实践</a>
+</div>
+
+
+  <div class="article-tags">
   
-    <a href="/2017/11/12/git总结/" title="git总结" itemprop="url">
-  
-    <h1 itemprop="name">git总结</h1>
-    
-     
-           <p itemprop="description" >git rebase冲突解决方案
-
-在rebase过程中，也许会出现冲突，在这种情况下，git会停止rebase并会让你去解决冲突；在解决完冲突后，用“git -add”命令去更新这些内容的索引，然后，无需执行git-commit：
-12git add .git rebase c</p>
-        
-    
-    <time datetime="2017-11-12T14:42:32.000Z" itemprop="datePublished">2017-11-12</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/11/05/POJO模式/" title="POJO模式" itemprop="url">
-  
-    <h1 itemprop="name">POJO模式</h1>
-    
-     
-           <p itemprop="description" >什么是POJO
-
-
-POJO的名称有多种，pure old java object 、plain ordinary java object 等。
-
-按照Martin Fowler的解释是“Plain Old Java Object”，从字面上翻译为“纯洁老式的java对象”，但大</p>
-        
-    
-    <time datetime="2017-11-05T02:49:37.000Z" itemprop="datePublished">2017-11-05</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/10/28/Spring概述/" title="Spring概述" itemprop="url">
-  
-    <h1 itemprop="name">Spring概述</h1>
-    
-     
-           <p itemprop="description" >Spring是分层的Java SE／EE应用一站式的轻量级开源框架，以IOC（控制反转）和AOP（切面编程）为内核，提供了展现层Spring MVC／持久层Spring JDBC以及业务层事务管理等一站式的企业级应用技术。
-理念：好的设计优于具体实现，代码应易于测试
-Spring</p>
-        
-    
-    <time datetime="2017-10-28T05:31:10.000Z" itemprop="datePublished">2017-10-28</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/10/13/《虚拟化与云计算》读书笔记/" title="《虚拟化与云计算》读书笔记" itemprop="url">
-  
-    <h1 itemprop="name">《虚拟化与云计算》读书笔记</h1>
-    
-     
-           <p itemprop="description" >目的
-云计算
-
-将各种IT资源（计算资源、存储资源、软件开发、系统测试等）以服务的形式通过互联网交付给用户。
-
-虚拟化
-
-实现了IT资源的逻辑抽象和统一表示，在大规模数据中心管理和解决方案交付方面发挥着巨大的作用，是支撑云计算的技术基石。
-1. 数据中心实例
-当你在银行办理业务时</p>
-        
-    
-    <time datetime="2017-10-13T08:44:28.000Z" itemprop="datePublished">2017-10-13</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/10/11/逆序字符串的最长公共子序列长度/" title="逆序字符串的最长公共子序列长度" itemprop="url">
-  
-    <h1 itemprop="name">逆序字符串的最长公共子序列长度</h1>
-    
-     
-           <p itemprop="description" >题目：给出一个以空格作为分隔符的字符串，求其与其空格分割的逆序字符串的最长公共子序列长度。输入案例例如：
-输入 2017 11 02
-其逆序字符串为 02 11 2017
-输出 6（2 11 2）
-动态规划法经常会遇到复杂问题不能简单地分解成几个子问题，而会分解出一系列的子问题。</p>
-        
-    
-    <time datetime="2017-10-11T06:28:57.000Z" itemprop="datePublished">2017-10-11</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/09/26/Java参数传递/" title="Java参数传递" itemprop="url">
-  
-    <h1 itemprop="name">Java参数传递</h1>
-    
-     
-           <p itemprop="description" >JAVA属于值传递还是引用传递？
-不管你传的是什么,传过去的都只是一个副本而已,这个副本作为方法的局部变量保存在栈中。
-如果传的是基本数据类型,修改这个值并不会影响作为参数传进来的那个变量,因为你修改的是方法的局部变量,是一个副本。
-如果传的是一个对象的引用,也是一样的,也是一个</p>
-        
-    
-    <time datetime="2017-09-26T06:41:53.000Z" itemprop="datePublished">2017-09-26</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/09/22/正确实现Java中的HashCode-一致性/" title="正确实现Java中的HashCode-一致性" itemprop="url">
-  
-    <h1 itemprop="name">正确实现Java中的HashCode-一致性</h1>
-    
-     
-           <p itemprop="description" >默认情况下，用户自定义实现HashCode时，它们会使用相同的字段，但有一个细节需要考虑。
-一致性第一是一致性要求。它应该经过非常严格的计算。如果有字段产生了变化，哈希码也应该允许变化（对于可变类来说，这往往是不可避免的），依赖哈希的数据结构并未准备应付这种情况。
-正如我们所知哈</p>
-        
-    
-    <time datetime="2017-09-22T06:19:13.000Z" itemprop="datePublished">2017-09-22</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/09/22/Java高并发：锁概览/" title="Java高并发：锁概览" itemprop="url">
-  
-    <h1 itemprop="name">Java高并发：锁概览</h1>
-    
-     
-           <p itemprop="description" >在学习或者使用Java的过程中进程会遇到各种各样的锁的概念：公平锁、非公平锁、自旋锁、可重入锁、偏向锁、轻量级锁、重量级锁、读写锁、互斥锁等待。这里整理了Java中的各种锁，若有不足之处希望大家在下方留言探讨。
-公平锁和非公平锁公平锁是指多个线程在等待同一个锁时，必须按照申请锁的</p>
-        
-    
-    <time datetime="2017-09-22T05:52:48.000Z" itemprop="datePublished">2017-09-22</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/09/22/Java高并发：ReentrantLock-重入锁-以及公平性/" title="Java高并发：ReentrantLock(重入锁)以及公平性" itemprop="url">
-  
-    <h1 itemprop="name">Java高并发：ReentrantLock(重入锁)以及公平性</h1>
-    
-     
-           <p itemprop="description" >简介ReentrantLock的实现不仅可以替代隐式的synchronized关键字，而且能够提供超过关键字本身的多种功能。
-这里提到一个锁获取的公平性问题，如果在绝对时间上，先对锁进行获取的请求一定被先满足，那么这个锁是公平的，反之，是不公平的，也就是说等待时间最长的线程最有机</p>
-        
-    
-    <time datetime="2017-09-22T05:47:47.000Z" itemprop="datePublished">2017-09-22</time>
-  </a>
-</section>
-
-
-
-
-
-
-
-  <nav id="page-nav" class="clearfix unexpand">
-    <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
-  </nav>
+  <span></span> <a href="/tags/错误记录/">错误记录</a>
+  </div>
 
 </div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=2148879
+2148897" charset="utf-8"></script>      
+
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/11/20/Spring拦截器/"  title="Spring拦截器">
+ <strong>下一篇：</strong><br/> 
+ <span>Spring拦截器
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
       <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
@@ -598,6 +462,32 @@ $(document).ready(function(){
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
 
 
 
@@ -670,4 +560,4 @@ var _hmt = _hmt || [];
 <!-- Tiny_search End -->
 
   </body>
- </html>
+</html>
