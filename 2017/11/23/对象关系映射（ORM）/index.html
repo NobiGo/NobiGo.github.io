@@ -4,25 +4,27 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>SpringBoot中启动HTTPS | NobiGo&#39;s blog</title>
+    <title>对象关系映射（ORM） | NobiGo&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="NobiGo">
     
 
     
-    <meta name="description" content="如果你使用Spring Boot，并且想在内嵌tomcat中添加HTTPS，需要如下步骤：  要有一个证书，买的或者自己生成的 在Spring Boot中启动HTTPS   这里作为演示，采用keytool生成,输入下面的命令，根据提示输入信息，获取SSL证书  1keytool -genkey -alias tomcat  -storetype PKCS12 -keyalg RSA -keysi">
-<meta name="keywords" content="Spring">
+    <meta name="description" content="对象关系映射Object Relational Mapping 定义ORM模型就是数据库的表和简单的Java对象（POJO）的映射关系模型，主要解决数据库数据和POJO对象的相互映射。">
+<meta name="keywords" content="Spring,软件常识">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SpringBoot中启动HTTPS">
-<meta property="og:url" content="http://yoursite.com/2017/11/17/SpringBoot中启动HTTPS/index.html">
+<meta property="og:title" content="对象关系映射（ORM）">
+<meta property="og:url" content="http://yoursite.com/2017/11/23/对象关系映射（ORM）/index.html">
 <meta property="og:site_name" content="NobiGo&#39;s blog">
-<meta property="og:description" content="如果你使用Spring Boot，并且想在内嵌tomcat中添加HTTPS，需要如下步骤：  要有一个证书，买的或者自己生成的 在Spring Boot中启动HTTPS   这里作为演示，采用keytool生成,输入下面的命令，根据提示输入信息，获取SSL证书  1keytool -genkey -alias tomcat  -storetype PKCS12 -keyalg RSA -keysi">
+<meta property="og:description" content="对象关系映射Object Relational Mapping 定义ORM模型就是数据库的表和简单的Java对象（POJO）的映射关系模型，主要解决数据库数据和POJO对象的相互映射。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-17T09:42:40.569Z">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/对象关系映射（ORM）/对象关系映射（ORM）/对象关系映射.jpg">
+<meta property="og:updated_time" content="2017-11-23T03:22:58.443Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SpringBoot中启动HTTPS">
-<meta name="twitter:description" content="如果你使用Spring Boot，并且想在内嵌tomcat中添加HTTPS，需要如下步骤：  要有一个证书，买的或者自己生成的 在Spring Boot中启动HTTPS   这里作为演示，采用keytool生成,输入下面的命令，根据提示输入信息，获取SSL证书  1keytool -genkey -alias tomcat  -storetype PKCS12 -keyalg RSA -keysi">
+<meta name="twitter:title" content="对象关系映射（ORM）">
+<meta name="twitter:description" content="对象关系映射Object Relational Mapping 定义ORM模型就是数据库的表和简单的Java对象（POJO）的映射关系模型，主要解决数据库数据和POJO对象的相互映射。">
+<meta name="twitter:image" content="http://yoursite.com/2017/11/23/对象关系映射（ORM）/对象关系映射（ORM）/对象关系映射.jpg">
 
     
     <link rel="alternative" href="/atom.xml" title="NobiGo&#39;s blog" type="application/atom+xml">
@@ -80,14 +82,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/11/17/SpringBoot中启动HTTPS/" title="SpringBoot中启动HTTPS" itemprop="url">SpringBoot中启动HTTPS</a>
+      <a href="/2017/11/23/对象关系映射（ORM）/" title="对象关系映射（ORM）" itemprop="url">对象关系映射（ORM）</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-17T01:51:58.000Z" itemprop="datePublished"> Published 2017-11-17</time>
+    <time datetime="2017-11-23T03:16:05.000Z" itemprop="datePublished"> Published 2017-11-23</time>
     
   </p>
 </header>
@@ -96,22 +98,13 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#为SpringBoot添加HTTPS链接"><span class="toc-number">1.</span> <span class="toc-text">为SpringBoot添加HTTPS链接</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#对象关系映射"><span class="toc-number">1.</span> <span class="toc-text">对象关系映射</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-number">2.</span> <span class="toc-text">定义</span></a></li></ol>
 		
 		</div>
 		
-		<p>如果你使用Spring Boot，并且想在内嵌tomcat中添加HTTPS，需要如下步骤：</p>
-<ol>
-<li>要有一个证书，买的或者自己生成的</li>
-<li>在Spring Boot中启动HTTPS</li>
-</ol>
-<ul>
-<li>这里作为演示，采用keytool生成,输入下面的命令，根据提示输入信息，获取SSL证书</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -genkey -alias tomcat  -storetype PKCS12 -keyalg RSA -keysize 2048  -keystore keystore.p12 -validity 3650</div></pre></td></tr></table></figure>
-<p>相关信息记载：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CN=duanxiong, OU=bit, O=bit, L=beijing, ST=beijing, C=china是否正确?</div></pre></td></tr></table></figure>
-<h1 id="为SpringBoot添加HTTPS链接"><a href="#为SpringBoot添加HTTPS链接" class="headerlink" title="为SpringBoot添加HTTPS链接"></a>为SpringBoot添加HTTPS链接</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">server.port=9100</div><div class="line">server.ssl.key-store: keystore.p12</div><div class="line">server.ssl.key-store-password: dx2017dx</div><div class="line">server.ssl.keyStoreType: PKCS12</div><div class="line">server.ssl.keyAlias: tomcat</div></pre></td></tr></table></figure>
+		<h2 id="对象关系映射"><a href="#对象关系映射" class="headerlink" title="对象关系映射"></a>对象关系映射</h2><p>Object Relational Mapping</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>ORM模型就是数据库的表和简单的Java对象（POJO）的映射关系模型，主要解决数据库数据和POJO对象的相互映射。</p>
+<p><img src="/2017/11/23/对象关系映射（ORM）/对象关系映射（ORM）/对象关系映射.jpg" alt="框架结构"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -119,13 +112,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/编程实践/">编程实践</a>
+  <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Spring/">Spring</a>
+  <span></span> <a href="/tags/Spring/">Spring</a><a href="/tags/软件常识/">软件常识</a>
   </div>
 
 </div>
@@ -170,19 +163,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/11/17/Spring-Boot忽略https证书：No-subject-alternative-names-present/" title="Spring Boot忽略https证书：No subject alternative names present">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Spring Boot忽略https证书：No subject alternative names present</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/11/16/maven的阿里云镜像/"  title="maven的阿里云镜像">
+<a href="/2017/11/23/IDEA搭建MyBatis项目之异常：java-io-IOException-Could-not-find-resource-mapping-xml/"  title="IDEA搭建MyBatis项目之异常：java.io.IOException: Could not find resource mapping/******.xml">
  <strong>下一篇：</strong><br/> 
- <span>maven的阿里云镜像
+ <span>IDEA搭建MyBatis项目之异常：java.io.IOException: Could not find resource mapping/******.xml
 </span>
 </a>
 </div>
