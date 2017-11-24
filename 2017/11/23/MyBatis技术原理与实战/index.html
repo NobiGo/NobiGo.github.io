@@ -4,27 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Spring概述 | NobiGo&#39;s blog</title>
+    <title>MyBatis技术原理与实战 | NobiGo&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="NobiGo">
     
 
     
-    <meta name="description" content="Spring是分层的Java SE／EE应用一站式的轻量级开源框架，以IOC（控制反转）和AOP（切面编程）为内核，提供了展现层Spring MVC／持久层Spring JDBC以及业务层事务管理等一站式的企业级应用技术。 理念：好的设计优于具体实现，代码应易于测试 Spring好处：   方便节藕，简化开发。（控制反转IOC） AOP编程的支持 声明式事务的支持 方便程序的测试 方便集成各种优">
-<meta name="keywords" content="Spring">
+    <meta name="description" content="MyBatis 所需要提供的映射文件包含以下3部分： SQL(XML配置文件)：提供SQL和SQL对POJO的映射规则定义，它包含了映射器里面的信息。 映射规则（Mapper接口） POJO（Java类）   MyBatis的基本构成： SqlSessionFactoryBuilder（构造器）：它会根据配置信息或者代码来生成SqlSessionFactory（工厂接口） SqlSessionFa">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring概述">
-<meta property="og:url" content="http://yoursite.com/2017/10/28/Spring概述/index.html">
+<meta property="og:title" content="MyBatis技术原理与实战">
+<meta property="og:url" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/index.html">
 <meta property="og:site_name" content="NobiGo&#39;s blog">
-<meta property="og:description" content="Spring是分层的Java SE／EE应用一站式的轻量级开源框架，以IOC（控制反转）和AOP（切面编程）为内核，提供了展现层Spring MVC／持久层Spring JDBC以及业务层事务管理等一站式的企业级应用技术。 理念：好的设计优于具体实现，代码应易于测试 Spring好处：   方便节藕，简化开发。（控制反转IOC） AOP编程的支持 声明式事务的支持 方便程序的测试 方便集成各种优">
+<meta property="og:description" content="MyBatis 所需要提供的映射文件包含以下3部分： SQL(XML配置文件)：提供SQL和SQL对POJO的映射规则定义，它包含了映射器里面的信息。 映射规则（Mapper接口） POJO（Java类）   MyBatis的基本构成： SqlSessionFactoryBuilder（构造器）：它会根据配置信息或者代码来生成SqlSessionFactory（工厂接口） SqlSessionFa">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2017/10/28/Spring概述/Spring概述/Spring框架结构.jpg">
-<meta property="og:updated_time" content="2017-11-16T08:51:12.559Z">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/MyBatis的ORM映射模型.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/MyBatis的构成.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/两个SqlSessionFactory实现类的关系图.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/MyBatis组件的生命周期.png">
+<meta property="og:updated_time" content="2017-11-24T02:08:41.396Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring概述">
-<meta name="twitter:description" content="Spring是分层的Java SE／EE应用一站式的轻量级开源框架，以IOC（控制反转）和AOP（切面编程）为内核，提供了展现层Spring MVC／持久层Spring JDBC以及业务层事务管理等一站式的企业级应用技术。 理念：好的设计优于具体实现，代码应易于测试 Spring好处：   方便节藕，简化开发。（控制反转IOC） AOP编程的支持 声明式事务的支持 方便程序的测试 方便集成各种优">
-<meta name="twitter:image" content="http://yoursite.com/2017/10/28/Spring概述/Spring概述/Spring框架结构.jpg">
+<meta name="twitter:title" content="MyBatis技术原理与实战">
+<meta name="twitter:description" content="MyBatis 所需要提供的映射文件包含以下3部分： SQL(XML配置文件)：提供SQL和SQL对POJO的映射规则定义，它包含了映射器里面的信息。 映射规则（Mapper接口） POJO（Java类）   MyBatis的基本构成： SqlSessionFactoryBuilder（构造器）：它会根据配置信息或者代码来生成SqlSessionFactory（工厂接口） SqlSessionFa">
+<meta name="twitter:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/MyBatis的ORM映射模型.png">
 
     
     <link rel="alternative" href="/atom.xml" title="NobiGo&#39;s blog" type="application/atom+xml">
@@ -82,14 +84,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/10/28/Spring概述/" title="Spring概述" itemprop="url">Spring概述</a>
+      <a href="/2017/11/23/MyBatis技术原理与实战/" title="MyBatis技术原理与实战" itemprop="url">MyBatis技术原理与实战</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-28T05:31:10.000Z" itemprop="datePublished"> Published 2017-10-28</time>
+    <time datetime="2017-11-23T03:26:00.000Z" itemprop="datePublished"> Published 2017-11-23</time>
     
   </p>
 </header>
@@ -98,52 +100,63 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SpringBoot"><span class="toc-number">1.</span> <span class="toc-text">SpringBoot</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis-所需要提供的映射文件包含以下3部分："><span class="toc-number">1.</span> <span class="toc-text">MyBatis 所需要提供的映射文件包含以下3部分：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis的基本构成："><span class="toc-number">2.</span> <span class="toc-text">MyBatis的基本构成：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#映射器（Java接口和XML文件（或注解））"><span class="toc-number">3.</span> <span class="toc-text">映射器（Java接口和XML文件（或注解））</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现步骤"><span class="toc-number">3.1.</span> <span class="toc-text">实现步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引入映射器的方法"><span class="toc-number">3.2.</span> <span class="toc-text">引入映射器的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#传递多个参数方法"><span class="toc-number">3.3.</span> <span class="toc-text">传递多个参数方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MyBatis中的级联"><span class="toc-number">3.4.</span> <span class="toc-text">MyBatis中的级联</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期"><span class="toc-number">4.</span> <span class="toc-text">生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注："><span class="toc-number">5.</span> <span class="toc-text">注：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MyBatis-动态SQL"><span class="toc-number">5.1.</span> <span class="toc-text">MyBatis 动态SQL</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<ol>
-<li>Spring是分层的Java SE／EE应用一站式的轻量级开源框架，以IOC（控制反转）和AOP（切面编程）为内核，提供了展现层Spring MVC／持久层Spring JDBC以及业务层事务管理等一站式的企业级应用技术。</li>
-<li>理念：好的设计优于具体实现，代码应易于测试</li>
-<li>Spring好处：</li>
+		<h2 id="MyBatis-所需要提供的映射文件包含以下3部分："><a href="#MyBatis-所需要提供的映射文件包含以下3部分：" class="headerlink" title="MyBatis 所需要提供的映射文件包含以下3部分："></a>MyBatis 所需要提供的映射文件包含以下3部分：</h2><ol>
+<li>SQL(XML配置文件)：提供SQL和SQL对POJO的映射规则定义，它包含了映射器里面的信息。</li>
+<li>映射规则（Mapper接口）</li>
+<li>POJO（Java类）</li>
 </ol>
-<ul>
-<li>方便节藕，简化开发。（控制反转IOC）</li>
-<li>AOP编程的支持</li>
-<li>声明式事务的支持</li>
-<li>方便程序的测试</li>
-<li>方便集成各种优秀的框架</li>
-<li>降低Java API的难度</li>
-</ul>
-<ol>
-<li>Spring框架结构</li>
+<p><img src="/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/MyBatis的ORM映射模型.png" alt=""></p>
+<h2 id="MyBatis的基本构成："><a href="#MyBatis的基本构成：" class="headerlink" title="MyBatis的基本构成："></a>MyBatis的基本构成：</h2><ol>
+<li>SqlSessionFactoryBuilder（构造器）：它会根据配置信息或者代码来生成SqlSessionFactory（工厂接口）</li>
+<li>SqlSessionFactory：依靠工厂来生成SqlSession（会话）</li>
+<li>SqlSession：是一个既可以发送SQL去执行并返回结果，也可以获取Mapper接口。</li>
+<li>SQLMapper：由XML（或者注解）和Java接口构成的，需要给出对应的SQL和映射规则。它负责发送SQL去执行并返回结果。</li>
 </ol>
-<p><img src="/2017/10/28/Spring概述/Spring概述/Spring框架结构.jpg" alt="框架结构"></p>
-<ol>
-<li>Spring框架结构解释</li>
+<p><img src="/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/MyBatis的构成.png" alt=""></p>
+<p><img src="/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/两个SqlSessionFactory实现类的关系图.png" alt=""></p>
+<h2 id="映射器（Java接口和XML文件（或注解））"><a href="#映射器（Java接口和XML文件（或注解））" class="headerlink" title="映射器（Java接口和XML文件（或注解））"></a>映射器（Java接口和XML文件（或注解））</h2><ol>
+<li>定义参数类型</li>
+<li>描述缓存</li>
+<li>描述SQL语句</li>
+<li>定义查询结果和POJO的映射关系</li>
 </ol>
-<ul>
-<li><p>持久层负责数据的访问和操作，Dao类被上层的业务类调用，从数据库表中加载数据并实例化领域对象，或将领域对象持久化到数据库表中</p>
-</li>
-<li><p>领域对象（实体类）：</p>
-</li>
-</ul>
-<ol>
-<li>它代表了业务的状态，切贯穿展现层／业务层／持久层</li>
-<li>使数据库操作以面向对象的方式进行</li>
-<li>注意：领域对象不一定等同于数据库表，不过对与简单的应用来说，可以使对等的</li>
+<h3 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h3><ol>
+<li>给出Mapper接口（进一步屏蔽SqlSession对象，具有更强的业务可读性）</li>
+<li>实现XML文件</li>
 </ol>
-<h1 id="SpringBoot"><a href="#SpringBoot" class="headerlink" title="SpringBoot"></a>SpringBoot</h1><ul>
-<li>SpringBoot更像一个管家，它会在后台“智能地”整个后项目所需地第三方依赖类库和框架。因此大部分基于Spring Boot的应用仅需很少的配置就可以运行。</li>
-</ul>
-<p>特性：</p>
+<h3 id="引入映射器的方法"><a href="#引入映射器的方法" class="headerlink" title="引入映射器的方法"></a>引入映射器的方法</h3><ol>
+<li>用文件路径引入</li>
+<li>用包名引入映射器</li>
+<li>用类注册引用映射器</li>
+</ol>
+<h3 id="传递多个参数方法"><a href="#传递多个参数方法" class="headerlink" title="传递多个参数方法"></a>传递多个参数方法</h3><ol>
+<li>使用Map传递参数（可读性差）</li>
+<li>使用注解方式传递参数（参数个数《=5）</li>
+<li>使用JavaBean传递参数（参数个数》=5）</li>
+</ol>
+<h3 id="MyBatis中的级联"><a href="#MyBatis中的级联" class="headerlink" title="MyBatis中的级联"></a>MyBatis中的级联</h3><ol>
+<li>association:代表一对一的关系</li>
+<li>collection:代表一对多的关系</li>
+<li>discriminator:鉴别器（根据不同的情况去用男人类或者女人类去实例化）</li>
+</ol>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p><img src="/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/MyBatis组件的生命周期.png" alt=""></p>
+<h2 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h2><ol>
+<li>代码中的resource要设置为resources，否则不能直接写路径。</li>
+<li>提供类中属性到数据库中名字映射要是用：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;!--提供类属性到数据库列的映射--&gt;</div><div class="line">    &lt;resultMap type=&quot;POJO&quot; id=&quot;唯一id&quot;&gt;</div><div class="line">        &lt;result property=&quot;类属性&quot; column=&quot;列名&quot; /&gt;</div><div class="line">    &lt;/resultMap&gt;</div></pre></td></tr></table></figure>
+<h3 id="MyBatis-动态SQL"><a href="#MyBatis-动态SQL" class="headerlink" title="MyBatis 动态SQL"></a>MyBatis 动态SQL</h3><ol>
+<li>if(判断语句-单条件判断)</li>
+<li>choose（多条件分支判断）（choose、when、otherwise）</li>
+<li>trim（where、set） 辅助元素，处理拼装问题</li>
+<li>foreach (循环语句)</li>
+</ol>
 <ol>
-<li>快速上手</li>
-<li>内置Tomcat和Jetty，可以独立运行</li>
-<li>提供许多基于Maven的pom配置模板来简化工程配置</li>
-<li>提供实现自动化配置的基础设施</li>
-<li>提供可以直接在生产环境中使用的功能</li>
-<li>开箱即用</li>
+<li>在MyBatis中别名是不区分大小写的。</li>
 </ol>
   
 	</div>
@@ -155,11 +168,6 @@
   <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
 </div>
 
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Spring/">Spring</a>
-  </div>
 
 </div>
 
@@ -203,19 +211,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/11/05/POJO模式/" title="POJO模式">
-  <strong>上一篇：</strong><br/>
-  <span>
-  POJO模式</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/10/13/《虚拟化与云计算》读书笔记/"  title="《虚拟化与云计算》读书笔记">
+<a href="/2017/11/23/对象关系映射（ORM）/"  title="对象关系映射（ORM）">
  <strong>下一篇：</strong><br/> 
- <span>《虚拟化与云计算》读书笔记
+ <span>对象关系映射（ORM）
 </span>
 </a>
 </div>
