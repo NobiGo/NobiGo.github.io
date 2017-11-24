@@ -19,10 +19,10 @@
 <meta property="og:description" content="MyBatis 所需要提供的映射文件包含以下3部分： SQL(XML配置文件)：提供SQL和SQL对POJO的映射规则定义，它包含了映射器里面的信息。 映射规则（Mapper接口） POJO（Java类）   MyBatis的基本构成： SqlSessionFactoryBuilder（构造器）：它会根据配置信息或者代码来生成SqlSessionFactory（工厂接口） SqlSessionFa">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/MyBatis的ORM映射模型.png">
-<meta property="og:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/MyBatis的构成.png">
-<meta property="og:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/两个SqlSessionFactory实现类的关系图.png">
-<meta property="og:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/MyBatis组件的生命周期.png">
-<meta property="og:updated_time" content="2017-11-24T02:08:41.396Z">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/MyBatis的构成.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/两个SqlSessionFactory实现类的关系图.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/MyBatis组件的生命周期.png">
+<meta property="og:updated_time" content="2017-11-24T03:33:34.300Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis技术原理与实战">
 <meta name="twitter:description" content="MyBatis 所需要提供的映射文件包含以下3部分： SQL(XML配置文件)：提供SQL和SQL对POJO的映射规则定义，它包含了映射器里面的信息。 映射规则（Mapper接口） POJO（Java类）   MyBatis的基本构成： SqlSessionFactoryBuilder（构造器）：它会根据配置信息或者代码来生成SqlSessionFactory（工厂接口） SqlSessionFa">
@@ -116,8 +116,8 @@
 <li>SqlSession：是一个既可以发送SQL去执行并返回结果，也可以获取Mapper接口。</li>
 <li>SQLMapper：由XML（或者注解）和Java接口构成的，需要给出对应的SQL和映射规则。它负责发送SQL去执行并返回结果。</li>
 </ol>
-<p><img src="/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/MyBatis的构成.png" alt=""></p>
-<p><img src="/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/两个SqlSessionFactory实现类的关系图.png" alt=""></p>
+<p><img src="/2017/11/23/MyBatis技术原理与实战/MyBatis的构成.png" alt=""></p>
+<p><img src="/2017/11/23/MyBatis技术原理与实战/两个SqlSessionFactory实现类的关系图.png" alt=""></p>
 <h2 id="映射器（Java接口和XML文件（或注解））"><a href="#映射器（Java接口和XML文件（或注解））" class="headerlink" title="映射器（Java接口和XML文件（或注解））"></a>映射器（Java接口和XML文件（或注解））</h2><ol>
 <li>定义参数类型</li>
 <li>描述缓存</li>
@@ -143,7 +143,7 @@
 <li>collection:代表一对多的关系</li>
 <li>discriminator:鉴别器（根据不同的情况去用男人类或者女人类去实例化）</li>
 </ol>
-<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p><img src="/2017/11/23/MyBatis技术原理与实战/MyBatis技术原理与实战/MyBatis组件的生命周期.png" alt=""></p>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p><img src="/2017/11/23/MyBatis技术原理与实战/MyBatis组件的生命周期.png" alt=""></p>
 <h2 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h2><ol>
 <li>代码中的resource要设置为resources，否则不能直接写路径。</li>
 <li>提供类中属性到数据库中名字映射要是用：</li>
