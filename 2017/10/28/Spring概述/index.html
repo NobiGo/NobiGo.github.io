@@ -11,19 +11,19 @@
     
 
     
-    <meta name="description" content="Spring是分层的Java SE／EE应用一站式的轻量级开源框架，以IOC（控制反转）和AOP（切面编程）为内核，提供了展现层Spring MVC／持久层Spring JDBC以及业务层事务管理等一站式的企业级应用技术。 理念：好的设计优于具体实现，代码应易于测试 Spring好处：   方便节藕，简化开发。（控制反转IOC） AOP编程的支持 声明式事务的支持 方便程序的测试 方便集成各种优">
+    <meta name="description" content="Spring是分层的Java SE／EE应用一站式的轻量级开源框架，以IOC（控制反转）和AOP（切面编程）为内核，提供了展现层Spring MVC／持久层Spring JDBC以及业务层事务管理等一站式的企业级应用技术。 理念：好的设计优于具体实现，代码应易于测试 Spring好处：  方便节藕，简化开发。（控制反转IOC） AOP编程的支持 声明式事务的支持 方便程序的测试 方便集成各种优秀">
 <meta name="keywords" content="Spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring概述">
 <meta property="og:url" content="http://yoursite.com/2017/10/28/Spring概述/index.html">
 <meta property="og:site_name" content="NobiGo&#39;s blog">
-<meta property="og:description" content="Spring是分层的Java SE／EE应用一站式的轻量级开源框架，以IOC（控制反转）和AOP（切面编程）为内核，提供了展现层Spring MVC／持久层Spring JDBC以及业务层事务管理等一站式的企业级应用技术。 理念：好的设计优于具体实现，代码应易于测试 Spring好处：   方便节藕，简化开发。（控制反转IOC） AOP编程的支持 声明式事务的支持 方便程序的测试 方便集成各种优">
+<meta property="og:description" content="Spring是分层的Java SE／EE应用一站式的轻量级开源框架，以IOC（控制反转）和AOP（切面编程）为内核，提供了展现层Spring MVC／持久层Spring JDBC以及业务层事务管理等一站式的企业级应用技术。 理念：好的设计优于具体实现，代码应易于测试 Spring好处：  方便节藕，简化开发。（控制反转IOC） AOP编程的支持 声明式事务的支持 方便程序的测试 方便集成各种优秀">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/10/28/Spring概述/Spring框架结构.jpg">
-<meta property="og:updated_time" content="2017-11-24T03:41:29.819Z">
+<meta property="og:updated_time" content="2017-11-25T03:13:10.477Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring概述">
-<meta name="twitter:description" content="Spring是分层的Java SE／EE应用一站式的轻量级开源框架，以IOC（控制反转）和AOP（切面编程）为内核，提供了展现层Spring MVC／持久层Spring JDBC以及业务层事务管理等一站式的企业级应用技术。 理念：好的设计优于具体实现，代码应易于测试 Spring好处：   方便节藕，简化开发。（控制反转IOC） AOP编程的支持 声明式事务的支持 方便程序的测试 方便集成各种优">
+<meta name="twitter:description" content="Spring是分层的Java SE／EE应用一站式的轻量级开源框架，以IOC（控制反转）和AOP（切面编程）为内核，提供了展现层Spring MVC／持久层Spring JDBC以及业务层事务管理等一站式的企业级应用技术。 理念：好的设计优于具体实现，代码应易于测试 Spring好处：  方便节藕，简化开发。（控制反转IOC） AOP编程的支持 声明式事务的支持 方便程序的测试 方便集成各种优秀">
 <meta name="twitter:image" content="http://yoursite.com/2017/10/28/Spring概述/Spring框架结构.jpg">
 
     
@@ -98,15 +98,14 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SpringBoot"><span class="toc-number">1.</span> <span class="toc-text">SpringBoot</span></a></li></ol>
+			
 		
 		</div>
 		
 		<ol>
 <li>Spring是分层的Java SE／EE应用一站式的轻量级开源框架，以IOC（控制反转）和AOP（切面编程）为内核，提供了展现层Spring MVC／持久层Spring JDBC以及业务层事务管理等一站式的企业级应用技术。</li>
 <li>理念：好的设计优于具体实现，代码应易于测试</li>
-<li>Spring好处：</li>
-</ol>
+<li><p>Spring好处：</p>
 <ul>
 <li>方便节藕，简化开发。（控制反转IOC）</li>
 <li>AOP编程的支持</li>
@@ -115,35 +114,17 @@
 <li>方便集成各种优秀的框架</li>
 <li>降低Java API的难度</li>
 </ul>
-<ol>
-<li>Spring框架结构</li>
+</li>
+<li><p>Spring框架结构</p>
+</li>
 </ol>
 <p><img src="/2017/10/28/Spring概述/Spring框架结构.jpg" alt="框架结构"></p>
 <ol>
-<li>Spring框架结构解释</li>
+<li>依赖注入</li>
 </ol>
-<ul>
-<li><p>持久层负责数据的访问和操作，Dao类被上层的业务类调用，从数据库表中加载数据并实例化领域对象，或将领域对象持久化到数据库表中</p>
-</li>
-<li><p>领域对象（实体类）：</p>
-</li>
-</ul>
+<p>当某个角色(可能是一个Java实例，调用者)需要另一个角色(另一个Java实例，被调用者)的协助时，在传统的程序设计过程中，通常由调用者来创建被调用者的实例。但在Spring里，创建被调用者的工作不再由调用者来完成，因此称为控制反转;创建被调用者实例的工作通常由Spring容器来完成，然后注入调用者，因此也称为依赖注入。</p>
 <ol>
-<li>它代表了业务的状态，切贯穿展现层／业务层／持久层</li>
-<li>使数据库操作以面向对象的方式进行</li>
-<li>注意：领域对象不一定等同于数据库表，不过对与简单的应用来说，可以使对等的</li>
-</ol>
-<h1 id="SpringBoot"><a href="#SpringBoot" class="headerlink" title="SpringBoot"></a>SpringBoot</h1><ul>
-<li>SpringBoot更像一个管家，它会在后台“智能地”整个后项目所需地第三方依赖类库和框架。因此大部分基于Spring Boot的应用仅需很少的配置就可以运行。</li>
-</ul>
-<p>特性：</p>
-<ol>
-<li>快速上手</li>
-<li>内置Tomcat和Jetty，可以独立运行</li>
-<li>提供许多基于Maven的pom配置模板来简化工程配置</li>
-<li>提供实现自动化配置的基础设施</li>
-<li>提供可以直接在生产环境中使用的功能</li>
-<li>开箱即用</li>
+<li>Spring包括三层：持久层（Dao） 业务层（Controller） 展现层</li>
 </ol>
   
 	</div>
@@ -268,11 +249,15 @@
 		  
 		
 		  
+			<li><a href="/categories/环境配置/" title="环境配置">环境配置<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/算法/" title="算法">算法<sup>2</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/编程实践/" title="编程实践">编程实践<sup>4</sup></a></li>
+			<li><a href="/categories/编程实践/" title="编程实践">编程实践<sup>5</sup></a></li>
 		  
 		
 		  
@@ -305,6 +290,10 @@
 			
 		
 			
+				<li><a href="/tags/错误记录/" title="错误记录">错误记录<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/集合/" title="集合">集合<sup>3</sup></a></li>
 			
 		
@@ -325,27 +314,7 @@
 			
 		
 			
-				<li><a href="/tags/错误记录/" title="错误记录">错误记录<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/java基础/" title="java基础">java基础<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Apache-Shiro/" title="Apache Shiro">Apache Shiro<sup>1</sup></a></li>
 			
 		
 			
@@ -353,15 +322,27 @@
 			
 		
 			
-				<li><a href="/tags/HashMap/" title="HashMap">HashMap<sup>1</sup></a></li>
+				<li><a href="/tags/Atom/" title="Atom">Atom<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/树/" title="树">树<sup>1</sup></a></li>
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/FinTech/" title="FinTech">FinTech<sup>1</sup></a></li>
+				<li><a href="/tags/Apache-Shiro/" title="Apache Shiro">Apache Shiro<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MyBatis/" title="MyBatis">MyBatis<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java基础/" title="java基础">java基础<sup>1</sup></a></li>
 			
 		
 			
@@ -369,7 +350,15 @@
 			
 		
 			
+				<li><a href="/tags/HashMap/" title="HashMap">HashMap<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/字符串/" title="字符串">字符串<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/FinTech/" title="FinTech">FinTech<sup>1</sup></a></li>
 			
 		
 		</ul>
