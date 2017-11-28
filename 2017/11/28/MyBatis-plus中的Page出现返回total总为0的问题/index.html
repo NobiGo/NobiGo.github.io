@@ -4,27 +4,25 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>对象关系映射（ORM） | NobiGo&#39;s blog</title>
+    <title>MyBatis-plus中的Page出现返回total总为0的问题 | NobiGo&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="NobiGo">
     
 
     
-    <meta name="description" content="对象关系映射Object Relational Mapping 定义ORM模型就是数据库的表和简单的Java对象（POJO）的映射关系模型，主要解决数据库数据和POJO对象的相互映射。">
-<meta name="keywords" content="Spring,软件常识">
+    <meta name="description" content="在使用MyBatis-plus进行分页的过程中，发现返回的Page中的属性total总为0的问题，但是是有数据的！ 解决方案：将page的total重新进行设定，需要覆盖原来的值。 附带代码1234List&amp;lt;UserCarowner&amp;gt; list = userCarownerMapper.findList(page, param);page.setRecords(list);//为了防止">
+<meta name="keywords" content="错误记录,MyBatis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="对象关系映射（ORM）">
-<meta property="og:url" content="http://yoursite.com/2017/11/23/对象关系映射（ORM）/index.html">
+<meta property="og:title" content="MyBatis-plus中的Page出现返回total总为0的问题">
+<meta property="og:url" content="http://yoursite.com/2017/11/28/MyBatis-plus中的Page出现返回total总为0的问题/index.html">
 <meta property="og:site_name" content="NobiGo&#39;s blog">
-<meta property="og:description" content="对象关系映射Object Relational Mapping 定义ORM模型就是数据库的表和简单的Java对象（POJO）的映射关系模型，主要解决数据库数据和POJO对象的相互映射。">
+<meta property="og:description" content="在使用MyBatis-plus进行分页的过程中，发现返回的Page中的属性total总为0的问题，但是是有数据的！ 解决方案：将page的total重新进行设定，需要覆盖原来的值。 附带代码1234List&amp;lt;UserCarowner&amp;gt; list = userCarownerMapper.findList(page, param);page.setRecords(list);//为了防止">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2017/11/23/对象关系映射（ORM）/对象关系映射（ORM）/对象关系映射.jpg">
-<meta property="og:updated_time" content="2017-11-23T03:22:58.443Z">
+<meta property="og:updated_time" content="2017-11-28T12:03:01.908Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="对象关系映射（ORM）">
-<meta name="twitter:description" content="对象关系映射Object Relational Mapping 定义ORM模型就是数据库的表和简单的Java对象（POJO）的映射关系模型，主要解决数据库数据和POJO对象的相互映射。">
-<meta name="twitter:image" content="http://yoursite.com/2017/11/23/对象关系映射（ORM）/对象关系映射（ORM）/对象关系映射.jpg">
+<meta name="twitter:title" content="MyBatis-plus中的Page出现返回total总为0的问题">
+<meta name="twitter:description" content="在使用MyBatis-plus进行分页的过程中，发现返回的Page中的属性total总为0的问题，但是是有数据的！ 解决方案：将page的total重新进行设定，需要覆盖原来的值。 附带代码1234List&amp;lt;UserCarowner&amp;gt; list = userCarownerMapper.findList(page, param);page.setRecords(list);//为了防止">
 
     
     <link rel="alternative" href="/atom.xml" title="NobiGo&#39;s blog" type="application/atom+xml">
@@ -82,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/11/23/对象关系映射（ORM）/" title="对象关系映射（ORM）" itemprop="url">对象关系映射（ORM）</a>
+      <a href="/2017/11/28/MyBatis-plus中的Page出现返回total总为0的问题/" title="MyBatis-plus中的Page出现返回total总为0的问题" itemprop="url">MyBatis-plus中的Page出现返回total总为0的问题</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-23T03:16:05.000Z" itemprop="datePublished"> Published 2017-11-23</time>
+    <time datetime="2017-11-28T11:50:06.000Z" itemprop="datePublished"> Published 2017-11-28</time>
     
   </p>
 </header>
@@ -98,13 +96,13 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#对象关系映射"><span class="toc-number">1.</span> <span class="toc-text">对象关系映射</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-number">2.</span> <span class="toc-text">定义</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案："><span class="toc-number">1.</span> <span class="toc-text">解决方案：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附带代码"><span class="toc-number">2.</span> <span class="toc-text">附带代码</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="对象关系映射"><a href="#对象关系映射" class="headerlink" title="对象关系映射"></a>对象关系映射</h2><p>Object Relational Mapping</p>
-<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>ORM模型就是数据库的表和简单的Java对象（POJO）的映射关系模型，主要解决数据库数据和POJO对象的相互映射。</p>
-<p><img src="/2017/11/23/对象关系映射（ORM）/对象关系映射（ORM）/对象关系映射.jpg" alt="框架结构"></p>
+		<p>在使用MyBatis-plus进行分页的过程中，发现返回的Page中的属性total总为0的问题，但是是有数据的！</p>
+<h2 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h2><p>将page的total重新进行设定，需要覆盖原来的值。</p>
+<h2 id="附带代码"><a href="#附带代码" class="headerlink" title="附带代码"></a>附带代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">List&lt;UserCarowner&gt; list = userCarownerMapper.findList(page, param);</div><div class="line">page.setRecords(list);</div><div class="line">//为了防止进行条件查询时，数目不正确的问题，所以必须把条件传回去</div><div class="line">page.setTotal(userCarownerMapper.findList(param).size());</div></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -112,13 +110,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+  <a class="article-category-link" href="/categories/编程实践/">编程实践</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Spring/">Spring</a><a href="/tags/软件常识/">软件常识</a>
+  <span></span> <a href="/tags/错误记录/">错误记录</a><a href="/tags/MyBatis/">MyBatis</a>
   </div>
 
 </div>
@@ -163,19 +161,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/11/23/MyBatis技术原理与实战/" title="MyBatis技术原理与实战">
-  <strong>上一篇：</strong><br/>
-  <span>
-  MyBatis技术原理与实战</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/11/23/IDEA搭建MyBatis项目之异常：java-io-IOException-Could-not-find-resource-mapping-xml/"  title="IDEA搭建MyBatis项目之异常：java.io.IOException: Could not find resource mapping/******.xml">
+<a href="/2017/11/28/MyBatis中order-by排序无效的问题/"  title="MyBatis中order by排序无效的问题">
  <strong>下一篇：</strong><br/> 
- <span>IDEA搭建MyBatis项目之异常：java.io.IOException: Could not find resource mapping/******.xml
+ <span>MyBatis中order by排序无效的问题
 </span>
 </a>
 </div>
