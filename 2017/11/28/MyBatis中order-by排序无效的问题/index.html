@@ -4,25 +4,25 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>POJO模式 | NobiGo&#39;s blog</title>
+    <title>MyBatis中order by排序无效的问题 | NobiGo&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="NobiGo">
     
 
     
-    <meta name="description" content="什么是POJO   POJO的名称有多种，pure old java object 、plain ordinary java object 等。  按照Martin Fowler的解释是“Plain Old Java Object”，从字面上翻译为“纯洁老式的java对象”，但大家都使用“简单java对象”来称呼它。    POJO的内在含义是指那些没有从任何类继承、也没有实现任何接口，更没有被">
-<meta name="keywords" content="Spring,软件常识">
+    <meta name="description" content="在使用MyBatis解析xml进行排序的时候，遇见排序无效的问题！  #将传入的数据都当成一个字符串，会对自动传入的数据加一个双引号。如：order by #{user_id}，如果传入的值是111,那么解析成sql时的值为order by “111”, 如果传入的值是id，则解析成的sql为order by “id”。  $将传入的数据直接显示生成在sql中。如：order by ${user_">
+<meta name="keywords" content="错误记录,MyBatis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="POJO模式">
-<meta property="og:url" content="http://yoursite.com/2017/11/05/POJO模式/index.html">
+<meta property="og:title" content="MyBatis中order by排序无效的问题">
+<meta property="og:url" content="http://yoursite.com/2017/11/28/MyBatis中order-by排序无效的问题/index.html">
 <meta property="og:site_name" content="NobiGo&#39;s blog">
-<meta property="og:description" content="什么是POJO   POJO的名称有多种，pure old java object 、plain ordinary java object 等。  按照Martin Fowler的解释是“Plain Old Java Object”，从字面上翻译为“纯洁老式的java对象”，但大家都使用“简单java对象”来称呼它。    POJO的内在含义是指那些没有从任何类继承、也没有实现任何接口，更没有被">
+<meta property="og:description" content="在使用MyBatis解析xml进行排序的时候，遇见排序无效的问题！  #将传入的数据都当成一个字符串，会对自动传入的数据加一个双引号。如：order by #{user_id}，如果传入的值是111,那么解析成sql时的值为order by “111”, 如果传入的值是id，则解析成的sql为order by “id”。  $将传入的数据直接显示生成在sql中。如：order by ${user_">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-23T03:17:19.843Z">
+<meta property="og:updated_time" content="2017-11-28T11:43:05.945Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="POJO模式">
-<meta name="twitter:description" content="什么是POJO   POJO的名称有多种，pure old java object 、plain ordinary java object 等。  按照Martin Fowler的解释是“Plain Old Java Object”，从字面上翻译为“纯洁老式的java对象”，但大家都使用“简单java对象”来称呼它。    POJO的内在含义是指那些没有从任何类继承、也没有实现任何接口，更没有被">
+<meta name="twitter:title" content="MyBatis中order by排序无效的问题">
+<meta name="twitter:description" content="在使用MyBatis解析xml进行排序的时候，遇见排序无效的问题！  #将传入的数据都当成一个字符串，会对自动传入的数据加一个双引号。如：order by #{user_id}，如果传入的值是111,那么解析成sql时的值为order by “111”, 如果传入的值是id，则解析成的sql为order by “id”。  $将传入的数据直接显示生成在sql中。如：order by ${user_">
 
     
     <link rel="alternative" href="/atom.xml" title="NobiGo&#39;s blog" type="application/atom+xml">
@@ -80,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/11/05/POJO模式/" title="POJO模式" itemprop="url">POJO模式</a>
+      <a href="/2017/11/28/MyBatis中order-by排序无效的问题/" title="MyBatis中order by排序无效的问题" itemprop="url">MyBatis中order by排序无效的问题</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-05T02:49:37.000Z" itemprop="datePublished"> Published 2017-11-05</time>
+    <time datetime="2017-11-28T11:31:17.000Z" itemprop="datePublished"> Published 2017-11-28</time>
     
   </p>
 </header>
@@ -96,70 +96,28 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#所以order-by-之后要使用-而非-。"><span class="toc-number">1.</span> <span class="toc-text">所以order by 之后要使用$而非#。</span></a></li></ol>
 		
 		</div>
 		
-		<ol>
-<li>什么是POJO</li>
-</ol>
+		<p>在使用MyBatis解析xml进行排序的时候，遇见排序无效的问题！</p>
 <ul>
-<li><p>POJO的名称有多种，pure old java object 、plain ordinary java object 等。</p>
+<li><p>#将传入的数据都当成一个字符串，会对自动传入的数据加一个双引号。如：order by #{user_id}，如果传入的值是111,那么解析成sql时的值为order by “111”, 如果传入的值是id，则解析成的sql为order by “id”。</p>
 </li>
-<li><p>按照Martin Fowler的解释是“Plain Old Java Object”，从字面上翻译为“纯洁老式的java对象”，但大家都使用“简单java对象”来称呼它。</p>
+<li><p>$将传入的数据直接显示生成在sql中。如：order by ${user_id}，如果传入的值是111,那么解析成sql时的值为order by 111, 如果传入的值是id，则解析成的sql为order by id。</p>
 </li>
-</ul>
-<ul>
-<li>POJO的内在含义是指那些没有从任何类继承、也没有实现任何接口，更没有被其它框架侵入的java对象。</li>
-</ul>
-<ul>
-<li>POCO的概念是从java的POJO借用而来，而两者的含义是一致的，不同的仅仅是使用的语言不一样。所以POCO的解释就是“Plain Old C# Object”。</li>
-</ul>
-<ol>
-<li>为什么会有POJO？</li>
-</ol>
-<ul>
-<li>主要是Java的开发者被EJB的繁杂搞怕了，大家经过反思，又回归“纯洁老式”的JavaBean，即有无参构造函数，每个字段都有getter和setter的java类。</li>
-</ul>
-<ol>
-<li>POJO的意义</li>
-</ol>
-<ul>
-<li>POJO让开发者可专注于业务逻辑和脱离框架的单元测试。除此之外， 由于POJO并不须要继承框架的类或实现其接口，开发者能够极其灵活地搭建继承结构和建造应用。</li>
-</ul>
-<ul>
-<li><p>POJO的意义就在于它的简单而灵活性，因为它的简单和灵活，使得POJO能够任意扩展，从而胜任多个场合，也就让一个模型贯穿多个层成为现实。</p>
+<li><p>#方式能够很大程度防止sql注入。</p>
 </li>
-<li><p>先写一个核心POJO，然后实现业务逻辑接口和持久化接口，就成了Domain Model； UI需要使用时，就实现数据绑定接口，变成VO（View Object）。</p>
+<li><p>$方式无法防止Sql注入。</p>
+</li>
+<li><p>$方式一般用于传入数据库对象，例如传入表名。</p>
+</li>
+<li><p>一般能用#的就别用$。</p>
 </li>
 </ul>
-<ol>
-<li>POJO与POVO的区别</li>
-</ol>
-<ul>
-<li><p>POJO是指简单java对象（Plain Old Java Objects、pure old java object 或者 plain ordinary java object）。</p>
-</li>
-<li><p>PO是指持久对象（persistant object持久对象）。</p>
-</li>
-<li><p>VO是指值对象或者View对象（Value Object、View Object）。注意，本文的VO特指View Object。</p>
-</li>
-</ul>
-<ul>
-<li><p>持久对象实际上必须对应数据库中的entity，所以和POJO有所区别。比如说POJO是由new创建，由GC回收。但是持久对象是insert数据库创建，由数据库delete删除的。基本上持久对象生命周期和数据库密切相关。另外持久对象往往只能存在一个数据库Connection之中，Connnection关闭以后，持久对象就不存在了，而POJO只要不被GC回收，总是存在的。</p>
-</li>
-<li><p>由于存在诸多差别，因此持久对象PO(Persistent Object)在代码上肯定和POJO不同，起码PO相对于POJO会增加一些用来管理数据库entity状态的属性和方法。而ORM追求的目标就是要PO在使用上尽量和POJO一致，对于程序员来说，他们可以把PO当做POJO来用，而感觉不到PO的存在。</p>
-</li>
-</ul>
-<ol>
-<li>POJO的扩展</li>
-</ol>
-<p>POJO仅包含最简单的字段属性，没有多余的东西，它本质上就是一个普通的JavaBean。</p>
-<p>但是在POJO的基础上，能够扩展出不同的对象。</p>
-<ul>
-<li>为POJO增加了持久化的方法（Insert、Update、Delete……）之后，POJO就变成了PO。</li>
-<li>为POJO增加了数据绑定功能之后，POJO就变成了View Object，即UI Model。</li>
-<li>为POJO增加业务逻辑的方法（比如单据审核、转帐……）之后，POJO就变成了Domain Model。</li>
-</ul>
+<h1 id="所以order-by-之后要使用-而非-。"><a href="#所以order-by-之后要使用-而非-。" class="headerlink" title="所以order by 之后要使用$而非#。"></a>所以order by 之后要使用$而非#。</h1><p>附解决代码段：</p>
+<p>其中orderByField就是传入进行排序的参数值！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;choose&gt;</div><div class="line">  &lt;when test=&quot;orderByField != null and orderByField !=&apos;&apos;&quot;&gt;</div><div class="line">    &lt;choose&gt;&lt;when test=&quot;isAsc == true&quot;&gt;</div><div class="line">      order by $&#123;orderByField&#125; ASC</div><div class="line">  &lt;/when&gt;</div><div class="line">  &lt;otherwise&gt;</div><div class="line">    order by $&#123;orderByField&#125; DESC</div><div class="line">  &lt;/otherwise&gt;&lt;/choose&gt;</div><div class="line">  &lt;/when&gt;</div><div class="line">&lt;otherwise&gt;</div><div class="line">  order by id DESC</div><div class="line">&lt;/otherwise&gt;&lt;/choose&gt;</div></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -167,13 +125,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+  <a class="article-category-link" href="/categories/编程实践/">编程实践</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Spring/">Spring</a><a href="/tags/软件常识/">软件常识</a>
+  <span></span> <a href="/tags/错误记录/">错误记录</a><a href="/tags/MyBatis/">MyBatis</a>
   </div>
 
 </div>
@@ -218,19 +176,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/11/12/git总结/" title="git总结">
-  <strong>上一篇：</strong><br/>
-  <span>
-  git总结</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/10/28/Spring概述/"  title="Spring概述">
+<a href="/2017/11/25/Atom插件初始化安装/"  title="Atom插件初始化安装">
  <strong>下一篇：</strong><br/> 
- <span>Spring概述
+ <span>Atom插件初始化安装
 </span>
 </a>
 </div>
