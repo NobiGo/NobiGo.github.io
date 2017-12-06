@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/stdcoutzyx/Paper_Read/master/blogs/imgs/6.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/stdcoutzyx/Paper_Read/master/blogs/imgs/10.gif">
 <meta property="og:image" content="http://img.blog.csdn.net/20160923135714235?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
-<meta property="og:updated_time" content="2017-11-30T05:32:01.151Z">
+<meta property="og:updated_time" content="2017-11-30T05:32:35.830Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="神经网络CNN基础入门">
 <meta name="twitter:description" content="卷积神经网络的基本概念卷积神经网络包含了一个由卷积层和子采样层构成的特征抽取器。在卷积神经网络的卷积层中，一个神经元只与部分邻层神经元连接。在CNN的一个卷积层中，通常包含若干个特征平面(featureMap)，每个特征平面由一些矩形排列的的神经元组成，同一特征平面的神经元共享权值，这里共享的权值就是卷积核。卷积核一般以随机小数矩阵的形式初始化，在网络的训练过程中卷积核将学习得到合理的权值。共享权">
@@ -60,7 +60,7 @@
 				<h1 class="site-name"><a href="/" title="NobiGo&#39;s blog">NobiGo&#39;s blog</a></h1>
 				<h2 class="blog-motto">愿你出走半生，归来依旧少年</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -74,7 +74,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -97,14 +97,14 @@
 		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-30T02:00:54.000Z" itemprop="datePublished"> 发表于 2017-11-30</time>
+    <time datetime="2017-11-30T02:00:54.000Z" itemprop="datePublished"> Published 2017-11-30</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#卷积神经网络的基本概念"><span class="toc-number">1.</span> <span class="toc-text">卷积神经网络的基本概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#卷积神经网络的原理"><span class="toc-number">2.</span> <span class="toc-text">卷积神经网络的原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#卷积神经网络的构成"><span class="toc-number">3.</span> <span class="toc-text">卷积神经网络的构成</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#局部感受野"><span class="toc-number">3.1.</span> <span class="toc-text">局部感受野</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#权值共享"><span class="toc-number">3.2.</span> <span class="toc-text">权值共享</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Down-pooling"><span class="toc-number">3.3.</span> <span class="toc-text">Down-pooling</span></a></li></ol></li></ol>
 		
@@ -195,6 +195,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2017/12/01/快运滴任务分工/" title="快运滴任务分工">
+  <strong>上一篇：</strong><br/>
+  <span>
+  快运滴任务分工</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2017/11/28/MyBatis-plus中的Page出现返回total总为0的问题/"  title="MyBatis-plus中的Page出现返回total总为0的问题">
@@ -211,15 +219,15 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github 名片</p>
+<p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="nobigo" data-theme="medium"></div>
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -228,7 +236,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分类</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -245,6 +253,18 @@
 		
 		  
 			<li><a href="/categories/专利记录/" title="专利记录">专利记录<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/任务分工/" title="任务分工">任务分工<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/基础知识/" title="基础知识">基础知识<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/机器学习/" title="机器学习">机器学习<sup>1</sup></a></li>
 		  
 		
 		  
@@ -285,8 +305,12 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>5</sup></a></li>
+			
 		
 			
 				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
@@ -297,15 +321,11 @@
 			
 		
 			
-				<li><a href="/tags/Spring/" title="Spring">Spring<sup>5</sup></a></li>
+				<li><a href="/tags/集合/" title="集合">集合<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/MyBatis/" title="MyBatis">MyBatis<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/集合/" title="集合">集合<sup>3</sup></a></li>
 			
 		
 			
@@ -345,11 +365,19 @@
 			
 		
 			
+				<li><a href="/tags/FinTech/" title="FinTech">FinTech<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/java基础/" title="java基础">java基础<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/FinTech/" title="FinTech">FinTech<sup>1</sup></a></li>
+				<li><a href="/tags/任务分工/" title="任务分工">任务分工<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/快运滴/" title="快运滴">快运滴<sup>1</sup></a></li>
 			
 		
 			
@@ -357,15 +385,7 @@
 			
 		
 			
-				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/树/" title="树">树<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Apache-Shiro/" title="Apache Shiro">Apache Shiro<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -373,7 +393,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -407,11 +427,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
 <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5245489251&verifier=9f9f84e5&dpc=1"></iframe>
 </div>
 
@@ -593,7 +613,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

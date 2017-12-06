@@ -1,0 +1,622 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>逻辑回归代价函数相关推导 | NobiGo&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="NobiGo">
+    
+
+    
+    <meta name="description" content="这篇日志主要记录二分类逻辑回归的代价函数选择和理论基础此博客转自（http://blog.csdn.net/u012328159/article/details/51077330），这里为了记录学习过程，方便以后查阅： 对于有m个样本的训练样本,在logistic回归中的假设函数为：。因此因此我们定义logistic回归的代价函数（cost function）:，下面来解释下这两个公式，先来看y=">
+<meta name="keywords" content="机器学习,数学推导">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逻辑回归代价函数相关推导">
+<meta property="og:url" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/index.html">
+<meta property="og:site_name" content="NobiGo&#39;s blog">
+<meta property="og:description" content="这篇日志主要记录二分类逻辑回归的代价函数选择和理论基础此博客转自（http://blog.csdn.net/u012328159/article/details/51077330），这里为了记录学习过程，方便以后查阅： 对于有m个样本的训练样本,在logistic回归中的假设函数为：。因此因此我们定义logistic回归的代价函数（cost function）:，下面来解释下这两个公式，先来看y=">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/m个训练样本.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/假设函数.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/代价函数.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/1代价函数.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/1函数图像.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/预测值为1.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/预测值为0.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/无穷代价函数.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/0代价函数.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/0函数图像.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/无穷代价函数.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/代价函数总公式.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/代价函数.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/合并的代价函数公式.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/1代价函数.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/0代价函数.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/代价函数2总公式.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/JTheta.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/梯度下降.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/H代价函数.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/Thete转换公式.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/Theta化简公式.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/公式推导1.gif">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/公式推导3.gif">
+<meta property="og:updated_time" content="2017-12-06T05:59:04.052Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="逻辑回归代价函数相关推导">
+<meta name="twitter:description" content="这篇日志主要记录二分类逻辑回归的代价函数选择和理论基础此博客转自（http://blog.csdn.net/u012328159/article/details/51077330），这里为了记录学习过程，方便以后查阅： 对于有m个样本的训练样本,在logistic回归中的假设函数为：。因此因此我们定义logistic回归的代价函数（cost function）:，下面来解释下这两个公式，先来看y=">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/06/逻辑回归代价函数相关推导/m个训练样本.gif">
+
+    
+    <link rel="alternative" href="/atom.xml" title="NobiGo&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="NobiGo&#39;s blog" title="NobiGo&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="NobiGo&#39;s blog">NobiGo&#39;s blog</a></h1>
+				<h2 class="blog-motto">愿你出走半生，归来依旧少年</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/12/06/逻辑回归代价函数相关推导/" title="逻辑回归代价函数相关推导" itemprop="url">逻辑回归代价函数相关推导</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
+		
+  <p class="article-time">
+    <time datetime="2017-12-06T03:10:10.000Z" itemprop="datePublished"> Published 2017-12-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#这篇日志主要记录二分类逻辑回归的代价函数选择和理论基础"><span class="toc-number">1.</span> <span class="toc-text">这篇日志主要记录二分类逻辑回归的代价函数选择和理论基础</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="这篇日志主要记录二分类逻辑回归的代价函数选择和理论基础"><a href="#这篇日志主要记录二分类逻辑回归的代价函数选择和理论基础" class="headerlink" title="这篇日志主要记录二分类逻辑回归的代价函数选择和理论基础"></a>这篇日志主要记录二分类逻辑回归的代价函数选择和理论基础</h2><p>此博客转自（<a href="http://blog.csdn.net/u012328159/article/details/51077330），这里为了记录学习过程，方便以后查阅：" target="_blank" rel="external">http://blog.csdn.net/u012328159/article/details/51077330），这里为了记录学习过程，方便以后查阅：</a></p>
+<p>对于有m个样本的训练样本<img src="/2017/12/06/逻辑回归代价函数相关推导/m个训练样本.gif" alt="">,在logistic回归中的假设函数为：<img src="/2017/12/06/逻辑回归代价函数相关推导/假设函数.gif" alt="">。因此因此我们定义logistic回归的代价函数（cost function）:<img src="/2017/12/06/逻辑回归代价函数相关推导/代价函数.gif" alt="">，下面来解释下这两个公式，先来看y=1时，<img src="/2017/12/06/逻辑回归代价函数相关推导/1代价函数.gif" alt="">，画出的函数图像为：</p>
+<p><img src="/2017/12/06/逻辑回归代价函数相关推导/1函数图像.gif" alt=""></p>
+<p>从图中可以看出，y=1，当预测值<img src="/2017/12/06/逻辑回归代价函数相关推导/预测值为1.gif" alt=""> 时，可以看出代价函数cost的值为0，这正是我们希望的。如果预测值<img src="/2017/12/06/逻辑回归代价函数相关推导/预测值为0.gif" alt="">即 ,意思是预测y=1的概率为0，但是事实上y=1，因此代价函数 <img src="/2017/12/06/逻辑回归代价函数相关推导/无穷代价函数.gif" alt="">相当于给学习算法一个惩罚。</p>
+<p>同理我们也可以画出当y=0时，函数<img src="/2017/12/06/逻辑回归代价函数相关推导/0代价函数.gif" alt="">的图像：</p>
+<p><img src="/2017/12/06/逻辑回归代价函数相关推导/0函数图像.gif" alt=""></p>
+<p>从图中可以看出，y=0，当预测值为0时，可以看出代价函数cost的值为0，这正是我们希望的。如果预测y=0的概率为1，但是事实上y=0，因此代价函数<img src="/2017/12/06/逻辑回归代价函数相关推导/无穷代价函数.gif" alt="">相当于给学习算法一个惩罚。</p>
+<p>对于上面的代价函数，<img src="/2017/12/06/逻辑回归代价函数相关推导/代价函数总公式.gif" alt="">,其中<img src="/2017/12/06/逻辑回归代价函数相关推导/代价函数.gif" alt="">可以写成更加简洁的形式: <img src="/2017/12/06/逻辑回归代价函数相关推导/合并的代价函数公式.gif" alt="">，这个公式更加简洁，可以看出，当y=1时，公式变为<img src="/2017/12/06/逻辑回归代价函数相关推导/1代价函数.gif" alt="">，当y=0时，公式变为<img src="/2017/12/06/逻辑回归代价函数相关推导/0代价函数.gif" alt="">与上面的公式完全等价。因此代价函数为： <img src="/2017/12/06/逻辑回归代价函数相关推导/代价函数2总公式.gif" alt=""><br>为了求解使<img src="/2017/12/06/逻辑回归代价函数相关推导/JTheta.gif" alt="">最小的参数Theta，还是要用梯度下降(gradient descent)，即<img src="/2017/12/06/逻辑回归代价函数相关推导/梯度下降.gif" alt="">, 看来其和线性回归中的梯度下降函数形式一模一样，但其实是不一样的，因为在logistic回归中<img src="/2017/12/06/逻辑回归代价函数相关推导/H代价函数.gif" alt=""> 。<br>为了让大家明白从公式<img src="/2017/12/06/逻辑回归代价函数相关推导/Thete转换公式.gif" alt="">怎么推到公式<img src="/2017/12/06/逻辑回归代价函数相关推导/Theta化简公式.gif" alt="">的，我把这个公式的求导过程写一下：</p>
+<p><img src="/2017/12/06/逻辑回归代价函数相关推导/公式推导1.gif" alt=""><br><img src="/2017/12/06/逻辑回归代价函数相关推导/公式推导3.gif" alt=""></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/机器学习/">机器学习</a><a href="/tags/数学推导/">数学推导</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=2148879
+2148897" charset="utf-8"></script>      
+
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/12/03/快运滴问题详细记录/"  title="快运滴问题详细记录">
+ <strong>下一篇：</strong><br/> 
+ <span>快运滴问题详细记录
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github Card</p>
+<div class="github-card" data-github="nobigo" data-theme="medium"></div>
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Apache-Shiro/" title="Apache Shiro">Apache Shiro<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SpecialNote/" title="SpecialNote">SpecialNote<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专利记录/" title="专利记录">专利记录<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/任务分工/" title="任务分工">任务分工<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/基础知识/" title="基础知识">基础知识<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/机器学习/" title="机器学习">机器学习<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/源码/" title="源码">源码<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/环境配置/" title="环境配置">环境配置<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程实践/" title="编程实践">编程实践<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程技巧/" title="编程技巧">编程技巧<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机常识/" title="计算机常识">计算机常识<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/高并发/" title="高并发">高并发<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/错误记录/" title="错误记录">错误记录<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/集合/" title="集合">集合<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MyBatis/" title="MyBatis">MyBatis<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码/" title="源码">源码<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/高并发/" title="高并发">高并发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/锁/" title="锁">锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件常识/" title="软件常识">软件常识<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Atom/" title="Atom">Atom<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/FinTech/" title="FinTech">FinTech<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java基础/" title="java基础">java基础<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/任务分工/" title="任务分工">任务分工<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/快运滴/" title="快运滴">快运滴<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HashMap/" title="HashMap">HashMap<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/树/" title="树">树<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://haroldliu.weebly.com" target="_blank" title="HaroldLiuChi">HaroldLiuChi</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://guangyugao.weebly.com" target="_blank" title="GaoGuangYu">GaoGuangYu</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wenjiewang.top" target="_blank" title="Jerry&#39;s Blog">Jerry&#39;s Blog</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://fangheart.top" target="_blank" title="FangHeart&#39;s Blog">FangHeart&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5245489251&verifier=9f9f84e5&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m NobiGo in BIT. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/5245489251" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/nobigo" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:nobigogle@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="NobiGo">NobiGo</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

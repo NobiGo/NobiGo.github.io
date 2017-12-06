@@ -20,7 +20,7 @@
 <meta property="og:description" content="题目：给出一个以空格作为分隔符的字符串，求其与其空格分割的逆序字符串的最长公共子序列长度。输入案例例如： 输入 2017 11 02 其逆序字符串为 02 11 2017 输出 6（2 11 2） 动态规划法经常会遇到复杂问题不能简单地分解成几个子问题，而会分解出一系列的子问题。简单地采用把大问题分解成子问题，并综合子问题的解导出大问题的解的方法，问题求解耗时会按问题规模呈幂级数增加。 为了节约重">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/逆序字符串的最长公共子序列长度.png">
-<meta property="og:updated_time" content="2017-10-11T06:56:11.000Z">
+<meta property="og:updated_time" content="2017-12-02T15:32:00.209Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="逆序字符串的最长公共子序列长度">
 <meta name="twitter:description" content="题目：给出一个以空格作为分隔符的字符串，求其与其空格分割的逆序字符串的最长公共子序列长度。输入案例例如： 输入 2017 11 02 其逆序字符串为 02 11 2017 输出 6（2 11 2） 动态规划法经常会遇到复杂问题不能简单地分解成几个子问题，而会分解出一系列的子问题。简单地采用把大问题分解成子问题，并综合子问题的解导出大问题的解的方法，问题求解耗时会按问题规模呈幂级数增加。 为了节约重">
@@ -52,7 +52,7 @@
 				<h1 class="site-name"><a href="/" title="NobiGo&#39;s blog">NobiGo&#39;s blog</a></h1>
 				<h2 class="blog-motto">愿你出走半生，归来依旧少年</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -66,7 +66,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -89,14 +89,14 @@
 		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-11T06:28:57.000Z" itemprop="datePublished"> 发表于 2017-10-11</time>
+    <time datetime="2017-10-11T06:28:57.000Z" itemprop="datePublished"> Published 2017-10-11</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#题目：给出一个以空格作为分隔符的字符串，求其与其空格分割的逆序字符串的最长公共子序列长度。"><span class="toc-number">1.</span> <span class="toc-text">题目：给出一个以空格作为分隔符的字符串，求其与其空格分割的逆序字符串的最长公共子序列长度。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#输入案例"><span class="toc-number">1.1.</span> <span class="toc-text">输入案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态规划法"><span class="toc-number">1.2.</span> <span class="toc-text">动态规划法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#最长公共子子序列问题（LCS-subSequence）"><span class="toc-number">1.2.1.</span> <span class="toc-text">最长公共子子序列问题（LCS_subSequence）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码实现"><span class="toc-number">1.2.2.</span> <span class="toc-text">代码实现</span></a></li></ol></li></ol></li></ol>
 		
@@ -121,8 +121,8 @@
 </ol>
 <p>这样，在找A和B的公共子序列时，如有am-1=bn-1，则进一步解决一个子问题，找“a0，a1，…，am-2”和“b0，b1，…，bm-2”的一个最长公共子序列；如果am-1!=bn-1，则要解决两个子问题，找出“a0，a1，…，am-2”和“b0，b1，…，bn-1”的一个最长公共子序列和找出“a0，a1，…，am-1”和“b0，b1，…，bn-2”的一个最长公共子序列，再取两者中较长者作为A和B的最长公共子序列。</p>
 <p><strong>求解</strong></p>
-<p>引进一个二维数组c[][]，用c[i][j]记录X[i]与Y[j]的LCS的长度，b[i][j]记录c[i][j]是通过哪一个子问题的值求得的，以决定搜索的方向。<br>我们是自底向上进行递推计算，那么在计算c[i,j]之前，c[i-1][j-1]，c[i-1][j]与c[i][j-1]均已计算出来。此时我们根据X[i] = Y[j]还是X[i] != Y[j]，就可以计算出c[i][j]。 </p>
-<p>问题的递归式写成： </p>
+<p>引进一个二维数组c[][]，用c[i][j]记录X[i]与Y[j]的LCS的长度，b[i][j]记录c[i][j]是通过哪一个子问题的值求得的，以决定搜索的方向。<br>我们是自底向上进行递推计算，那么在计算c[i,j]之前，c[i-1][j-1]，c[i-1][j]与c[i][j-1]均已计算出来。此时我们根据X[i] = Y[j]还是X[i] != Y[j]，就可以计算出c[i][j]。</p>
+<p>问题的递归式写成：</p>
 <p><img src="/images/逆序字符串的最长公共子序列长度.png" alt="image"></p>
 <h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">package dx;</div><div class="line"></div><div class="line">import java.util.Scanner;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by dx on 2017/10/11.</div><div class="line"> */</div><div class="line">public class Qunaer &#123;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        //用来记录长度</div><div class="line">        int count = 0;</div><div class="line">        Scanner scanner = new Scanner(System.in);</div><div class="line">        String string = scanner.nextLine();</div><div class="line"></div><div class="line">        String[] value = string.split(&quot; &quot;);</div><div class="line">        String[] reverseValue = new String[value.length];</div><div class="line"></div><div class="line">        for (int i = 0; i &lt; value.length; i++) &#123;</div><div class="line">            reverseValue[i] = new StringBuilder(value[i]).reverse().toString();</div><div class="line">        &#125;</div><div class="line">        StringBuilder stringBuilder = new StringBuilder();</div><div class="line">        for (int i = 0; i &lt; value.length; i++) &#123;</div><div class="line">            stringBuilder.append(reverseValue[i]);</div><div class="line">            if (i != value.length - 1)</div><div class="line">                stringBuilder.append(&quot; &quot;);</div><div class="line">        &#125;</div><div class="line">        String reverseString = stringBuilder.reverse().toString();</div><div class="line"></div><div class="line">        int[][] re = longestCommonSubsequence(string, reverseString);</div><div class="line">        System.out.println(re[string.length()][string.length()]);</div><div class="line">        print(re,string,reverseString,string.length(),reverseString.length());</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    // 假如返回两个字符串的最长公共子序列的长度</div><div class="line">    public static int[][] longestCommonSubsequence(String str1, String str2) &#123;</div><div class="line">        int[][] matrix = new int[str1.length() + 1][str2.length() + 1];//建立二维矩阵</div><div class="line">        // 初始化边界条件</div><div class="line">        for (int i = 0; i &lt;= str1.length(); i++) &#123;</div><div class="line">            matrix[i][0] = 0;//每行第一列置零</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        for (int j = 0; j &lt;= str2.length(); j++) &#123;</div><div class="line">            matrix[0][j] = 0;//每列第一行置零</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // 填充矩阵</div><div class="line">        for (int i = 1; i &lt;= str1.length(); i++) &#123;</div><div class="line">            for (int j = 1; j &lt;= str2.length(); j++) &#123;</div><div class="line">                if (str1.charAt(i - 1) == str2.charAt(j - 1)) &#123;</div><div class="line">                    matrix[i][j] = matrix[i - 1][j - 1] + 1;</div><div class="line">                &#125; else &#123;</div><div class="line">                    matrix[i][j] = (matrix[i - 1][j] &gt;= matrix[i][j - 1] ? matrix[i - 1][j]</div><div class="line">                            : matrix[i][j - 1]);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return matrix;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //根据矩阵输出LCS</div><div class="line">    public static void print(int[][] opt, String X, String Y, int i, int j) &#123;</div><div class="line">        if (i == 0 || j == 0) &#123;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">        if (X.charAt(i - 1) == Y.charAt(j - 1)) &#123;</div><div class="line">            print(opt, X, Y, i - 1, j - 1);</div><div class="line">            System.out.print(X.charAt(i - 1));</div><div class="line">        &#125; else if (opt[i - 1][j] &gt;= opt[i][j]) &#123;</div><div class="line">            print(opt, X, Y, i - 1, j);</div><div class="line">        &#125; else &#123;</div><div class="line">            print(opt, X, Y, i, j - 1);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
   
@@ -207,15 +207,15 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github 名片</p>
+<p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="nobigo" data-theme="medium"></div>
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -224,7 +224,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分类</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -241,6 +241,18 @@
 		
 		  
 			<li><a href="/categories/专利记录/" title="专利记录">专利记录<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/任务分工/" title="任务分工">任务分工<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/基础知识/" title="基础知识">基础知识<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/机器学习/" title="机器学习">机器学习<sup>1</sup></a></li>
 		  
 		
 		  
@@ -281,8 +293,12 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>5</sup></a></li>
+			
 		
 			
 				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
@@ -293,15 +309,11 @@
 			
 		
 			
-				<li><a href="/tags/Spring/" title="Spring">Spring<sup>5</sup></a></li>
+				<li><a href="/tags/集合/" title="集合">集合<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/MyBatis/" title="MyBatis">MyBatis<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/集合/" title="集合">集合<sup>3</sup></a></li>
 			
 		
 			
@@ -341,11 +353,19 @@
 			
 		
 			
+				<li><a href="/tags/FinTech/" title="FinTech">FinTech<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/java基础/" title="java基础">java基础<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/FinTech/" title="FinTech">FinTech<sup>1</sup></a></li>
+				<li><a href="/tags/任务分工/" title="任务分工">任务分工<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/快运滴/" title="快运滴">快运滴<sup>1</sup></a></li>
 			
 		
 			
@@ -353,15 +373,7 @@
 			
 		
 			
-				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/树/" title="树">树<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Apache-Shiro/" title="Apache Shiro">Apache Shiro<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -369,7 +381,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -403,11 +415,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
 <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5245489251&verifier=9f9f84e5&dpc=1"></iframe>
 </div>
 
@@ -589,7 +601,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

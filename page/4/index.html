@@ -48,7 +48,7 @@
 				<h1 class="site-name"><a href="/" title="NobiGo&#39;s blog">NobiGo&#39;s blog</a></h1>
 				<h2 class="blog-motto">愿你出走半生，归来依旧少年</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -62,7 +62,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -73,6 +73,112 @@
     </header>
     <div id="container">
       <div id="main">
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/09/22/Java高并发：锁概览/" title="Java高并发：锁概览" itemprop="url">
+  
+    <h1 itemprop="name">Java高并发：锁概览</h1>
+    
+     
+           <p itemprop="description" >在学习或者使用Java的过程中进程会遇到各种各样的锁的概念：公平锁、非公平锁、自旋锁、可重入锁、偏向锁、轻量级锁、重量级锁、读写锁、互斥锁等待。这里整理了Java中的各种锁，若有不足之处希望大家在下方留言探讨。
+公平锁和非公平锁公平锁是指多个线程在等待同一个锁时，必须按照申请锁的</p>
+        
+    
+    <time datetime="2017-09-22T05:52:48.000Z" itemprop="datePublished">2017-09-22</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/09/22/Java高并发：ReentrantLock-重入锁-以及公平性/" title="Java高并发：ReentrantLock(重入锁)以及公平性" itemprop="url">
+  
+    <h1 itemprop="name">Java高并发：ReentrantLock(重入锁)以及公平性</h1>
+    
+     
+           <p itemprop="description" >简介ReentrantLock的实现不仅可以替代隐式的synchronized关键字，而且能够提供超过关键字本身的多种功能。
+这里提到一个锁获取的公平性问题，如果在绝对时间上，先对锁进行获取的请求一定被先满足，那么这个锁是公平的，反之，是不公平的，也就是说等待时间最长的线程最有机</p>
+        
+    
+    <time datetime="2017-09-22T05:47:47.000Z" itemprop="datePublished">2017-09-22</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/09/11/图解集合：ConcurrentHashMap/" title="图解集合：ConcurrentHashMap" itemprop="url">
+  
+    <h1 itemprop="name">图解集合：ConcurrentHashMap</h1>
+    
+     
+           <p itemprop="description" >ConcurrentHashMap为什么高效？与Hashtable不同的是,ConcurrentHashMap使用的是分段锁技术,将ConcurrentHashMap容器的数据分段存储,每一段数据分配一个Segment,当线程占用一个Segment时,其他线程可以访问其他段的数据</p>
+        
+    
+    <time datetime="2017-09-11T14:44:50.000Z" itemprop="datePublished">2017-09-11</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/09/11/图解集合：HashMap/" title="图解集合：HashMap" itemprop="url">
+  
+    <h1 itemprop="name">图解集合：HashMap</h1>
+    
+     
+           <p itemprop="description" >初识HashMap之前的List，讲了ArrayList、LinkedList，最后讲到CopyOnWriteArrayList，就前两者而言，反映的是两种思想：
+
+ArrayList以数组形式实现，顺序插入、查找快，插入、删除较慢
+LinkedList以双向链表形式实现，顺序插</p>
+        
+    
+    <time datetime="2017-09-11T08:02:51.000Z" itemprop="datePublished">2017-09-11</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/09/11/并发情况下HashMap出现死循环情况解析/" title="并发情况下HashMap出现死循环情况解析" itemprop="url">
+  
+    <h1 itemprop="name">并发情况下HashMap出现死循环情况解析</h1>
+    
+     
+           <p itemprop="description" >并发情况下HashMap出现死循环情况解析现象发生由于偶尔会遇到HashMap死循环造成CPU100%，重启后问题消失，隔一段时间又会反复出现。今天在这里来仔细剖析下多线程情况下HashMap所带来的问题：
+多线程put操作后，get操作导致死循环。死循环场景重现12345678</p>
+        
+    
+    <time datetime="2017-09-11T06:58:09.000Z" itemprop="datePublished">2017-09-11</time>
+  </a>
+</section>
+
+
+
+
+
 
   
 <section class="post" itemscope itemprop="blogitem">
@@ -100,15 +206,15 @@
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github 名片</p>
+<p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="nobigo" data-theme="medium"></div>
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -117,7 +223,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分类</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -134,6 +240,18 @@
 		
 		  
 			<li><a href="/categories/专利记录/" title="专利记录">专利记录<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/任务分工/" title="任务分工">任务分工<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/基础知识/" title="基础知识">基础知识<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/机器学习/" title="机器学习">机器学习<sup>1</sup></a></li>
 		  
 		
 		  
@@ -174,8 +292,12 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>5</sup></a></li>
+			
 		
 			
 				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
@@ -186,15 +308,11 @@
 			
 		
 			
-				<li><a href="/tags/Spring/" title="Spring">Spring<sup>5</sup></a></li>
+				<li><a href="/tags/集合/" title="集合">集合<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/MyBatis/" title="MyBatis">MyBatis<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/集合/" title="集合">集合<sup>3</sup></a></li>
 			
 		
 			
@@ -234,11 +352,19 @@
 			
 		
 			
+				<li><a href="/tags/FinTech/" title="FinTech">FinTech<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/java基础/" title="java基础">java基础<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/FinTech/" title="FinTech">FinTech<sup>1</sup></a></li>
+				<li><a href="/tags/任务分工/" title="任务分工">任务分工<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/快运滴/" title="快运滴">快运滴<sup>1</sup></a></li>
 			
 		
 			
@@ -246,15 +372,7 @@
 			
 		
 			
-				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/树/" title="树">树<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Apache-Shiro/" title="Apache Shiro">Apache Shiro<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -262,7 +380,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -296,11 +414,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
 <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5245489251&verifier=9f9f84e5&dpc=1"></iframe>
 </div>
 
@@ -456,7 +574,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
