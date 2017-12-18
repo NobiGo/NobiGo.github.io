@@ -48,7 +48,7 @@
 				<h1 class="site-name"><a href="/" title="NobiGo&#39;s blog">NobiGo&#39;s blog</a></h1>
 				<h2 class="blog-motto">愿你出走半生，归来依旧少年</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -62,7 +62,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -73,6 +73,70 @@
     </header>
     <div id="container">
       <div id="main">
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/11/30/神经网络CNN基础入门/" title="神经网络CNN基础入门" itemprop="url">
+  
+    <h1 itemprop="name">神经网络CNN基础入门</h1>
+    
+     
+           <p itemprop="description" >卷积神经网络的基本概念卷积神经网络包含了一个由卷积层和子采样层构成的特征抽取器。在卷积神经网络的卷积层中，一个神经元只与部分邻层神经元连接。在CNN的一个卷积层中，通常包含若干个特征平面(featureMap)，每个特征平面由一些矩形排列的的神经元组成，同一特征平面的神经元共享权</p>
+        
+    
+    <time datetime="2017-11-30T02:00:54.000Z" itemprop="datePublished">2017-11-30</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/11/28/MyBatis-plus中的Page出现返回total总为0的问题/" title="MyBatis-plus中的Page出现返回total总为0的问题" itemprop="url">
+  
+    <h1 itemprop="name">MyBatis-plus中的Page出现返回total总为0的问题</h1>
+    
+     
+           <p itemprop="description" >在使用MyBatis-plus进行分页的过程中，发现返回的Page中的属性total总为0的问题，但是是有数据的！
+解决方案：将page的total重新进行设定，需要覆盖原来的值。
+附带代码1234List&amp;lt;UserCarowner&amp;gt; list = userCarow</p>
+        
+    
+    <time datetime="2017-11-28T11:50:06.000Z" itemprop="datePublished">2017-11-28</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2017/11/28/MyBatis中order-by排序无效的问题/" title="MyBatis中order by排序无效的问题" itemprop="url">
+  
+    <h1 itemprop="name">MyBatis中order by排序无效的问题</h1>
+    
+     
+           <p itemprop="description" >在使用MyBatis解析xml进行排序的时候，遇见排序无效的问题！
+
+#将传入的数据都当成一个字符串，会对自动传入的数据加一个双引号。如：order by #{user_id}，如果传入的值是111,那么解析成sql时的值为order by “111”, 如果传入的值是id，则解</p>
+        
+    
+    <time datetime="2017-11-28T11:31:17.000Z" itemprop="datePublished">2017-11-28</time>
+  </a>
+</section>
+
+
+
+
+
 
   
 <section class="post" itemscope itemprop="blogitem">
@@ -244,97 +308,21 @@ login_ticket</p>
 
 
 
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/11/17/Spring-Boot忽略https证书：No-subject-alternative-names-present/" title="Spring Boot忽略https证书：No subject alternative names present" itemprop="url">
-  
-    <h1 itemprop="name">Spring Boot忽略https证书：No subject alternative names present</h1>
-    
-     
-           <p itemprop="description" >在启动时候调用：
-
-1disableSslVerification();
-
-具体实现如下：
-
-1234567891011121314151617181920212223242526272829303132333435private static void disableSslVe</p>
-        
-    
-    <time datetime="2017-11-17T09:46:00.000Z" itemprop="datePublished">2017-11-17</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/11/17/SpringBoot中启动HTTPS/" title="SpringBoot中启动HTTPS" itemprop="url">
-  
-    <h1 itemprop="name">SpringBoot中启动HTTPS</h1>
-    
-     
-           <p itemprop="description" >如果你使用Spring Boot，并且想在内嵌tomcat中添加HTTPS，需要如下步骤：
-
-要有一个证书，买的或者自己生成的
-在Spring Boot中启动HTTPS
-
-
-这里作为演示，采用keytool生成,输入下面的命令，根据提示输入信息，获取SSL证书
-
-1keytool</p>
-        
-    
-    <time datetime="2017-11-17T01:51:58.000Z" itemprop="datePublished">2017-11-17</time>
-  </a>
-</section>
-
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2017/11/16/maven的阿里云镜像/" title="maven的阿里云镜像" itemprop="url">
-  
-    <h1 itemprop="name">maven的阿里云镜像</h1>
-    
-     
-           <p itemprop="description" >Maven的阿里云镜像：
-
-123456&amp;lt;mirror&amp;gt;        &amp;lt;id&amp;gt;nexus-aliyun&amp;lt;/id&amp;gt;        &amp;lt;mirrorOf&amp;gt;*&amp;lt;/mirrorOf&amp;gt;        &amp;lt;name&amp;gt;Nex</p>
-        
-    
-    <time datetime="2017-11-16T08:49:45.000Z" itemprop="datePublished">2017-11-16</time>
-  </a>
-</section>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix unexpand">
-    <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github Card</p>
+<p class="asidetitle">Github 名片</p>
 <div class="github-card" data-github="nobigo" data-theme="medium"></div>
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -343,7 +331,7 @@ login_ticket</p>
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -399,7 +387,7 @@ login_ticket</p>
 		  
 		
 		  
-			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>9</sup></a></li>
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>10</sup></a></li>
 		  
 		
 		  
@@ -412,7 +400,7 @@ login_ticket</p>
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -428,7 +416,7 @@ login_ticket</p>
 			
 		
 			
-				<li><a href="/tags/MyBatis/" title="MyBatis">MyBatis<sup>3</sup></a></li>
+				<li><a href="/tags/源码/" title="源码">源码<sup>3</sup></a></li>
 			
 		
 			
@@ -436,27 +424,11 @@ login_ticket</p>
 			
 		
 			
-				<li><a href="/tags/源码/" title="源码">源码<sup>3</sup></a></li>
+				<li><a href="/tags/MyBatis/" title="MyBatis">MyBatis<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySql/" title="MySql">MySql<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/高并发/" title="高并发">高并发<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/软件常识/" title="软件常识">软件常识<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/锁/" title="锁">锁<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+				<li><a href="/tags/软件常识/" title="软件常识">软件常识<sup>3</sup></a></li>
 			
 		
 			
@@ -464,11 +436,31 @@ login_ticket</p>
 			
 		
 			
-				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+				<li><a href="/tags/MySql/" title="MySql">MySql<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/FinTech/" title="FinTech">FinTech<sup>1</sup></a></li>
+				<li><a href="/tags/锁/" title="锁">锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/高并发/" title="高并发">高并发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Apache-Shiro/" title="Apache Shiro">Apache Shiro<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
 			
 		
 			
@@ -476,11 +468,7 @@ login_ticket</p>
 			
 		
 			
-				<li><a href="/tags/java基础/" title="java基础">java基础<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Apache-Shiro/" title="Apache Shiro">Apache Shiro<sup>1</sup></a></li>
+				<li><a href="/tags/FinTech/" title="FinTech">FinTech<sup>1</sup></a></li>
 			
 		
 			
@@ -492,7 +480,7 @@ login_ticket</p>
 			
 		
 			
-				<li><a href="/tags/HashMap/" title="HashMap">HashMap<sup>1</sup></a></li>
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -500,7 +488,7 @@ login_ticket</p>
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
           <li>
@@ -534,11 +522,11 @@ login_ticket</p>
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
 <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5245489251&verifier=9f9f84e5&dpc=1"></iframe>
 </div>
 
@@ -694,7 +682,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
