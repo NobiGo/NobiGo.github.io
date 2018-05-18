@@ -11,18 +11,18 @@
     
 
     
-    <meta name="description" content="StringUtils 工具类 验证用户信息：是否为空 是否已经注册  生成token 客户端存储token 服务器/客户端token有效期设置注：token可以是sessionid，或者是cookie中的一个key  登出：  服务器/客户端清除2.  login_ticket:（插入、更新）id,用户ID， ticket。过期时间，状态（登陆0，登出1）  客户端：带token的HTTP请求">
+    <meta name="description" content="StringUtils 工具类 验证用户信息：是否为空 是否已经注册  生成token 客户端存储token 服务器/客户端token有效期设置 注：token可以是sessionid，或者是cookie中的一个key  登出：  服务器/客户端清除 2.  login_ticket:（插入、更新） id,用户ID， ticket。过期时间，状态（登陆0，登出1）  客户端：带token的HTTP">
 <meta name="keywords" content="Spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring拦截器">
 <meta property="og:url" content="http://yoursite.com/2017/11/20/Spring拦截器/index.html">
 <meta property="og:site_name" content="NobiGo&#39;s blog">
-<meta property="og:description" content="StringUtils 工具类 验证用户信息：是否为空 是否已经注册  生成token 客户端存储token 服务器/客户端token有效期设置注：token可以是sessionid，或者是cookie中的一个key  登出：  服务器/客户端清除2.  login_ticket:（插入、更新）id,用户ID， ticket。过期时间，状态（登陆0，登出1）  客户端：带token的HTTP请求">
+<meta property="og:description" content="StringUtils 工具类 验证用户信息：是否为空 是否已经注册  生成token 客户端存储token 服务器/客户端token有效期设置 注：token可以是sessionid，或者是cookie中的一个key  登出：  服务器/客户端清除 2.  login_ticket:（插入、更新） id,用户ID， ticket。过期时间，状态（登陆0，登出1）  客户端：带token的HTTP">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-20T08:20:05.646Z">
+<meta property="og:updated_time" content="2018-01-05T11:56:42.277Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring拦截器">
-<meta name="twitter:description" content="StringUtils 工具类 验证用户信息：是否为空 是否已经注册  生成token 客户端存储token 服务器/客户端token有效期设置注：token可以是sessionid，或者是cookie中的一个key  登出：  服务器/客户端清除2.  login_ticket:（插入、更新）id,用户ID， ticket。过期时间，状态（登陆0，登出1）  客户端：带token的HTTP请求">
+<meta name="twitter:description" content="StringUtils 工具类 验证用户信息：是否为空 是否已经注册  生成token 客户端存储token 服务器/客户端token有效期设置 注：token可以是sessionid，或者是cookie中的一个key  登出：  服务器/客户端清除 2.  login_ticket:（插入、更新） id,用户ID， ticket。过期时间，状态（登陆0，登出1）  客户端：带token的HTTP">
 
     
     <link rel="alternative" href="/atom.xml" title="NobiGo&#39;s blog" type="application/atom+xml">
@@ -50,7 +50,7 @@
 				<h1 class="site-name"><a href="/" title="NobiGo&#39;s blog">NobiGo&#39;s blog</a></h1>
 				<h2 class="blog-motto">愿你出走半生，归来依旧少年</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -64,7 +64,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -87,14 +87,14 @@
 		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-20T02:10:25.000Z" itemprop="datePublished"> 发表于 2017-11-20</time>
+    <time datetime="2017-11-20T02:10:25.000Z" itemprop="datePublished"> Published 2017-11-20</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			
 		
@@ -105,31 +105,27 @@
 <ol>
 <li>生成token</li>
 <li>客户端存储token</li>
-<li>服务器/客户端token有效期设置<br>注：token可以是sessionid，或者是cookie中的一个key</li>
+<li>服务器/客户端token有效期设置 注：token可以是sessionid，或者是cookie中的一个key</li>
 </ol>
 <p>登出：</p>
 <ol>
-<li>服务器/客户端清除<br>2.</li>
+<li>服务器/客户端清除 2.</li>
 </ol>
-<p>login_ticket:（插入、更新）<br>id,用户ID， ticket。过期时间，状态（登陆0，登出1）</p>
+<p>login_ticket:（插入、更新） id,用户ID， ticket。过期时间，状态（登陆0，登出1）</p>
 <ol>
 <li>客户端：带token的HTTP请求</li>
-<li>服务器：<ul>
+<li><p>服务器：</p>
+<ul>
 <li>根据token获取用户ID</li>
 <li>根据用户id获取用户的具体信息</li>
 <li>用户和页面访问权限处理</li>
 <li>渲染页面/跳转页面</li>
 </ul>
 </li>
+<li><p>拦截器</p>
+</li>
 </ol>
-<ul>
-<li>拦截器</li>
-</ul>
-<p>spring-boot-devtools(工具)<br>save-action（保存文件——不用自己编译）</p>
-<p>记录：</p>
-<p>/api/order/findList<br>/api/order/countByStatus<br>/api/order/countByType<br>/api/pointLog/findList<br>/api/pointLog/update<br>/api/reportForm/reportDay<br>/api/reportForm/reportMonth<br>/api/userbill/sum<br>/api/user/carowner/findList<br>/api/user/carowner/changeState<br>/api/user/carowner/modifyStatus<br>/api/user/carowner/pointRelease<br>/api/user/consignor/findList<br>/api/user/consignor/changeState<br>/api/cash/getCash<br>/api/cash/pass<br>/api/cash/fail<br>/api/coupon/findList<br>/api/coupon/add<br>/api/coupon/select<br>/api/coupon/update<br>/api/coupon/del<br>/api/coupon/release_byparam<br>/api/goods/getGoodsInfo<br>/api/goods/add<br>/api/goods/select<br>/api/goods/update<br>/api/goods/del<br>/api/invoice/fail<br>/api/invoice/update<br>/api/invoice/getInvoice</p>
-<p>/api/referral/findList<br>/api/referral/passed<br>/api/referral/nopassed<br>/api/referral/sum</p>
-<p>/api/param/advert/findList<br>/api/param/advert/addAdvert<br>/api/param/advert/select<br>/api/param/advert/update<br>/api/cartype/add<br>/api/cartype/update<br>/api/cartype/find<br>/api/cartype/findpage</p>
+<p>spring-boot-devtools(工具) save-action（保存文件—-不用自己编译）</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -212,15 +208,15 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github 名片</p>
+<p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="nobigo" data-theme="medium"></div>
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -229,7 +225,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分类</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -257,6 +253,10 @@
 		  
 		
 		  
+			<li><a href="/categories/学习/" title="学习">学习<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/机器学习/" title="机器学习">机器学习<sup>1</sup></a></li>
 		  
 		
@@ -269,11 +269,15 @@
 		  
 		
 		  
+			<li><a href="/categories/神经网络/" title="神经网络">神经网络<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/算法/" title="算法">算法<sup>2</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/编程实践/" title="编程实践">编程实践<sup>9</sup></a></li>
+			<li><a href="/categories/编程实践/" title="编程实践">编程实践<sup>11</sup></a></li>
 		  
 		
 		  
@@ -298,11 +302,15 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/错误记录/" title="错误记录">错误记录<sup>7</sup></a></li>
+				<li><a href="/tags/错误记录/" title="错误记录">错误记录<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MyBatis/" title="MyBatis">MyBatis<sup>5</sup></a></li>
 			
 		
 			
@@ -314,15 +322,7 @@
 			
 		
 			
-				<li><a href="/tags/源码/" title="源码">源码<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/集合/" title="集合">集合<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/MyBatis/" title="MyBatis">MyBatis<sup>3</sup></a></li>
+				<li><a href="/tags/MySql/" title="MySql">MySql<sup>3</sup></a></li>
 			
 		
 			
@@ -330,19 +330,27 @@
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+				<li><a href="/tags/集合/" title="集合">集合<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySql/" title="MySql">MySql<sup>2</sup></a></li>
+				<li><a href="/tags/源码/" title="源码">源码<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/锁/" title="锁">锁<sup>2</sup></a></li>
+				<li><a href="/tags/神经网络/" title="神经网络">神经网络<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/高并发/" title="高并发">高并发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/锁/" title="锁">锁<sup>2</sup></a></li>
 			
 		
 			
@@ -354,7 +362,7 @@
 			
 		
 			
-				<li><a href="/tags/Apache-Shiro/" title="Apache Shiro">Apache Shiro<sup>1</sup></a></li>
+				<li><a href="/tags/MacOs/" title="MacOs">MacOs<sup>1</sup></a></li>
 			
 		
 			
@@ -366,19 +374,15 @@
 			
 		
 			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/FinTech/" title="FinTech">FinTech<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/任务分工/" title="任务分工">任务分工<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/快运滴/" title="快运滴">快运滴<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
+				<li><a href="/tags/java基础/" title="java基础">java基础<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -386,7 +390,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -420,11 +424,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
 <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5245489251&verifier=9f9f84e5&dpc=1"></iframe>
 </div>
 
@@ -467,7 +471,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
 		
 		<a href="/about" target="_blank" title="NobiGo">NobiGo</a>
 		
@@ -606,7 +610,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

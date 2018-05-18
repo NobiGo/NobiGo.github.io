@@ -12,6 +12,7 @@
 
     
     <meta name="description" content="MyBatis 所需要提供的映射文件包含以下3部分： SQL(XML配置文件)：提供SQL和SQL对POJO的映射规则定义，它包含了映射器里面的信息。 映射规则（Mapper接口） POJO（Java类）   MyBatis的基本构成： SqlSessionFactoryBuilder（构造器）：它会根据配置信息或者代码来生成SqlSessionFactory（工厂接口） SqlSessionFa">
+<meta name="keywords" content="MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MyBatis技术原理与实战">
 <meta property="og:url" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/index.html">
@@ -22,7 +23,7 @@
 <meta property="og:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/MyBatis的构成.png">
 <meta property="og:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/两个SqlSessionFactory实现类的关系图.png">
 <meta property="og:image" content="http://yoursite.com/2017/11/23/MyBatis技术原理与实战/MyBatis组件的生命周期.png">
-<meta property="og:updated_time" content="2017-11-24T03:41:10.265Z">
+<meta property="og:updated_time" content="2018-01-05T12:05:45.890Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis技术原理与实战">
 <meta name="twitter:description" content="MyBatis 所需要提供的映射文件包含以下3部分： SQL(XML配置文件)：提供SQL和SQL对POJO的映射规则定义，它包含了映射器里面的信息。 映射规则（Mapper接口） POJO（Java类）   MyBatis的基本构成： SqlSessionFactoryBuilder（构造器）：它会根据配置信息或者代码来生成SqlSessionFactory（工厂接口） SqlSessionFa">
@@ -54,7 +55,7 @@
 				<h1 class="site-name"><a href="/" title="NobiGo&#39;s blog">NobiGo&#39;s blog</a></h1>
 				<h2 class="blog-motto">愿你出走半生，归来依旧少年</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -68,7 +69,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -91,26 +92,26 @@
 		<a href="/about" title="NobiGo" target="_blank" itemprop="author">NobiGo</a>
 		
   <p class="article-time">
-    <time datetime="2017-11-23T03:26:00.000Z" itemprop="datePublished"> 发表于 2017-11-23</time>
+    <time datetime="2017-11-23T03:26:00.000Z" itemprop="datePublished"> Published 2017-11-23</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis-所需要提供的映射文件包含以下3部分："><span class="toc-number">1.</span> <span class="toc-text">MyBatis 所需要提供的映射文件包含以下3部分：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis的基本构成："><span class="toc-number">2.</span> <span class="toc-text">MyBatis的基本构成：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#映射器（Java接口和XML文件（或注解））"><span class="toc-number">3.</span> <span class="toc-text">映射器（Java接口和XML文件（或注解））</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现步骤"><span class="toc-number">3.1.</span> <span class="toc-text">实现步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引入映射器的方法"><span class="toc-number">3.2.</span> <span class="toc-text">引入映射器的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#传递多个参数方法"><span class="toc-number">3.3.</span> <span class="toc-text">传递多个参数方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MyBatis中的级联"><span class="toc-number">3.4.</span> <span class="toc-text">MyBatis中的级联</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期"><span class="toc-number">4.</span> <span class="toc-text">生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注："><span class="toc-number">5.</span> <span class="toc-text">注：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MyBatis-动态SQL"><span class="toc-number">5.1.</span> <span class="toc-text">MyBatis 动态SQL</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MyBatis-所需要提供的映射文件包含以下3部分："><span class="toc-number">1.</span> <span class="toc-text">MyBatis 所需要提供的映射文件包含以下3部分：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MyBatis的基本构成："><span class="toc-number">2.</span> <span class="toc-text">MyBatis的基本构成：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#映射器（Java接口和XML文件（或注解））"><span class="toc-number">3.</span> <span class="toc-text">映射器（Java接口和XML文件（或注解））</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#实现步骤"><span class="toc-number">3.1.</span> <span class="toc-text">实现步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引入映射器的方法"><span class="toc-number">3.2.</span> <span class="toc-text">引入映射器的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#传递多个参数方法"><span class="toc-number">3.3.</span> <span class="toc-text">传递多个参数方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis中的级联"><span class="toc-number">3.4.</span> <span class="toc-text">MyBatis中的级联</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生命周期"><span class="toc-number">4.</span> <span class="toc-text">生命周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#注："><span class="toc-number">5.</span> <span class="toc-text">注：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis-动态SQL"><span class="toc-number">5.1.</span> <span class="toc-text">MyBatis 动态SQL</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="MyBatis-所需要提供的映射文件包含以下3部分："><a href="#MyBatis-所需要提供的映射文件包含以下3部分：" class="headerlink" title="MyBatis 所需要提供的映射文件包含以下3部分："></a>MyBatis 所需要提供的映射文件包含以下3部分：</h2><ol>
+		<h1 id="MyBatis-所需要提供的映射文件包含以下3部分："><a href="#MyBatis-所需要提供的映射文件包含以下3部分：" class="headerlink" title="MyBatis 所需要提供的映射文件包含以下3部分："></a>MyBatis 所需要提供的映射文件包含以下3部分：</h1><ol>
 <li>SQL(XML配置文件)：提供SQL和SQL对POJO的映射规则定义，它包含了映射器里面的信息。</li>
 <li>映射规则（Mapper接口）</li>
 <li>POJO（Java类）</li>
 </ol>
 <p><img src="/2017/11/23/MyBatis技术原理与实战/MyBatis的ORM映射模型.png" alt=""></p>
-<h2 id="MyBatis的基本构成："><a href="#MyBatis的基本构成：" class="headerlink" title="MyBatis的基本构成："></a>MyBatis的基本构成：</h2><ol>
+<h1 id="MyBatis的基本构成："><a href="#MyBatis的基本构成：" class="headerlink" title="MyBatis的基本构成："></a>MyBatis的基本构成：</h1><ol>
 <li>SqlSessionFactoryBuilder（构造器）：它会根据配置信息或者代码来生成SqlSessionFactory（工厂接口）</li>
 <li>SqlSessionFactory：依靠工厂来生成SqlSession（会话）</li>
 <li>SqlSession：是一个既可以发送SQL去执行并返回结果，也可以获取Mapper接口。</li>
@@ -118,45 +119,45 @@
 </ol>
 <p><img src="/2017/11/23/MyBatis技术原理与实战/MyBatis的构成.png" alt=""></p>
 <p><img src="/2017/11/23/MyBatis技术原理与实战/两个SqlSessionFactory实现类的关系图.png" alt=""></p>
-<h2 id="映射器（Java接口和XML文件（或注解））"><a href="#映射器（Java接口和XML文件（或注解））" class="headerlink" title="映射器（Java接口和XML文件（或注解））"></a>映射器（Java接口和XML文件（或注解））</h2><ol>
+<h1 id="映射器（Java接口和XML文件（或注解））"><a href="#映射器（Java接口和XML文件（或注解））" class="headerlink" title="映射器（Java接口和XML文件（或注解））"></a>映射器（Java接口和XML文件（或注解））</h1><ol>
 <li>定义参数类型</li>
 <li>描述缓存</li>
 <li>描述SQL语句</li>
 <li>定义查询结果和POJO的映射关系</li>
 </ol>
-<h3 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h3><ol>
+<h2 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h2><ol>
 <li>给出Mapper接口（进一步屏蔽SqlSession对象，具有更强的业务可读性）</li>
 <li>实现XML文件</li>
 </ol>
-<h3 id="引入映射器的方法"><a href="#引入映射器的方法" class="headerlink" title="引入映射器的方法"></a>引入映射器的方法</h3><ol>
+<h2 id="引入映射器的方法"><a href="#引入映射器的方法" class="headerlink" title="引入映射器的方法"></a>引入映射器的方法</h2><ol>
 <li>用文件路径引入</li>
 <li>用包名引入映射器</li>
 <li>用类注册引用映射器</li>
 </ol>
-<h3 id="传递多个参数方法"><a href="#传递多个参数方法" class="headerlink" title="传递多个参数方法"></a>传递多个参数方法</h3><ol>
+<h2 id="传递多个参数方法"><a href="#传递多个参数方法" class="headerlink" title="传递多个参数方法"></a>传递多个参数方法</h2><ol>
 <li>使用Map传递参数（可读性差）</li>
 <li>使用注解方式传递参数（参数个数《=5）</li>
 <li>使用JavaBean传递参数（参数个数》=5）</li>
 </ol>
-<h3 id="MyBatis中的级联"><a href="#MyBatis中的级联" class="headerlink" title="MyBatis中的级联"></a>MyBatis中的级联</h3><ol>
+<h2 id="MyBatis中的级联"><a href="#MyBatis中的级联" class="headerlink" title="MyBatis中的级联"></a>MyBatis中的级联</h2><ol>
 <li>association:代表一对一的关系</li>
 <li>collection:代表一对多的关系</li>
 <li>discriminator:鉴别器（根据不同的情况去用男人类或者女人类去实例化）</li>
 </ol>
-<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p><img src="/2017/11/23/MyBatis技术原理与实战/MyBatis组件的生命周期.png" alt=""></p>
-<h2 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h2><ol>
+<h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><p><img src="/2017/11/23/MyBatis技术原理与实战/MyBatis组件的生命周期.png" alt=""></p>
+<h1 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h1><ol>
 <li>代码中的resource要设置为resources，否则不能直接写路径。</li>
 <li>提供类中属性到数据库中名字映射要是用：</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;!--提供类属性到数据库列的映射--&gt;</div><div class="line">    &lt;resultMap type=&quot;POJO&quot; id=&quot;唯一id&quot;&gt;</div><div class="line">        &lt;result property=&quot;类属性&quot; column=&quot;列名&quot; /&gt;</div><div class="line">    &lt;/resultMap&gt;</div></pre></td></tr></table></figure>
-<h3 id="MyBatis-动态SQL"><a href="#MyBatis-动态SQL" class="headerlink" title="MyBatis 动态SQL"></a>MyBatis 动态SQL</h3><ol>
+<h2 id="MyBatis-动态SQL"><a href="#MyBatis-动态SQL" class="headerlink" title="MyBatis 动态SQL"></a>MyBatis 动态SQL</h2><ol>
 <li>if(判断语句-单条件判断)</li>
 <li>choose（多条件分支判断）（choose、when、otherwise）</li>
 <li>trim（where、set） 辅助元素，处理拼装问题</li>
-<li>foreach (循环语句)</li>
-</ol>
-<ol>
-<li>在MyBatis中别名是不区分大小写的。</li>
+<li><p>foreach (循环语句)</p>
+</li>
+<li><p>在MyBatis中别名是不区分大小写的。</p>
+</li>
 </ol>
   
 	</div>
@@ -168,6 +169,11 @@
   <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
 </div>
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MyBatis/">MyBatis</a>
+  </div>
 
 </div>
 
@@ -235,15 +241,15 @@
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 <div class="github-card">
-<p class="asidetitle">Github 名片</p>
+<p class="asidetitle">Github Card</p>
 <div class="github-card" data-github="nobigo" data-theme="medium"></div>
 <script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
 </div>
@@ -252,7 +258,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分类</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -280,6 +286,10 @@
 		  
 		
 		  
+			<li><a href="/categories/学习/" title="学习">学习<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/机器学习/" title="机器学习">机器学习<sup>1</sup></a></li>
 		  
 		
@@ -292,11 +302,15 @@
 		  
 		
 		  
+			<li><a href="/categories/神经网络/" title="神经网络">神经网络<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/算法/" title="算法">算法<sup>2</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/编程实践/" title="编程实践">编程实践<sup>9</sup></a></li>
+			<li><a href="/categories/编程实践/" title="编程实践">编程实践<sup>11</sup></a></li>
 		  
 		
 		  
@@ -321,11 +335,15 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/错误记录/" title="错误记录">错误记录<sup>7</sup></a></li>
+				<li><a href="/tags/错误记录/" title="错误记录">错误记录<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MyBatis/" title="MyBatis">MyBatis<sup>5</sup></a></li>
 			
 		
 			
@@ -337,15 +355,7 @@
 			
 		
 			
-				<li><a href="/tags/源码/" title="源码">源码<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/集合/" title="集合">集合<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/MyBatis/" title="MyBatis">MyBatis<sup>3</sup></a></li>
+				<li><a href="/tags/MySql/" title="MySql">MySql<sup>3</sup></a></li>
 			
 		
 			
@@ -353,19 +363,27 @@
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+				<li><a href="/tags/集合/" title="集合">集合<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySql/" title="MySql">MySql<sup>2</sup></a></li>
+				<li><a href="/tags/源码/" title="源码">源码<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/锁/" title="锁">锁<sup>2</sup></a></li>
+				<li><a href="/tags/神经网络/" title="神经网络">神经网络<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/高并发/" title="高并发">高并发<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/锁/" title="锁">锁<sup>2</sup></a></li>
 			
 		
 			
@@ -377,7 +395,7 @@
 			
 		
 			
-				<li><a href="/tags/Apache-Shiro/" title="Apache Shiro">Apache Shiro<sup>1</sup></a></li>
+				<li><a href="/tags/MacOs/" title="MacOs">MacOs<sup>1</sup></a></li>
 			
 		
 			
@@ -389,19 +407,15 @@
 			
 		
 			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/FinTech/" title="FinTech">FinTech<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/任务分工/" title="任务分工">任务分工<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/快运滴/" title="快运滴">快运滴<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
+				<li><a href="/tags/java基础/" title="java基础">java基础<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -409,7 +423,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -443,11 +457,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
 <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=5245489251&verifier=9f9f84e5&dpc=1"></iframe>
 </div>
 
@@ -490,7 +504,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
 		
 		<a href="/about" target="_blank" title="NobiGo">NobiGo</a>
 		
@@ -629,7 +643,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
